@@ -1,7 +1,6 @@
 package com.plannet.plannet.vo;
 
 import com.plannet.plannet.entity.Comments;
-import com.plannet.plannet.entity.LikeCnt;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +16,7 @@ public class BoardDTO {
     private Date writeDate;
     private String detail;
     private int isChecked;
-    private List<LikeCnt> likeCnt;
+    private int likeCnt;
+    private boolean isLiked;
     private List<Comments> comments;
 }
