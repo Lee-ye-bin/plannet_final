@@ -2,26 +2,40 @@ package com.plannet.plannet.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 public class Member {
     @Id
+    @Column(length = 15)
     private String id;
+    @Column(nullable = false, length = 4)
+    private int userCode;
+    @Column(nullable = false, length = 20)
     private String pwd;
+    @Column(nullable = false, length = 30)
     private String name;
+    @Column(nullable = false, unique = true, length = 30)
     private String nickname;
+    @Column(nullable = false, unique = true, length = 50)
     private String email;
+    @Column(unique = true, length = 30)
     private String tel;
-    @CreationTimestamp
     // 자바는 카멜표기법을 따르지만 DB에서는 그렇지 않아서 JOIN_DATE 로 생성됨
-    private Date joinDate;
+    @CreatedDate
+    private LocalDateTime joinDate;
+    @Column(length = 20)
     private String SNS;
     @Column(length = 300)
     private String profile;
     @Column(length = 2400)
     private String memo;
+    @Column(length = 200)
+    private String proImg;
 }
