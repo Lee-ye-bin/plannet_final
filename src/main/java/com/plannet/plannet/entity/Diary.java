@@ -1,12 +1,15 @@
 package com.plannet.plannet.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter @Setter
+@ToString
 @Entity
 @IdClass(DiaryPK.class)
 public class Diary {
@@ -14,9 +17,11 @@ public class Diary {
     @ManyToOne
     @JoinColumn(name = "id")
     private Member id;
+
     @Id
     @CreatedDate
     private LocalDateTime diaryDate;
+
     @Column(length = 2400, nullable = false)
     private String diary;
 }
