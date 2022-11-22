@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter
@@ -14,7 +15,7 @@ public class BoardDTO {
     private String id;
     private String title;
     private int views;
-    private Date writeDate;
+    private LocalDateTime writeDate;
     private String detail;
     private int isChecked;
     private List<LikeCnt> likeCnt;
