@@ -1,15 +1,16 @@
 package com.plannet.plannet.entity;
 
-import lombok.Data;
-import org.hibernate.annotations.Check;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
-@Data
+@Getter @Setter
+@ToString
 @Entity
 @Table(name = "plan")
 public class Plan {
@@ -30,6 +31,6 @@ public class Plan {
     @ColumnDefault("0")
     private int planChecked; // 일정 완료여부
 
-   @Column(length = 90, nullable = false)
+    @Column(length = 90, nullable = false)
     private String plan; // 일정
 }
