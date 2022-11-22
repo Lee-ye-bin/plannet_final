@@ -12,12 +12,14 @@ import java.time.LocalDateTime;
 @Entity
 public class Comments {
     @Id
-    @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int commentNo;
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "board_no")
     private int boardNo;
-    @Column(nullable = false, length = 15)
-    private String id;
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Member id;
     @CreatedDate
     private LocalDateTime writeDate;
     @Column(nullable = false, length = 500)
