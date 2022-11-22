@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @IdClass(LikeCntPK.class)
-public class LikeCnt implements Serializable {
+public class LikeCnt {
     @Id
     @ManyToOne
     @JoinColumn(name = "id")
