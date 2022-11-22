@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SCOMRepository extends JpaRepository<SCOM, String> {
+public interface SCOMRepository extends JpaRepository<SCOM, Long> {
 }
