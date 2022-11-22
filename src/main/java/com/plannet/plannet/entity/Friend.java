@@ -3,11 +3,9 @@ package com.plannet.plannet.entity;
 import lombok.Data;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @Entity
