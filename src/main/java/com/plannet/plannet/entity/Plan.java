@@ -27,8 +27,9 @@ public class Plan {
     @CreatedDate
     private LocalDateTime planDate; // 일정 날짜
 
+    @Column(length = 1, nullable = false)
     @ColumnDefault("0")
-    private int planChecked; // 일정 완료여부부
+    private int planChecked; // 일정 완료여부
 
     @Column(length = 90, nullable = false)
     private String plan; // 일정
