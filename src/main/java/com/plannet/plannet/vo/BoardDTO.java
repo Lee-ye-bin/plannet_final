@@ -1,11 +1,9 @@
 package com.plannet.plannet.vo;
 
-import com.plannet.plannet.entity.Comments;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter @Setter
 public class BoardDTO {
@@ -13,10 +11,14 @@ public class BoardDTO {
     private String id;
     private String title;
     private int views;
-    private Date writeDate;
+    private LocalDateTime writeDate;
     private String detail;
     private int isChecked;
+
     private int likeCnt;
-    private boolean isLiked;
-    private List<Comments> comments;
+    private int isLiked;
+
+    private String commentWriter;
+    private LocalDateTime commentDate;
+    private String comment;
 }

@@ -14,22 +14,13 @@ import java.util.List;
 public class BoardController {
     // Service 로직 연결
     private BoardService boardService;
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
+    public BoardController(BoardService boardService) { this.boardService = boardService; }
 
     @GetMapping("/Board/list")
     // 전체조회기 때문에 boardList(@RequestParam) 으로 param 값을 받을 필요가 없음
     public ResponseEntity<List<BoardDTO>> boardList() {
         // 서비스를 다녀옴, 결과를 리스트로 받음
-        List<BoardDTO> list = boardService.getMemberList();
-        return new ResponseEntity(list, HttpStatus.OK);
-    }
-
-    // userI로 회원조회하기
-    @GetMapping("/GetMember")
-    public ResponseEntity<List<MemberDTO>> memberList(@RequestParam String userId) {
-        List<MemberDTO> list = memberService.getMemberList(userId);
+        List<BoardDTO> list = boardService.getBoardList();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 }
