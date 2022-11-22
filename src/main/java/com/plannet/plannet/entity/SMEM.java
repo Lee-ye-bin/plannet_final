@@ -1,12 +1,15 @@
 package com.plannet.plannet.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
+@Getter @Setter
+@ToString
 @Entity
 @Table(name = "s_mem")
 @IdClass(SMEMPK.class)
