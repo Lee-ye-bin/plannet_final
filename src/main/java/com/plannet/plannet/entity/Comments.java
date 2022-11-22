@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long commentNo;
+    private Long commentNo;
     @ManyToOne
     @JoinColumn(nullable = false, name = "board_no")
     private int boardNo;
