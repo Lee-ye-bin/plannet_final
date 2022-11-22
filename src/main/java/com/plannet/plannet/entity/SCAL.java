@@ -13,7 +13,6 @@ public class SCAL {
 
     @ManyToOne
     @JoinColumn(name = "id")
-    @Column(nullable = false)
     private Member id;
 
     @Column(length = 40, nullable = false, columnDefinition = "공유 캘린더")
