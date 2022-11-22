@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @IdClass(FriendPK.class)
-public class Friend implements Serializable {
+public class Friend {
     @Id
     @ManyToOne
     @JoinColumn(name = "id")
