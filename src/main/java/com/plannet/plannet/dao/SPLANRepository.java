@@ -6,7 +6,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 <<<<<<< HEAD
+<<<<<<< HEAD
 public interface SPLANRepository extends JpaRepository<SPLAN, Long> {
+=======
+public interface SPLANRepository extends JpaRepository<SPLAN, Long > {
+>>>>>>> origin/master
 =======
 public interface SPLANRepository extends JpaRepository<SPLAN, Long > {
 >>>>>>> origin/master

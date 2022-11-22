@@ -9,8 +9,11 @@ import java.io.Serializable;
 @Data
 @Entity
 <<<<<<< HEAD
+<<<<<<< HEAD
 @Table(name = "s_mem")
 @IdClass(SMEMPK.class)
+=======
+>>>>>>> origin/master
 =======
 >>>>>>> origin/master
 public class SMEM implements Serializable {
@@ -19,7 +22,10 @@ public class SMEM implements Serializable {
     @JoinColumn(name = "cal_no")
     private SCAL calNo;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> origin/master
 
     @Column(name = "isOwner",length = 1, nullable = false)
     @ColumnDefault("0")
