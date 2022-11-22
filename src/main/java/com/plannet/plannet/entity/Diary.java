@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class Diary implements Serializable {
+@IdClass(DiaryPK.class)
+public class Diary {
     @Id
     @ManyToOne
     @JoinColumn(name = "id")
@@ -22,4 +23,3 @@ public class Diary implements Serializable {
     @Column(length = 2400, nullable = false)
     private String diary;
 }
-

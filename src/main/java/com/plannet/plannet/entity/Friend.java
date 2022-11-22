@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@IdClass(FriendPK.class)
 public class Friend implements Serializable {
     @Id
     @ManyToOne
