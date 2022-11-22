@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@IdClass(FriendPK.class)
 public class Friend implements Serializable {
     @Id
     @ManyToOne
