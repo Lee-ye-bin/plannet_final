@@ -7,13 +7,14 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class LikeCnt implements Serializable {
+@IdClass(LikeCntPK.class)
+public class LikeCnt {
     @Id
     @ManyToOne
-    @JoinColumn(name="boardNo")
-    private Board boardNo;
-    @Id
-    @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name = "id")
     private Member id;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "board_no") // JoinColumn 의 name 은 조인할 컬럼명을 기입 (SQL 기준 컬럼명)
+    private Board boardNo;
 }

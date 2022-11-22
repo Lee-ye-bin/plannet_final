@@ -1,10 +1,11 @@
 package com.plannet.plannet.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -14,13 +15,19 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int boardNo;
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name = "id")
     private Member id;
+    @Column(length = 50, nullable = false)
     private String title;
+    @Column(nullable = false)
+    @ColumnDefault("0")
     private int views;
-    @CreationTimestamp
-    private Date writeDate;
+    @CreatedDate
+    private LocalDateTime writeDate;
     @Lob
+    @Column(nullable = false)
     private String detail;
-    private boolean isChecked;
+    @Column(columnDefinition="NUMBER(1) CHECK (ISCHECKED IN(0,1)) default 0")
+    @ColumnDefault("0")
+    private int isChecked;
 }
