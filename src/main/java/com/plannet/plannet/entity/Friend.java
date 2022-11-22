@@ -21,7 +21,7 @@ public class Friend implements Serializable {
     @JoinColumn(name = "friend_id")
     @Column(length = 15)
     private Member friendId;
-    @Column(name = "isaccept", length = 1, nullable = false)
+    @Column(name = "isAccept", length = 1, nullable = false)
     @ColumnDefault("0")
     private int isAccept;
 }
