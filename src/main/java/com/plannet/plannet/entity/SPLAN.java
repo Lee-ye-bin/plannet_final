@@ -1,28 +1,36 @@
 package com.plannet.plannet.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "s_com")
-public class SCOM {
+@Table(name = "s_plan")
+public class SPLAN {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long commentNo;
+    private Long planNo;
+
     @ManyToOne
     @JoinColumn(name = "cal_no")
     private SCAL calNo;
+
     @CreatedDate
     private LocalDateTime planDate;
+
     @ManyToOne
     @JoinColumn(name = "id")
     private Member id;
-    @CreatedDate
-    private LocalDateTime writeDate;
-    @Column(nullable = false, length = 500)
-    private String detail;
+
+    @Column(nullable = false, name = "plan_check")
+    @ColumnDefault("0")
+    private int planCheck;
+
+    @Column(nullable = false, length = 90)
+    private String plan;
 }
