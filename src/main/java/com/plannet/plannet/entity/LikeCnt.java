@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@IdClass(FriendPK.class)
 public class LikeCnt implements Serializable {
     @Id
     @Column(length = 15, nullable = false)
