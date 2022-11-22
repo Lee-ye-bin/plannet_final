@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@IdClass(FriendPK.class)
+@IdClass(LikeCntPK.class)
 public class LikeCnt implements Serializable {
     @Id
     @ManyToOne
