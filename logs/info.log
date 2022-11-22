@@ -1022,3 +1022,6 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-00942: table or view does no
 [2022-11-16 17:09:45.313] [INFO ] [restartedMain] org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8111"]
 [2022-11-16 17:09:45.326] [INFO ] [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8111 (http) with context path ''
 [2022-11-16 17:09:45.334] [INFO ] [restartedMain] com.plannet.plannet.PlannetApplication Started PlannetApplication in 3.869 seconds (JVM running for 4.334)
+[2022-11-16 17:32:36.462] [INFO ] [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean Closing JPA EntityManagerFactory for persistence unit 'default'
+[2022-11-16 17:32:36.464] [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource HikariPool-1 - Shutdown initiated...
+[2022-11-16 17:32:36.471] [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource HikariPool-1 - Shutdown completed.
