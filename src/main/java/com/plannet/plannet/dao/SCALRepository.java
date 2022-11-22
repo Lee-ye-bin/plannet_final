@@ -4,6 +4,5 @@ import com.plannet.plannet.entity.SCAL;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface SCALRepository extends JpaRepository<SCAL, Long> {
 }
