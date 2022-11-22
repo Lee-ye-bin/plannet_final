@@ -43,3 +43,6 @@ gen
 ### propertise ###
 *.properties
 
+### log ###
+*.log
+
