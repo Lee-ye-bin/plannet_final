@@ -18,7 +18,7 @@ public class SCOM {
     @CreatedDate
     private LocalDateTime planDate;
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(nullable = false, name = "id")
     private Member id;
     @CreatedDate
     private LocalDateTime writeDate;

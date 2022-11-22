@@ -18,7 +18,7 @@ public class Comments {
     @JoinColumn(nullable = false, name = "board_no")
     private Board boardNo;
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn( nullable = false, name = "id")
     private Member id;
     @CreatedDate
     private LocalDateTime writeDate;
