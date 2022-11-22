@@ -27,7 +27,7 @@ public class Board {
     @Lob
     @Column(nullable = false)
     private String detail;
-    @Column(columnDefinition="NUMBER(1) CHECK (ISCHECKED IN(0,1)) default 0")
+    @Column(name = "ischecked", nullable = false)
     @ColumnDefault("0")
     private int isChecked;
 }

@@ -1,22 +1,22 @@
 package com.plannet.plannet.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
-@Data
 @Entity
-public class Comments {
+@Data
+public class SCOM {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long commentNo;
     @ManyToOne
-    @JoinColumn(nullable = false, name = "board_no")
-    private Board boardNo;
+    @JoinColumn(name = "cal_no")
+    private SCAL calNo;
+    @CreatedDate
+    private LocalDateTime planDate;
     @ManyToOne
     @JoinColumn(name = "id")
     private Member id;
@@ -25,6 +25,3 @@ public class Comments {
     @Column(nullable = false, length = 500)
     private String detail;
 }
-
-
-
