@@ -11,6 +11,6 @@ public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int quoteNo;
-    @Column(length = 500)
+    @Column(length = 500, nullable = false)
     private String quote;
 }
