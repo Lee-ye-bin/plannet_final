@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(name = "s_cal")
 public class SCAL {
     @Id
     @Column(nullable = false)
@@ -15,7 +16,7 @@ public class SCAL {
     @JoinColumn(nullable = false, name = "id")
     private Member id;
 
-    @Column(length = 40, nullable = false, columnDefinition = "공유 캘린더")
+    @Column(length = 40, nullable = false)
     private String calName;
 
     @Column(length = 2400)
