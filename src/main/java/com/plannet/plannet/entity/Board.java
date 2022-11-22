@@ -18,7 +18,7 @@ public class Board {
     private int boardNo;
     @Column(length = 15, nullable = false)
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name = "id")
     private Member id;
     @Column(length = 50, nullable = false)
     private String title;
@@ -30,7 +30,7 @@ public class Board {
     @Lob
     @Column(nullable = false)
     private String detail;
-    @Column(name="isChecked", length = 1)
+    @Column(name = "isChecked", length = 1)
     @ColumnDefault("0")
     private int isChecked;
 }
