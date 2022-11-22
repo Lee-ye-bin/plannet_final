@@ -14,7 +14,6 @@ public class Board {
     // 키 값을 생성하는 전략 : 기본키 생성을 JPA 기준
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int boardNo;
-    @Column(length = 15, nullable = false)
     @ManyToOne
     @JoinColumn(name = "id")
     private Member id;
@@ -28,7 +27,7 @@ public class Board {
     @Lob
     @Column(nullable = false)
     private String detail;
-    @Column(name = "isChecked", length = 1)
+    @Column(columnDefinition="NUMBER(1) CHECK (ISCHECKED IN(0,1)) default 0")
     @ColumnDefault("0")
     private int isChecked;
 }

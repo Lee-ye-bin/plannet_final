@@ -10,7 +10,6 @@ import java.io.Serializable;
 @IdClass(FriendPK.class)
 public class LikeCnt implements Serializable {
     @Id
-    @Column(length = 15, nullable = false)
     @ManyToOne
     @JoinColumn(name = "id")
     private Member id;
