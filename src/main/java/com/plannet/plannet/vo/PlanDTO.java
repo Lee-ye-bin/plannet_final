@@ -12,5 +12,4 @@ public class PlanDTO {
     private Date planDate;
     private int planChecked;
     private String plan;
-
 }
