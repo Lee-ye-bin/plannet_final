@@ -9,11 +9,12 @@ import java.io.Serializable;
 @Entity
 public class LikeCnt implements Serializable {
     @Id
+    @Column(length = 15, nullable = false)
     @ManyToOne
-    @JoinColumn(name="boardNo")
-    private Board boardNo;
+    @JoinColumn(name = "id")
+    private Member id;
     @Id
     @ManyToOne
-    @JoinColumn(name="id")
-    private Member id;
+    @JoinColumn(name = "board_no") // JoinColumn 의 name 은 조인할 컬럼명을 기입 (SQL 기준 컬럼명)
+    private Board boardNo;
 }
