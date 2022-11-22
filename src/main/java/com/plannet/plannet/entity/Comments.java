@@ -14,7 +14,7 @@ public class Comments {
     private Long commentNo;
     @ManyToOne
     @JoinColumn(nullable = false, name = "board_no")
-    private int boardNo;
+    private Board boardNo;
     @ManyToOne
     @JoinColumn(name = "id")
     private Member id;

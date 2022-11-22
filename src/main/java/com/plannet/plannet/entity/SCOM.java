@@ -14,11 +14,11 @@ public class SCOM {
     private Long commentNo;
     @ManyToOne
     @JoinColumn(name = "cal_no")
-    private Long calNo;
+    private SCAL calNo;
     @CreatedDate
     private LocalDateTime planDate;
     @ManyToOne
-    @JoinColumn(nullable = false, name = "id")
+    @JoinColumn(name = "id")
     private Member id;
     @CreatedDate
     private LocalDateTime writeDate;

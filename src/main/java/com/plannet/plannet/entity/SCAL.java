@@ -12,7 +12,7 @@ public class SCAL {
     private Long calNo;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(nullable = false, name = "id")
     private Member id;
 
     @Column(length = 40, nullable = false, columnDefinition = "공유 캘린더")
