@@ -5,7 +5,6 @@ import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +26,6 @@ public class MemberService {
     }
     public boolean regMember(String id,String pwd,String name,
                              String nickname,String mail,String tel){
-
         Member member = new Member();
         member.setId(id);
         member.setPwd(pwd);
