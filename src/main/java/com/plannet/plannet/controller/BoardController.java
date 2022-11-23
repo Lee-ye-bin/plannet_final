@@ -33,4 +33,9 @@ public class BoardController {
     }
 
     // boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
+    @GetMapping("/Board/myLike")
+    public ResponseEntity<Integer> boardList(@RequestParam String id, int boardNo) {
+        boolean likeChecked = boardService.getLikeChecked(id, boardNo);
+        return new ResponseEntity(likeChecked, HttpStatus.OK);
+    }
 }

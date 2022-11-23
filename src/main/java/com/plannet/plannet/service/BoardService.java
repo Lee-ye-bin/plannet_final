@@ -3,8 +3,6 @@ package com.plannet.plannet.service;
 import com.plannet.plannet.dao.BoardRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.entity.Board;
-import com.plannet.plannet.entity.LikeCnt;
-import com.plannet.plannet.entity.LikeCntPK;
 import com.plannet.plannet.vo.BoardDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +45,12 @@ public class BoardService {
     public long getLikeCnt(int boardNo) {
         Long likeCntList = likeCntRepository.countByBoardNo(boardNo);
         return likeCntList;
+    }
+
+    // 내가 해당 게시물을 좋아요 눌렀는지 여부
+    public boolean getLikeChecked(String id, int boardNo) {
+        boolean CurrentlikeChecked = likeCntRepository.existsByUserIdAndBoardNo(id, boardNo);
+        return CurrentlikeChecked;
     }
 }
 
