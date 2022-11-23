@@ -22,3 +22,4 @@ public class BoardDTO {
     private LocalDateTime commentDate;
     private String comment;
 }
+

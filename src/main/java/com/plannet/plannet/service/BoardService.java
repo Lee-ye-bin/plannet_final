@@ -26,7 +26,7 @@ public class BoardService {
         for (Board e : boardList) {
             BoardDTO boardDTO = new BoardDTO();
             boardDTO.setBoardNo(e.getBoardNo());
-            boardDTO.setId(e.getId().getId());
+            boardDTO.setId(e.getUserId().getId());
             boardDTO.setTitle(e.getTitle());
             boardDTO.setViews(e.getViews());
             boardDTO.setWriteDate(e.getWriteDate());
@@ -38,6 +38,7 @@ public class BoardService {
         return boardDTOS;
     }
 }
+
 
 
 
