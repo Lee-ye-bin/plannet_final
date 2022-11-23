@@ -29,7 +29,7 @@ public class Board {
     @ColumnDefault("0")
     private int views;
 
-//    @CreatedDate
+    @CreatedDate
     private LocalDateTime writeDate;
 
     @Lob
