@@ -20,7 +20,7 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @Column(length = 50, nullable = false)
     private String title;

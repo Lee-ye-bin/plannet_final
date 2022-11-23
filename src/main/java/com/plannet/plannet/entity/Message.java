@@ -20,7 +20,7 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receive_id")

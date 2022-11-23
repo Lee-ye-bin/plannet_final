@@ -22,7 +22,7 @@ public class SMEM implements Serializable {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id; // 참가자 아이디
+    private Member userId; // 참가자 아이디
 
     @Column(name = "isOwner", nullable = false)
     @ColumnDefault("0")

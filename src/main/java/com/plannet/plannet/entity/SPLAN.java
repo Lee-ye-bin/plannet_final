@@ -27,7 +27,7 @@ public class SPLAN {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @Column(nullable = false, name = "plan_check")
     @ColumnDefault("0")
