@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Objects;
@@ -62,12 +61,12 @@ public class MemberService {
         return isNotReg;
     }
 
-    // 새 비밀번호 설정
+    // 비밀번호 찾기 시 새 비밀번호 설정
     public boolean regNewPwd(String id, String pwd) {
         Member mem = memberRepository.findById(id).orElseThrow(EmptyStackException::new);
         mem.setPwd(pwd);
         Member rst = memberRepository.save(mem);
         log.warn(rst.toString());
-        return  true;
+        return true;
     }
 }
