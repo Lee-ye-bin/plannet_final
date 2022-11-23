@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @SpringBootTest
 @Slf4j
-@TestPropertySource(locations = "classpath:application-test.properties")
+//@TestPropertySource(locations = "classpath:application-test.properties")
 class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
