@@ -46,6 +46,19 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/OverlapCheck")
+    public ResponseEntity<Boolean> overlapCheck (@RequestBody Map<String,String> checkData){
+        String uni = checkData.get("uni");
+        String type = checkData.get("type");
+
+        boolean result = memberService.overlapCheck(uni,type);
+        if(result){
+            return new ResponseEntity(true, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+        }
+    }
     // 비밀번호 찾기 시 새 비밀번호 설정
     @PutMapping("/MemberNewPwd")
     public ResponseEntity<Boolean> memberNewPwd(@RequestBody Map<String, String> newPwd) {

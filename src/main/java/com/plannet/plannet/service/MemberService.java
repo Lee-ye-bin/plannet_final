@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -40,6 +41,25 @@ public class MemberService {
         Member rst = memberRepository.save(member);
         log.warn(rst.toString());
         return true;
+    }
+    public boolean overlapCheck (String uni, String type){
+        boolean isNotReg = false;
+        String a = null;
+        char t = type.charAt(5);
+        switch (t){
+            case 'I' :
+                a= String.valueOf(memberRepository.findById(uni));
+                break;
+            case 'E' :
+                a= String.valueOf(memberRepository.findByEmail(uni));
+                break;
+            case 'T' :
+                a= String.valueOf(memberRepository.findByTell(uni));
+                break;
+        }
+        if(Objects.requireNonNull(a).isBlank()) isNotReg =false;
+        else isNotReg=true;
+        return isNotReg;
     }
 
     // 새 비밀번호 설정
