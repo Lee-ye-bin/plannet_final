@@ -9,15 +9,16 @@ import javax.persistence.*;
 @Getter @Setter
 @ToString
 @Entity
-@IdClass(LikeCntPK.class)
 public class LikeCnt {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "userId")
     private Member userId;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_no") // JoinColumn 의 name 은 조인할 컬럼명을 기입 (SQL 기준 컬럼명)
+    @JoinColumn(name = "boardNo") // JoinColumn 의 name 은 조인할 컬럼명을 기입 (SQL 기준 컬럼명)
     private Board boardNo;
 }
