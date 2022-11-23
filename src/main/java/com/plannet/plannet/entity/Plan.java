@@ -20,7 +20,7 @@ public class Plan {
     @Column(nullable = false)
     private Long planNo; // 각 날짜/아이디의 일정 고유 KEY값 (순서대로 불러 들어올 때 사용)
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Member id; // 회원 아이디
 

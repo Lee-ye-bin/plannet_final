@@ -18,7 +18,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int boardNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Member id;
 

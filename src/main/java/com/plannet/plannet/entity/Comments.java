@@ -16,11 +16,11 @@ public class Comments {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long commentNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "board_no")
     private Board boardNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Member id;
 
