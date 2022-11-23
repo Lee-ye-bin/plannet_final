@@ -27,4 +27,12 @@ public class UserInfoService {
         log.warn(rst.toString());
         return true;
     }
+    // 사용자 프로필 이미지명 저장
+    public boolean saveUserImg(String id, String imgName) {
+        Member mem = memberRepository.findById(id).orElseThrow(EmptyStackException::new);
+        mem.setProImg(imgName);
+        Member rst = memberRepository.save(mem);
+        log.warn(rst.toString());
+        return true;
+    }
 }

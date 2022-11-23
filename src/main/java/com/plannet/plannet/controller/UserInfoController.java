@@ -5,10 +5,7 @@ import com.plannet.plannet.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -33,6 +30,20 @@ public class UserInfoController {
         String profile = userInfo.get("profile");
 
         boolean result = userInfoService.saveUserInfo(id, nickname, email, phone, sns, profile);
+        if(result) {
+            return new ResponseEntity(true, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+    // 사용자 프로필 이미지명 저장
+    @PostMapping("/UserImgSave")
+    public ResponseEntity<Boolean> userImgSave(@RequestBody Map<String, String> userImg) {
+        String id = userImg.get("id");
+        String imgName = userImg.get("imgName");
+
+        boolean result = userInfoService.saveUserImg(id, imgName);
         if(result) {
             return new ResponseEntity(true, HttpStatus.OK);
         }
