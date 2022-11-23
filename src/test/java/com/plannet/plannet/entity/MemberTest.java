@@ -75,21 +75,34 @@ class MemberTest {
         }
         //smem
         for(int i = 1; i < 6; i++) {
-            Long cal = 1L;
             SMEM smemOwner = new SMEM();
-            SCAL scal = scalRepository.findById((long) i).orElseThrow();
+            SCAL scal = scalRepository.findById((long) (100 + i)).orElseThrow(EntityNotFoundException::new);
             smemOwner.setCalNo(scal);
             smemOwner.setUserId(scal.getUserId());
             smemOwner.setIsOwner(1);
             smemRepository.save(smemOwner);
             for(int j = 1; j < 4; j++) {
                 SMEM smem = new SMEM();
-                smemOwner.setCalNo(scal);
-                Member member = memberRepository.findById("test_id_" + j).orElseThrow();
-//                smemOwner.setUserId();
-                smemOwner.setIsOwner(1);
+                smem.setCalNo(scal);
+                Member member = memberRepository.findById("test_id_" + (i + j)).orElseThrow();
+                smem.setUserId(member);
+                smem.setIsOwner(0);
                 smemRepository.save(smem);
             }
+        }
+        // splan
+        for(int i = 1; i < 6; i++){
+            SPLAN splan = new SPLAN();
+            Member owner = memberRepository.findById("test_id_2").orElseThrow();
+            SCAL scal = scalRepository.findByUserId(owner);
+            splan.setCalNo(scal);
+            splan.setPlanDate(LocalDateTime.now());
+            Member member = memberRepository.findById("test_id_" + i).orElseThrow();
+            splan.setUserId(member);
+            if(i % 2 == 0) splan.setPlanCheck(1);
+            else splan.setPlanCheck(0);
+            splan.setPlan("101번 캘린더의" + i + "번째 일정입니다");
+            splanRepository.save(splan);
         }
     }
 

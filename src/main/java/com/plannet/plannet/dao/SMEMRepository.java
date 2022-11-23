@@ -1,9 +1,10 @@
 package com.plannet.plannet.dao;
 
+import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.entity.SMEM;
-import com.plannet.plannet.entity.SMEMPK;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-public interface SMEMRepository extends JpaRepository<SMEM, SMEMPK> {
+public interface SMEMRepository extends JpaRepository<SMEM, Long> {
+    List<SMEM> findByUserId(Member userId);
 }
