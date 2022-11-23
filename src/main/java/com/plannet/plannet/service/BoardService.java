@@ -40,6 +40,7 @@ public class BoardService {
 }
 
 
+
 //    int likeCnt = (int)LikeCntRepository.countByBoardNo(e.getBoardNo());
 //            boardDTO.setLikeCnt(likeCnt);
 //                    int like
