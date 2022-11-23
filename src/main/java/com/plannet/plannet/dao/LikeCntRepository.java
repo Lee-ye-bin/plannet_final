@@ -10,6 +10,5 @@ import java.util.List;
 // 요청과 응답만 처리
 // JpaRepository<테이블명, 프라이머리키에 대한 데이터 형>
 public interface LikeCntRepository extends JpaRepository<LikeCnt, LikeCntPK> {
-    static Object countByBoardNo(int boardNo);
-
+    Long countByBoardNo(int boardNo);
 }
