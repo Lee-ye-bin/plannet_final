@@ -4,10 +4,7 @@ import com.plannet.plannet.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -49,5 +46,18 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+    // 비밀번호 찾기 시 새 비밀번호 설정
+    @PutMapping("/MemberNewPwd")
+    public ResponseEntity<Boolean> memberNewPwd(@RequestBody Map<String, String> newPwd) {
+        String id = newPwd.get("id");
+        String pwd = newPwd.get("pwd");
 
+        boolean result = memberService.regNewPwd(id, pwd);
+        if(result) {
+            return new ResponseEntity(true, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
