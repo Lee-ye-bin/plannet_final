@@ -22,7 +22,7 @@ public class Plan {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id; // 회원 아이디
+    private Member userId; // 회원 아이디
 
     @CreatedDate
     private LocalDateTime planDate; // 일정 날짜
