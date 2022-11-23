@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class SCAL {
     @Id
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long calNo;
 
     @ManyToOne(fetch = FetchType.LAZY)

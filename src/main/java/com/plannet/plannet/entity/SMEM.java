@@ -4,24 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Getter @Setter
 @ToString
 @Entity
 @Table(name = "s_mem")
-@IdClass(SMEMPK.class)
-public class SMEM implements Serializable {
+public class SMEM {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cal_no")
     private SCAL calNo;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "userId")
     private Member userId; // 참가자 아이디
 
     @Column(name = "isOwner", nullable = false)
