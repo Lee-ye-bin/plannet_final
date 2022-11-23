@@ -15,7 +15,7 @@ public class SCAL {
     @Column(nullable = false)
     private Long calNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "id")
     private Member id;
 

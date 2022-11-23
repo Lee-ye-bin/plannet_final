@@ -15,12 +15,12 @@ import java.io.Serializable;
 @IdClass(SMEMPK.class)
 public class SMEM implements Serializable {
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cal_no")
     private SCAL calNo;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Member id; // 참가자 아이디
 
