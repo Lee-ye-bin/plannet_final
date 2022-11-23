@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @IdClass(DiaryPK.class)
 public class Diary {
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @Id
     @CreatedDate

@@ -18,9 +18,9 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int boardNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @Column(length = 50, nullable = false)
     private String title;
@@ -29,7 +29,7 @@ public class Board {
     @ColumnDefault("0")
     private int views;
 
-    @CreatedDate
+//    @CreatedDate
     private LocalDateTime writeDate;
 
     @Lob

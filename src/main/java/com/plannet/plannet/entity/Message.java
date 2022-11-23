@@ -18,11 +18,11 @@ public class Message {
     @Column(name = "message_no")
     private Long messageNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receive_id")
     private Member receiveId;
 

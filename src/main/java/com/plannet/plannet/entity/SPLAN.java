@@ -18,16 +18,16 @@ public class SPLAN {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long planNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cal_no")
     private SCAL calNo;
 
     @CreatedDate
     private LocalDateTime planDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @Column(nullable = false, name = "plan_check")
     @ColumnDefault("0")
