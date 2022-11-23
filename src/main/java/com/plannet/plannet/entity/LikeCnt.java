@@ -14,7 +14,7 @@ public class LikeCnt {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)

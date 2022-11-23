@@ -26,7 +26,7 @@ public class SCOM {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
-    private Member id;
+    private Member userId;
 
     @CreatedDate
     private LocalDateTime writeDate;
