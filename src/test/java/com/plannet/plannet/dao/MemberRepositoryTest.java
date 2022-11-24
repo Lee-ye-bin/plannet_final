@@ -6,9 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 @Slf4j
@@ -17,16 +20,17 @@ class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
     @Test
+    @Rollback(value = false)
     @DisplayName("회원 가입 테스트")
     public void regMemberTest() {
-        for(int i = 1; i <= 9; i++){
+        for(int i = 1; i <= 9; i++) {
             Member member = new Member();
-            member.setId("test0000"+i);
-            member.setPwd("test0000!"+i);
-            member.setName("테스트"+i);
-            member.setEmail("test000"+i+"@gmail.com");
-            member.setNickname("test"+i);
-            member.setTel("010-1234-567"+i);
+            member.setId("test0000" + i);
+            member.setPwd("test0000!" + i);
+            member.setName("테스트" + i);
+            member.setEmail("test000" + i + "@gmail.com");
+            member.setNickname("test" + i);
+            member.setTel("010-1234-567" + i);
             member.setJoinDate(LocalDateTime.now());
             memberRepository.save(member);
         }
