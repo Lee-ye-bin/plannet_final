@@ -20,7 +20,7 @@ public class UserInfoController {
     }
 
     // 사용자 정보 수정
-    @PutMapping("/UserInfoSave")
+    @PutMapping("/user_infoSave")
     public ResponseEntity<Boolean> userInfoSave(@RequestBody Map<String, String> userInfo) {
         String id = userInfo.get("id");
         String nickname = userInfo.get("nickname");
@@ -38,7 +38,7 @@ public class UserInfoController {
         }
     }
     // 사용자 프로필 이미지명 저장
-    @PostMapping("/UserImgSave")
+    @PostMapping("/user_imgSave")
     public ResponseEntity<Boolean> userImgSave(@RequestBody Map<String, String> userImg) {
         String id = userImg.get("id");
         String imgName = userImg.get("imgName");
