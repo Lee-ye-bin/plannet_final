@@ -40,4 +40,14 @@ public class BoardController {
         boolean likeChecked = boardService.getLikeChecked(id, boardNo);
         return new ResponseEntity(likeChecked, HttpStatus.OK);
     }
+    // 자유게시판 글 삭제하기
+    @GetMapping("/BoardDelete")
+    public ResponseEntity<Integer> boardDelete(@RequestParam int boardNo) {
+        boolean boardDelete = boardService.getboardDelete(boardNo);
+        if (boardDelete) {
+            return new ResponseEntity(boardDelete, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(boardDelete, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
