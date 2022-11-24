@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -35,9 +36,22 @@ public class BoardController {
     }
 
     // boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
-    @GetMapping("/Board/myLike")
+    @GetMapping("/like_checked")
     public ResponseEntity<Integer> boardList(@RequestParam String id, int boardNo) {
         boolean likeChecked = boardService.getLikeChecked(id, boardNo);
         return new ResponseEntity(likeChecked, HttpStatus.OK);
     }
+    // 자유게시판 글 삭제하기
+    @GetMapping("/BoardDelete")
+    public ResponseEntity<Integer> boardDelete(@RequestParam int boardNo) {
+        boolean boardDelete = boardService.getboardDelete(boardNo);
+        if (boardDelete) {
+            return new ResponseEntity(boardDelete, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(boardDelete, HttpStatus.BAD_REQUEST);
+        }
+    }
+//    // 자유게시판 글 수정하기
+//    @GetMapping("/BoardEdit")
+//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title,)
 }

@@ -45,15 +45,14 @@ class BoardServiceTest {
         }
     }
 
-    // PK 관련부분 전부 수정해야 함
-//    @Test
-//    @DisplayName("likeCnt 테이블 생성")
-//    public void likeCntListTest() {
-//        for (int i = 1; i <= 5; i++) {
-//            LikeCnt likeCnt = new LikeCnt();
-//            likeCnt.setUserId(memberRepository.findById("test0000" + i).orElseThrow());
-//            likeCnt.setBoardNo(boardRepository.findById(i).orElseThrow());
-//            likeCntRepository.save(likeCnt);
-//        }
-//    }
+    @Test
+    @DisplayName("likeCnt 테이블 생성")
+    public void likeCntListTest() {
+        for (int i = 1; i <= 5; i++) {
+            LikeCnt likeCnt = new LikeCnt();
+            likeCnt.setUserId(memberRepository.findById("test0000" + i).orElseThrow());
+            likeCnt.setBoardNo(boardRepository.findById(i).orElseThrow());
+            likeCntRepository.save(likeCnt);
+        }
+    }
 }

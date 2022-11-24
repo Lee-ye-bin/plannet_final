@@ -9,7 +9,7 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<Member, String> {
    Boolean findByIdAndPwd(String id, String pwd);
 
-   Member findByEmail(String email);
+    Member findByEmail(String email);
 
-   Member findByTel(String tel);
+    Member findByTel(String tel);
 }
