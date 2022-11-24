@@ -1,5 +1,6 @@
 package com.plannet.plannet.dao;
 
+import com.plannet.plannet.entity.Board;
 import com.plannet.plannet.entity.LikeCnt;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -7,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 // 요청과 응답만 처리
 // JpaRepository<테이블명, 프라이머리키에 대한 데이터 형>
 public interface LikeCntRepository extends JpaRepository<LikeCnt, Long> {
-    Long countByBoardNo(int boardNo);
-    boolean existsByUserIdAndBoardNo(String id, int boardNo);
+    Long countByBoardNo(Board boardNo);
+    boolean existsByUserIdAndBoardNo(String id, Board boardNo);
 }

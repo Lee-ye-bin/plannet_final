@@ -1,5 +1,6 @@
 package com.plannet.plannet.controller;
 
+import com.plannet.plannet.entity.Board;
 import com.plannet.plannet.service.BoardService;
 import com.plannet.plannet.vo.BoardDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -30,20 +31,20 @@ public class BoardController {
 
     // boardNo로 해당 게시물의 좋아요 수 조회하기
     @GetMapping("/like_cnt")
-    public ResponseEntity<Integer> boardList(@RequestParam int boardNo) {
+    public ResponseEntity<Integer> likeList(@RequestParam Board boardNo) {
         long likeCnt = boardService.getLikeCnt(boardNo);
         return new ResponseEntity(likeCnt, HttpStatus.OK);
     }
 
-    // boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
+    // [수정중] boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
     @GetMapping("/like_checked")
-    public ResponseEntity<Integer> boardList(@RequestParam String id, int boardNo) {
+    public ResponseEntity<Integer> likeChecked(@RequestParam String id, Board boardNo) {
         boolean likeChecked = boardService.getLikeChecked(id, boardNo);
         return new ResponseEntity(likeChecked, HttpStatus.OK);
     }
     // 자유게시판 글 삭제하기
     @GetMapping("/BoardDelete")
-    public ResponseEntity<Integer> boardDelete(@RequestParam int boardNo) {
+    public ResponseEntity<Integer> boardDelete(@RequestParam Long boardNo) {
         boolean boardDelete = boardService.getboardDelete(boardNo);
         if (boardDelete) {
             return new ResponseEntity(boardDelete, HttpStatus.OK);
@@ -53,5 +54,12 @@ public class BoardController {
     }
 //    // 자유게시판 글 수정하기
 //    @GetMapping("/BoardEdit")
-//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title,)
+//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {
+//        boolean boardEdit = boardService.getboardEdit(id, boardNo, title, detail);
+//        if (boardEdit) {
+//            return new ResponseEntity(boardEdit, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }
