@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,7 +35,7 @@ public class BoardController {
         return new ResponseEntity(likeCnt, HttpStatus.OK);
     }
 
-    // [수정중] boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
+    // boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
     @GetMapping("/like_checked")
     public ResponseEntity<Integer> likeChecked(@RequestParam String id, Board boardNo) {
         boolean likeChecked = boardService.getLikeChecked(id, boardNo);
