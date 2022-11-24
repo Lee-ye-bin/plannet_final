@@ -67,6 +67,7 @@ public class MemberService {
                 a= String.valueOf(memberRepository.findByTel(uni));
                 break;
         }
+
         if(!Objects.requireNonNull(a).isBlank()) isNotReg=true;
         return isNotReg;
     }
