@@ -22,9 +22,8 @@ public class MemberService {
 
     public boolean loginCheck (String id, String pwd){
         try{
-            boolean memberList = memberRepository.findByIdAndPwd(id,pwd);
-            if(memberList) return true;
-            else return false;
+            memberRepository.findByIdAndPwd(id,pwd);
+            return true;
         }catch (Exception e){
             return false;
         }
