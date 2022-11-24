@@ -52,6 +52,15 @@ public class BoardService {
         boolean CurrentlikeChecked = likeCntRepository.existsByUserIdAndBoardNo(id, boardNo);
         return CurrentlikeChecked;
     }
+    // 자유게시판 글 삭제하기
+    public boolean getboardDelete(int boardNo) {
+        try {
+            boardRepository.deleteById(boardNo);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
 }
 
 ////     얘는 테스트 중
