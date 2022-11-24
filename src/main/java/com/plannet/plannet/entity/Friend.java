@@ -10,14 +10,15 @@ import javax.persistence.*;
 @Getter @Setter
 @ToString
 @Entity
-@IdClass(FriendPK.class)
 public class Friend {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long friendNo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Member userId;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
     private Member friendId;

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class SPLAN {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long planNo;
+    private Long splanNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cal_no")

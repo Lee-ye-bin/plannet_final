@@ -11,14 +11,15 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @ToString
 @Entity
-@IdClass(DiaryPK.class)
 public class Diary {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long diaryNo ;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Member userId;
 
-    @Id
     @CreatedDate
     private LocalDateTime diaryDate;
 

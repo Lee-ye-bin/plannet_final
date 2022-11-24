@@ -12,10 +12,10 @@ import javax.persistence.*;
 public class LikeCnt {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long likeCntNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "id")
     private Member userId;
 
     @ManyToOne(fetch = FetchType.LAZY)

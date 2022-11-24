@@ -13,14 +13,14 @@ import javax.persistence.*;
 public class SMEM {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long smemNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cal_no")
     private SCAL calNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "id")
     private Member userId; // 참가자 아이디
 
     @Column(name = "isOwner", nullable = false)
