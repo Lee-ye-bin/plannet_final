@@ -53,7 +53,7 @@ public class MemberService {
                 a= String.valueOf(memberRepository.findByEmail(uni));
                 break;
             case 'T' :
-                a= String.valueOf(memberRepository.findByTell(uni));
+                a= String.valueOf(memberRepository.findByTel(uni));
                 break;
         }
         if(Objects.requireNonNull(a).isBlank()) isNotReg =false;

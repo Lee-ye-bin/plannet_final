@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -50,4 +51,7 @@ public class BoardController {
             return new ResponseEntity(boardDelete, HttpStatus.BAD_REQUEST);
         }
     }
+//    // 자유게시판 글 수정하기
+//    @GetMapping("/BoardEdit")
+//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title,)
 }

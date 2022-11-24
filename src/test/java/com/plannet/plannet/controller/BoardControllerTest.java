@@ -1,5 +1,6 @@
 package com.plannet.plannet.controller;
 
+import com.plannet.plannet.dao.BoardRepository;
 import com.plannet.plannet.dao.MemberRepository;
 import com.plannet.plannet.entity.Board;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardControllerTest {
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    BoardRepository boardRepository;
     @Test
     @DisplayName("자유게시판 글 삭제 테스트")
     public void DeleteTest() {
