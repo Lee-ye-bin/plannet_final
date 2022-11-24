@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
-    List<Member> findByIdAndPwd(String id, String pwd);
+   Boolean findByIdAndPwd(String id, String pwd);
 
     Member findByEmail(String email);
 

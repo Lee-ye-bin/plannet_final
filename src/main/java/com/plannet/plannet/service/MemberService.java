@@ -21,11 +21,13 @@ public class MemberService {
     }
 
     public boolean loginCheck (String id, String pwd){
-        List<Member> memberList = memberRepository.findByIdAndPwd(id,pwd);
-        for(Member e : memberList){
-            return true;
+        try{
+            boolean memberList = memberRepository.findByIdAndPwd(id,pwd);
+            if(memberList) return true;
+            else return false;
+        }catch (Exception e){
+            return false;
         }
-        return false;
     }
     public boolean regMember(String id,String pwd,String name,
                              String nickname,String mail,String tel){
