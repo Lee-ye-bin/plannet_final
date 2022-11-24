@@ -2,7 +2,7 @@ package com.plannet.plannet.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 @Getter @Setter
 public class WriteDTO {
     private String userId;
-    private Date date;
+    private LocalDateTime date;
     private List<Map<String, Object>> plan;
     private String diary;
 }
