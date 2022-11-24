@@ -60,7 +60,7 @@ public class MemberController {
         }
     }
     // 비밀번호 찾기 시 새 비밀번호 설정
-    @PutMapping("/MemberNewPwd")
+    @PutMapping("/member_newPwd")
     public ResponseEntity<Boolean> memberNewPwd(@RequestBody Map<String, String> newPwd) {
         String id = newPwd.get("id");
         String pwd = newPwd.get("pwd");
