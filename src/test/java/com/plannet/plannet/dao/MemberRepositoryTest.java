@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 @Slf4j
@@ -30,5 +32,13 @@ class MemberRepositoryTest {
             member.setJoinDate(LocalDateTime.now());
             memberRepository.save(member);
         }
+    }
+    @Test
+    @DisplayName("로그인 테스트")
+    public void loginTest() {
+        Member member = new Member();
+        boolean check =memberRepository.findByIdAndPwd("test00001","test0000!1");
+        if(check) log.warn("로그인 성공");
+        else log.warn("로그인 실패");
     }
 }
