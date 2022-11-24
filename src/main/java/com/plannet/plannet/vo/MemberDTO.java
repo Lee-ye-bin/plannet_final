@@ -18,6 +18,6 @@ public class MemberDTO {
     private String memo;
     private String proImg;
     private int pes; // 개인 일정의 달성률
-    private List<ShareDTO> sCalList; // 공유 캘린더의 정보가 넘어옴, 번호, 이름, 달성률
+    private List<List<Object>> sCalList; // 공유 캘린더의 정보가 넘어옴, 번호, 이름, 달성률
 
 }

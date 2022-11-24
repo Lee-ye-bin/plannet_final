@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 public class BoardDTO {
-    private int boardNo;
+    private Long boardNo;
     private String id;
     private String title;
     private int views;

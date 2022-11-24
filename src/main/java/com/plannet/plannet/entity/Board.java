@@ -16,7 +16,7 @@ public class Board {
     @Id
     // 키 값을 생성하는 전략 : 기본키 생성을 JPA 기준
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int boardNo;
+    private Long boardNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")

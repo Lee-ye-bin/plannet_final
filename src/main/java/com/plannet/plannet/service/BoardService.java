@@ -18,10 +18,10 @@ import java.util.List;
 @Slf4j // log를 찍기 위한 어노테이션
 public class BoardService {
     private BoardRepository boardRepository; // 의존성 주입을 받음
-    @Autowired
-    LikeCntRepository likeCntRepository; // 의존성 주입을 받음
-    public BoardService(BoardRepository boardRepository) {
+    private LikeCntRepository likeCntRepository; // 의존성 주입을 받음
+    public BoardService(BoardRepository boardRepository, LikeCntRepository likeCntRepository) {
         this.boardRepository = boardRepository;
+        this.likeCntRepository = likeCntRepository;
     }
 
     // 보드 목록 불러오기
@@ -42,18 +42,18 @@ public class BoardService {
     }
 
     // LikeCnt 테이블에서 특정 'boardNo'을 기준으로 레코드 개수 세기
-    public long getLikeCnt(int boardNo) {
+    public long getLikeCnt(Board boardNo) {
         Long likeCntList = likeCntRepository.countByBoardNo(boardNo);
         return likeCntList;
     }
 
     // 내가 해당 게시물을 좋아요 눌렀는지 여부
-    public boolean getLikeChecked(String id, int boardNo) {
+    public boolean getLikeChecked(String id, Board boardNo) {
         boolean CurrentlikeChecked = likeCntRepository.existsByUserIdAndBoardNo(id, boardNo);
         return CurrentlikeChecked;
     }
     // 자유게시판 글 삭제하기
-    public boolean getboardDelete(int boardNo) {
+    public boolean getboardDelete(Long boardNo) {
         try {
             boardRepository.deleteById(boardNo);
             return true;
@@ -70,7 +70,7 @@ public class BoardService {
 //    }
 }
 
-    // 얘는 테스트 중
+////     얘는 테스트 중
 //   int likeCnt = (int)LikeCntRepository.countByBoardNo(e.getBoardNo());
 //    int likeCnt = (int)LikeCntRepository.countByBoardNo(e.getBoardNo());
 //            boardDTO.setLikeCnt(likeCnt);
