@@ -3,17 +3,25 @@ package com.plannet.plannet.service;
 import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.Board;
 import com.plannet.plannet.entity.LikeCnt;
+import com.plannet.plannet.entity.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @SpringBootTest
+@Transactional
+@Rollback(value = false)
 @Slf4j
+
 class BoardServiceTest {
     @Autowired // 자동연결
     MemberRepository memberRepository;
@@ -21,7 +29,8 @@ class BoardServiceTest {
     BoardRepository boardRepository;
     @Autowired
     LikeCntRepository likeCntRepository;
-
+    @PersistenceContext
+    EntityManager em;
     @Test
     @DisplayName("board 테이블")
     public void boardListTest() {
@@ -49,10 +58,26 @@ class BoardServiceTest {
     }
 
     @Test
-    @DisplayName("likeCnt 테스트")
+    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
     public void likeCntTest() {
         Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
         long likeCnt = likeCntRepository.countByBoardNo(board);
         System.out.println(likeCnt);
+    }
+
+    @Test
+    @DisplayName("likeChecked 테스트, 내가 해당 게시물에 좋아요를 눌렀는지 누르지 않았는지")
+    public void likeCheckedTest() {
+        Member member = memberRepository.findById("test_id_3").orElseThrow(EntityNotFoundException::new);
+        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
+        boolean CurrentLikeChecked = likeCntRepository.existsByUserIdAndBoardNo(member, board);
+        if (CurrentLikeChecked) {
+            likeCntRepository.deleteByUserIdAndBoardNo(member, board);
+        } else {
+            LikeCnt likeCnt = new LikeCnt();
+            likeCnt.setUserId(member);
+            likeCnt.setBoardNo(board);
+            likeCntRepository.save(likeCnt);
+        }
     }
 }
