@@ -76,4 +76,23 @@ public class BoardService {
             return false;
         }
     }
+//    // 자유게시판 글 수정하기
+//    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
+//        try {
+//            boardRepository.findById(boardNo);
+//
+//        }
+//    }
 }
+
+////     얘는 테스트 중
+//   int likeCnt = (int)LikeCntRepository.countByBoardNo(e.getBoardNo());
+//    int likeCnt = (int)LikeCntRepository.countByBoardNo(e.getBoardNo());
+//            boardDTO.setLikeCnt(likeCnt);
+//                    int like
+//                    boardDTO.setIsLiked(e.getIsLiked());
+//
+//                    boardDTO.setCommentWriter(e.get);
+//                    boardDTO.setCommentDate();
+//                    boardDTO.setComment();
+//                    boardDTOS.add(boardDTO);

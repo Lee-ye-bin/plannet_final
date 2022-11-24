@@ -53,5 +53,12 @@ public class BoardController {
     }
 //    // 자유게시판 글 수정하기
 //    @GetMapping("/BoardEdit")
-//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title,)
+//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {
+//        boolean boardEdit = boardService.getboardEdit(id, boardNo, title, detail);
+//        if (boardEdit) {
+//            return new ResponseEntity(boardEdit, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }
