@@ -41,6 +41,7 @@ public class BoardController {
         boolean likeChecked = boardService.getLikeChecked(id, boardNo);
         return new ResponseEntity(likeChecked, HttpStatus.OK);
     }
+
     // 자유게시판 글 삭제하기
     @GetMapping("/BoardDelete")
     public ResponseEntity<Integer> boardDelete(@RequestParam Long boardNo) {
@@ -51,6 +52,7 @@ public class BoardController {
             return new ResponseEntity(boardDelete, HttpStatus.BAD_REQUEST);
         }
     }
+    
 //    // 자유게시판 글 수정하기
 //    @GetMapping("/BoardEdit")
 //    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {

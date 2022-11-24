@@ -33,6 +33,7 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping("/register_member")
     public ResponseEntity<Boolean> registerMember(@RequestBody Map<String,String> regData) {
         String id = regData.get("id");
@@ -50,6 +51,7 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/overlap_check")
     public ResponseEntity<Boolean> overlapCheck (@RequestBody Map<String,String> checkData){
         String uni = checkData.get("uni");
@@ -63,6 +65,7 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+
     // 비밀번호 찾기 시 새 비밀번호 설정
     @PutMapping("/member_newPwd")
     public ResponseEntity<Boolean> memberNewPwd(@RequestBody Map<String, String> newPwd) {
