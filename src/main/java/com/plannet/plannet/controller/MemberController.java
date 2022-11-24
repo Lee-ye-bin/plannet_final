@@ -17,7 +17,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/Login")
+    @PostMapping("/login")
     public ResponseEntity<Boolean> memberLogin(@RequestBody Map<String, String> loginData){
         String id = loginData.get("id");
         String pwd = loginData.get("pwd");
@@ -29,7 +29,7 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/RegMember")
+    @PostMapping("/register_member")
     public ResponseEntity<Boolean> registerMember(@RequestBody Map<String,String> regData) {
         String id = regData.get("id");
         String pwd = regData.get("pwd");
@@ -46,7 +46,7 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/OverlapCheck")
+    @GetMapping("/overlap_check")
     public ResponseEntity<Boolean> overlapCheck (@RequestBody Map<String,String> checkData){
         String uni = checkData.get("uni");
         String type = checkData.get("type");
