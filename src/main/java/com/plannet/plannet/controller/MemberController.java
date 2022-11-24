@@ -50,7 +50,7 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/overlap_check")
+    @PostMapping("/overlap_check")
     public ResponseEntity<Boolean> overlapCheck (@RequestBody Map<String,String> checkData){
         String uni = checkData.get("uni");
         String type = checkData.get("type");
