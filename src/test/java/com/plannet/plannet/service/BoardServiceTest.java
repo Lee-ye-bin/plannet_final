@@ -37,22 +37,22 @@ class BoardServiceTest {
         }
     }
 
-//    @Test
-//    @DisplayName("likeCnt 테이블 생성")
-//    public void likeCntListTest() {
-//        for (int i = 131; i <= 136; i++) {
-//            LikeCnt likeCnt = new LikeCnt();
-//            likeCnt.setUserId(memberRepository.findById("test_id_" + 4).orElseThrow());
-//            likeCnt.setBoardNo(boardRepository.findById((long)i).orElseThrow());
-//            likeCntRepository.save(likeCnt);
-//        }
-//    }
-//
-//    @Test
-//    @DisplayName("likeCnt 테스트")
-//    public void likeCntTest() {
-//        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
-//        long likeCnt = likeCntRepository.countByBoardNo(board);
-//        System.out.println(likeCnt);
-//    }
+    @Test
+    @DisplayName("likeCnt 테이블 생성")
+    public void likeListTest() {
+        for (int i = 131; i <= 136; i++) {
+            LikeCnt likeCnt = new LikeCnt();
+            likeCnt.setUserId(memberRepository.findById("test_id_" + 4).orElseThrow());
+            likeCnt.setBoardNo(boardRepository.findById((long)i).orElseThrow());
+            likeCntRepository.save(likeCnt);
+        }
+    }
+
+    @Test
+    @DisplayName("likeCnt 테스트")
+    public void likeCntTest() {
+        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
+        long likeCnt = likeCntRepository.countByBoardNo(board);
+        System.out.println(likeCnt);
+    }
 }

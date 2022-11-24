@@ -53,7 +53,7 @@ public class BoardService {
         return CurrentlikeChecked;
     }
     // 자유게시판 글 삭제하기
-    public boolean getboardDelete(int boardNo) {
+    public boolean getboardDelete(Long boardNo) {
         try {
             boardRepository.deleteById(boardNo);
             return true;

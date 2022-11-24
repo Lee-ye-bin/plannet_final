@@ -31,20 +31,20 @@ public class BoardController {
 
     // boardNo로 해당 게시물의 좋아요 수 조회하기
     @GetMapping("/like_cnt")
-    public ResponseEntity<Integer> boardList(@RequestParam Board boardNo) {
+    public ResponseEntity<Integer> likeList(@RequestParam Board boardNo) {
         long likeCnt = boardService.getLikeCnt(boardNo);
         return new ResponseEntity(likeCnt, HttpStatus.OK);
     }
 
     // [수정중] boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
     @GetMapping("/like_checked")
-    public ResponseEntity<Integer> boardList(@RequestParam String id, Board boardNo) {
+    public ResponseEntity<Integer> likeChecked(@RequestParam String id, Board boardNo) {
         boolean likeChecked = boardService.getLikeChecked(id, boardNo);
         return new ResponseEntity(likeChecked, HttpStatus.OK);
     }
     // 자유게시판 글 삭제하기
     @GetMapping("/BoardDelete")
-    public ResponseEntity<Integer> boardDelete(@RequestParam int boardNo) {
+    public ResponseEntity<Integer> boardDelete(@RequestParam Long boardNo) {
         boolean boardDelete = boardService.getboardDelete(boardNo);
         if (boardDelete) {
             return new ResponseEntity(boardDelete, HttpStatus.OK);
