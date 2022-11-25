@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @SequenceGenerator(
-        name = "BOARD_GENERATOR",
-        sequenceName = "BOARD_SEQUENCES",
-        initialValue = 1, allocationSize = 1)
+    name = "BOARD_GENERATOR",
+    sequenceName = "BOARD_SEQUENCES",
+    initialValue = 1, allocationSize = 1)
 public class Board {
     @Id
     // 키 값을 생성하는 전략 : 기본키 생성을 JPA 기준

@@ -10,9 +10,9 @@ import javax.persistence.*;
 @ToString
 @Entity
 @SequenceGenerator(
-        name = "QUOTE_GENERATOR",
-        sequenceName = "QUOTE_SEQUENCES",
-        initialValue = 1, allocationSize = 1)
+    name = "QUOTE_GENERATOR",
+    sequenceName = "QUOTE_SEQUENCES",
+    initialValue = 1, allocationSize = 1)
 public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUOTE_GENERATOR")
