@@ -44,23 +44,21 @@ public class UserInfoController {
     }
     //사용자 정보 불러오기
     @PostMapping("/info_load")
-    public ResponseEntity<Map<String, Object>> userInfoLoad(@RequestBody Map<String, String> userId) {
+    public ResponseEntity<List<Object>> userInfoLoad(@RequestBody Map<String, String> userId) {
         String id = userId.get("id");
-        MemberDTO memberDTO1 = userInfoService.userInfo(id);
-        MemberDTO memberDTO2 = userInfoService.navInfo(id);
-        Map<String, Object> navList = new HashMap<>();
-        List<Object> userInfo = new ArrayList<>();
-        userInfo.add(memberDTO1.getId());
-        userInfo.add(memberDTO1.getUserCode());
-        userInfo.add(memberDTO1.getNickname());
-        userInfo.add(memberDTO1.getEmail());
-        userInfo.add(memberDTO1.getTel());
-        userInfo.add(memberDTO2.getPes());
+        MemberDTO memberDTO = userInfoService.userInfo(id);
+        if(memberDTO.isOk()) {
+            List<Object> userInfo = new ArrayList<>();
+            userInfo.add(memberDTO.getNickname());
+            userInfo.add(memberDTO.getUserCode());
+            userInfo.add(memberDTO.getProfile());
+            userInfo.add(memberDTO.getEmail());
+            userInfo.add(memberDTO.getSns());
+            userInfo.add(memberDTO.getTel());
+            userInfo.add(memberDTO.getProImg());
 
-        navList.put("userInfo", userInfo);
-        navList.put("scalInfo", memberDTO2.getSCalList());
-
-        return new ResponseEntity(navList, HttpStatus.OK);
+            return new ResponseEntity(userInfo, HttpStatus.OK);
+        } else return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
     }
 
     // 사용자 프로필 이미지명 저장
@@ -77,24 +75,29 @@ public class UserInfoController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+
+    // nav바 정보 가져오기
     @PostMapping("/nav_info")
     public ResponseEntity<Map<String, Object>> NavInfo(@RequestBody Map<String, String> userId) {
         String id = userId.get("id");
         MemberDTO memberDTO1 = userInfoService.userInfo(id);
         MemberDTO memberDTO2 = userInfoService.navInfo(id);
-        Map<String, Object> navList = new HashMap<>();
-        List<Object> userInfo = new ArrayList<>();
-        userInfo.add(memberDTO1.getId());
-        userInfo.add(memberDTO1.getUserCode());
-        userInfo.add(memberDTO1.getNickname());
-        userInfo.add(memberDTO1.getEmail());
-        userInfo.add(memberDTO1.getTel());
-        userInfo.add(memberDTO2.getPes());
+        if(memberDTO1.isOk() && memberDTO2.isOk()) {
+            Map<String, Object> navList = new HashMap<>();
+            List<Object> userInfo = new ArrayList<>();
+            userInfo.add(memberDTO1.getNickname());
+            userInfo.add(memberDTO1.getUserCode());
+            userInfo.add(memberDTO1.getProfile());
+            userInfo.add(memberDTO1.getEmail());
+            userInfo.add(memberDTO1.getSns());
+            userInfo.add(memberDTO1.getTel());
+            userInfo.add(memberDTO1.getProImg());
+            userInfo.add(memberDTO2.getPes());
 
-        navList.put("userInfo", userInfo);
-        navList.put("scalInfo", memberDTO2.getSCalList());
+            navList.put("userInfo", userInfo);
+            navList.put("scalInfo", memberDTO2.getSCalList());
 
-        return new ResponseEntity(navList, HttpStatus.OK);
+            return new ResponseEntity(navList, HttpStatus.OK);
+        } else return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
     }
-
 }
