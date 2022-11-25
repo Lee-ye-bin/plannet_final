@@ -28,18 +28,34 @@ public class BoardController {
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    // boardNo로 해당 게시물의 좋아요 수 조회하기
-    @GetMapping("/like_cnt")
-    public ResponseEntity<Integer> likeList(@RequestParam Board boardNo) {
-        long likeCnt = boardService.getLikeCnt(boardNo);
-        return new ResponseEntity(likeCnt, HttpStatus.OK);
+    // 특정 보드넘버의 게시물 내용 불러오기 + 좋아요 수
+    @GetMapping("/post_view")
+    public ResponseEntity<List<BoardDTO>> postView(Long boardNo) {
+        // 서비스를 다녀옴, 결과를 리스트로 받음
+        BoardDTO postView = boardService.getPostView(boardNo);
+        return new ResponseEntity(postView, HttpStatus.OK);
     }
 
     // boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
     @GetMapping("/like_checked")
     public ResponseEntity<Integer> likeChecked(@RequestParam String id, Board boardNo) {
         boolean likeChecked = boardService.getLikeChecked(id, boardNo);
-        return new ResponseEntity(likeChecked, HttpStatus.OK);
+        if (likeChecked) {
+            return new ResponseEntity(likeChecked, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(likeChecked, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // boardNo의 게시물을 내가 작성하지 않았으면 조회수 +1
+    @GetMapping("/views_up")
+    public ResponseEntity<Integer> viewsUp(@RequestParam Long boardNo, int views) {
+        boolean viewsChecked = boardService.getViews(boardNo);
+        if (viewsChecked) {
+            return new ResponseEntity(viewsChecked, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(viewsChecked, HttpStatus.BAD_REQUEST);
+        }
     }
 
     // 자유게시판 글 삭제하기
