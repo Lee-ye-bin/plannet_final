@@ -12,10 +12,14 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @ToString
 @Entity
+@SequenceGenerator(
+        name = "BOARD_GENERATOR",
+        sequenceName = "BOARD_SEQUENCES",
+        initialValue = 1, allocationSize = 1)
 public class Board {
     @Id
     // 키 값을 생성하는 전략 : 기본키 생성을 JPA 기준
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_GENERATOR")
     private Long boardNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
