@@ -9,7 +9,6 @@ import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -129,6 +128,7 @@ public class BoardService {
             return false;
         }
     }
+
 //    // 자유게시판 글 수정하기
 //    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
 //        try {
