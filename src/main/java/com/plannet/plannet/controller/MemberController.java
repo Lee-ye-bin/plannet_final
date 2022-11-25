@@ -15,6 +15,7 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @Slf4j
+@RequestMapping("/member")
 public class MemberController {
     private MemberService memberService;
     public MemberController(MemberService memberService){
@@ -34,7 +35,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/register_member")
+    @PostMapping("/register")
     public ResponseEntity<Boolean> registerMember(@RequestBody Map<String,String> regData) {
         String id = regData.get("id");
         String pwd = regData.get("pwd");
@@ -52,7 +53,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/overlap_check")
+    @PostMapping("/overlap_check")
     public ResponseEntity<Boolean> overlapCheck (@RequestBody Map<String,String> checkData){
         String uni = checkData.get("uni");
         String type = checkData.get("type");
@@ -67,7 +68,7 @@ public class MemberController {
     }
 
     // 비밀번호 찾기 시 새 비밀번호 설정
-    @PutMapping("/member_newPwd")
+    @PutMapping("/new_pwd")
     public ResponseEntity<Boolean> memberNewPwd(@RequestBody Map<String, String> newPwd) {
         String id = newPwd.get("id");
         String pwd = newPwd.get("pwd");
@@ -79,25 +80,5 @@ public class MemberController {
         else {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @PostMapping("/nav_info")
-    public ResponseEntity<Map<String, Object>> NavInfo(@RequestBody Map<String, String> userId) {
-        String id = userId.get("id");
-        MemberDTO memberDTO1 = memberService.userInfo(id);
-        MemberDTO memberDTO2 = memberService.navInfo(id);
-        Map<String, Object> navList = new HashMap<>();
-        List<Object> userInfo = new ArrayList<>();
-        userInfo.add(memberDTO1.getId());
-        userInfo.add(memberDTO1.getUserCode());
-        userInfo.add(memberDTO1.getNickname());
-        userInfo.add(memberDTO1.getEmail());
-        userInfo.add(memberDTO1.getTel());
-        userInfo.add(memberDTO2.getPes());
-
-        navList.put("userInfo", userInfo);
-        navList.put("scalInfo", memberDTO2.getSCalList());
-
-        return new ResponseEntity(navList, HttpStatus.OK);
     }
 }
