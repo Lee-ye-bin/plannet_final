@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
 @Service
@@ -32,20 +34,30 @@ public class BoardService {
     }
 
     // 보드 목록 불러오기
-    public List<BoardDTO> getBoardList() {
-        List<BoardDTO> boardDTOS = new ArrayList<>();
-        List<Board> boardList = boardRepository.findAll();
-        for (Board e : boardList) {
-            BoardDTO boardDTO = new BoardDTO();
-            boardDTO.setBoardNo(e.getBoardNo());
-            boardDTO.setId(e.getUserId().getId());
-            boardDTO.setTitle(e.getTitle());
-            boardDTO.setViews(e.getViews());
-            boardDTO.setWriteDate(e.getWriteDate());
-            boardDTO.setDetail(e.getDetail());
-            boardDTO.setIsChecked(e.getIsChecked());
+    public BoardDTO getBoardList() {
+        BoardDTO boardDTO = new BoardDTO();
+        List<Map<String, Object>> boardList = new ArrayList<>();
+        try {
+            List<Board> boardData = boardRepository.findAll();
+            for (Board e : boardData) {
+                Map<String, Object> board = new HashMap<>();
+                board.put("boardNo", e.getBoardNo());
+                board.put("id", e.getUserId());
+                // 익명체크 여부 확인 후 닉네임 넣기
+                if(e.getIsChecked() == 0) {
+                    board.put("nickname", e.getUserId().getNickname());
+                } else board.put("nickname", "익명");
+                board.put("title", e.getTitle());
+                board.put("views", e.getViews());
+                board.put("writeDate", e.getWriteDate());
+                boardList.add(board);
+            }
+            boardDTO.setBoardList(boardList);
+            boardDTO.setOk(true);
+        } catch (Exception e) {
+            boardDTO.setOk(false);
         }
-        return boardDTOS;
+        return boardDTO;
     }
 
     // 보드 넘버에 해당하는 글의 상세페이지 불러오기

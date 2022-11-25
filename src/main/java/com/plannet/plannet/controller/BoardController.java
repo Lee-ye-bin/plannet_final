@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -23,15 +26,16 @@ public class BoardController {
     @GetMapping("/list")
     // 전체조회기 때문에 boardList(@RequestParam) 으로 param 값을 받을 필요가 없음
     public ResponseEntity<List<BoardDTO>> boardList() {
-        // 서비스를 다녀옴, 결과를 리스트로 받음
-        List<BoardDTO> list = boardService.getBoardList();
-        return new ResponseEntity(list, HttpStatus.OK);
+        // 서비스를 다녀옴
+        BoardDTO boardList = boardService.getBoardList();
+        if(boardList.isOk()) {
+            return new ResponseEntity(boardList.getBoardList(), HttpStatus.OK);
+        } else return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
     }
 
     // 특정 보드넘버의 게시물 내용 불러오기 + 좋아요 수
     @GetMapping("/post_view")
     public ResponseEntity<List<BoardDTO>> postView(Long boardNo) {
-        // 서비스를 다녀옴, 결과를 리스트로 받음
         BoardDTO postView = boardService.getPostView(boardNo);
         return new ResponseEntity(postView, HttpStatus.OK);
     }
