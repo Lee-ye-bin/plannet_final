@@ -80,4 +80,9 @@ class BoardServiceTest {
             likeCntRepository.save(likeCnt);
         }
     }
+//    @Test
+//    @DisplayName("boardDelete 테스트, 게시판 글 삭제하기")
+//public void boardDeleteTest() {
+//    Board board = boardRepository.deleteById((long)131)
+//}
 }

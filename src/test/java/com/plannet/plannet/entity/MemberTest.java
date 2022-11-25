@@ -99,8 +99,8 @@ class MemberTest {
             splan.setPlanDate(LocalDateTime.now());
             Member member = memberRepository.findById("test_id_" + i).orElseThrow();
             splan.setUserId(member);
-            if(i % 2 == 0) splan.setPlanCheck(1);
-            else splan.setPlanCheck(0);
+//            if(i % 2 == 0) splan.setPlanCheck(1);
+//            else splan.setPlanCheck(0);
             splan.setPlan("101번 캘린더의" + i + "번째 일정입니다");
             splanRepository.save(splan);
         }
@@ -120,23 +120,23 @@ class MemberTest {
         memberDTO.setTel(member.getTel());
         memberDTO.setProImg(member.getProImg());
 
-        //개인 일정 달성률 구하기
-        List<WriteDTO> personalTotal = planRepository.findByUserId(userId);
-        List<WriteDTO> personalEnd = planRepository.findByUserIdAndPlanChecked(userId, 1);
-        int personalTotalCnt = 0; // 총 일정 갯수
-        int personalEndCnt = 0; // 완료된 일정 갯수
-        for(WriteDTO e : personalTotal) {
-            personalTotalCnt++;
-        }
-        for(WriteDTO e : personalEnd) {
-            personalEndCnt++;
-        }
-        memberDTO.setPes(personalTotalCnt * 100 / personalEndCnt);
+//        //개인 일정 달성률 구하기
+//        List<WriteDTO> personalTotal = planRepository.findByUserId(userId);
+//        List<WriteDTO> personalEnd = planRepository.findByUserIdAndPlanChecked(userId, 1);
+//        int personalTotalCnt = 0; // 총 일정 갯수
+//        int personalEndCnt = 0; // 완료된 일정 갯수
+//        for(WriteDTO e : personalTotal) {
+//            personalTotalCnt++;
+//        }
+//        for(WriteDTO e : personalEnd) {
+//            personalEndCnt++;
+//        }
+//        memberDTO.setPes(personalTotalCnt * 100 / personalEndCnt);
 
         // 공유캘린더정보 불러오기
         List<SMEM> smemList = smemRepository.findByUserId(member);
         List<ShareDTO> shareDTOS = new ArrayList<>();
         ShareDTO shareDTO = new ShareDTO();
-        memberDTO.setSCalList(shareDTOS);
+//        memberDTO.setSCalList(shareDTOS);
     }
 }
