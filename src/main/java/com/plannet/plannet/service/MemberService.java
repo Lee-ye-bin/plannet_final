@@ -2,12 +2,9 @@ package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.*;
-import com.plannet.plannet.vo.MemberDTO;
-import com.plannet.plannet.vo.ShareDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 

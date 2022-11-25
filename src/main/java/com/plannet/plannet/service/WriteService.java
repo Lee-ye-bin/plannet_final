@@ -10,7 +10,7 @@ import com.plannet.plannet.vo.WriteDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Map;
@@ -22,56 +22,39 @@ public class WriteService {
     private DiaryRepository diaryRepository;
     private PlanRepository planRepository;
 
-    public WriteService(DiaryRepository diaryRepository, PlanRepository planRepository) {
+    public WriteService(MemberRepository memberRepository, DiaryRepository diaryRepository, PlanRepository planRepository) {
+        this.memberRepository = memberRepository;
         this.diaryRepository = diaryRepository;
         this.planRepository = planRepository;
     }
     // 일정 저장
-    public boolean writeSave(String userId, LocalDateTime date, List<Map<String, Object>> plan, String diary) {
-//        Member mem = memberRepository.findById(userId).orElseThrow(EmptyStackException::new);
+    public boolean writeSave(String userId, LocalDate date, List<Map<String, Object>> plan, String diary) {
+        // 회원 정보가 담긴 객체 가져옴
+        Member member = memberRepository.findById(userId).orElseThrow(EmptyStackException::new);
 //        WriteDTO writeDTOs = new WriteDTO();
 
-        // plan 일괄 삭제
-        planRepository.deleteByUserIdAndPlanDate(userId, date);
         // plan 저장
-        int cnt = 0;
         for(Map<String, Object> p : plan) {
-            boolean deleted = (boolean) p.get("deleted");
-            if(deleted == false) {
+            if(p.get("deleted").equals("false")) {
                 Plan plans = new Plan();
-                Member mem = memberRepository.findById(userId).orElseThrow(EmptyStackException::new);
-                plans.setUserId(mem);
+                plans.setUserId(member);
                 plans.setPlanDate(date);
-                plans.setPlanChecked(cnt);
+                plans.setPlanNo(Long.parseLong((String)p.get("key")));
                 if(p.get("checked").equals(true)) plans.setPlanChecked(1);
                 else plans.setPlanChecked(0);
                 plans.setPlan((String)p.get("text"));
                 Plan rst = planRepository.save(plans);
                 log.warn(rst.toString());
-                cnt++;
             }
         }
         // diary 업데이트
-        List<Diary> diaryList = diaryRepository.findByUserIdAndDiaryDate(userId, date);
-        if(diaryList != null) {
-            for(Diary d : diaryList) {
+        List<Diary> diaryList = diaryRepository.findByUserIdAndDiaryDate(member, date);
                 Diary diaries = new Diary();
-                Member mem = memberRepository.findById(userId).orElseThrow(EmptyStackException::new);
                 diaries.setDiary(diary);
-                diaries.setUserId(mem);
+                diaries.setUserId(member);
                 diaries.setDiaryDate(date);
                 Diary rst = diaryRepository.save(diaries);
                 log.warn(rst.toString());
-            }
-        } else {
-            Diary diaries = new Diary();
-            Member mem = memberRepository.findById(userId).orElseThrow(EmptyStackException::new);
-            diaries.setUserId(mem);
-            diaries.setDiaryDate(date);
-            diaries.setDiary(diary);
-            Diary rst = diaryRepository.save(diaries);
-            log.warn(rst.toString());
-        }
         return true;
     }
 }
