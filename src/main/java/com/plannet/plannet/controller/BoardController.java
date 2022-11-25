@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -53,14 +54,31 @@ public class BoardController {
         }
     }
     
-//    // 자유게시판 글 수정하기
-//    @GetMapping("/BoardEdit")
-//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {
-//        boolean boardEdit = boardService.getboardEdit(id, boardNo, title, detail);
-//        if (boardEdit) {
-//            return new ResponseEntity(boardEdit, HttpStatus.OK);
+    // 자유게시판 글 수정하기
+    @GetMapping("/BoardEdit")
+    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {
+        boolean boardEdit = boardService.getboardEdit(id, boardNo, title, detail);
+        if (boardEdit) {
+            return new ResponseEntity(boardEdit, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+//    // 자유게시판 댓글 작성하기
+//    @GetMapping("/BoardCommentCreate")
+//    public ResponseEntity<Integer> boardCommentCreate(@RequestParam int boardNo, String id, String detail) {
+//        boolean boardCommentCreate = boardService.getboardCommentCreate(boardNo, id, detail);
+//        if (boardCommentCreate) {
+//            return new ResponseEntity(boardCommentCreate, HttpStatus.OK);
 //        } else {
-//            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity(boardCommentCreate, HttpStatus.BAD_REQUEST);
 //        }
+//    }
+
+//    // 자유게시판 댓글 불러오기
+//    @PostMapping("/BoardCommentLoad")
+//    public ResponseEntity<List<Object>> boardCommentLoad(@RequestBody Map<String, String> boardNo) {
+//
 //    }
 }

@@ -99,8 +99,8 @@ class MemberTest {
             splan.setPlanDate(LocalDateTime.now());
             Member member = memberRepository.findById("test_id_" + i).orElseThrow();
             splan.setUserId(member);
-            if(i % 2 == 0) splan.setPlanCheck(1);
-            else splan.setPlanCheck(0);
+            if(i % 2 == 0) splan.setPlanChecked(1);
+            else splan.setPlanChecked(0);
             splan.setPlan("101번 캘린더의" + i + "번째 일정입니다");
             splanRepository.save(splan);
         }

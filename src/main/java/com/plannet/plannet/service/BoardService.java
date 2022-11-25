@@ -76,11 +76,19 @@ public class BoardService {
             return false;
         }
     }
-//    // 자유게시판 글 수정하기
-//    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
+    // 자유게시판 글 수정하기
+    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
+        try {
+            boardRepository.findById(id, boardNo, title, detail);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+//    // 자유게시판 댓글 작성하기
+//    public boolean getboardCommentCreate(int boardNo, String id, String detail) {
 //        try {
-//            boardRepository.findById(boardNo);
-//
+//            boardRepository.findById(boardNo, id, detail);
 //        }
 //    }
 }
