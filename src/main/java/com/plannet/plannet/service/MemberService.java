@@ -58,7 +58,8 @@ public class MemberService {
                 break;
         }
 
-        if(!Objects.requireNonNull(a).isBlank()) isNotReg=true;
+        if(a != null ) isNotReg=false;
+        else isNotReg=true;
         return isNotReg;
     }
 
