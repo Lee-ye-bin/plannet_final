@@ -2,16 +2,21 @@ package com.plannet.plannet.controller;
 
 import com.plannet.plannet.service.MemberService;
 import com.plannet.plannet.service.UserInfoService;
+import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @Slf4j
+@RequestMapping("/user")
 public class UserInfoController {
     private UserInfoService userInfoService;
 
@@ -20,7 +25,7 @@ public class UserInfoController {
     }
 
     // 사용자 정보 수정
-    @PutMapping("/user_infoSave")
+    @PutMapping("/info_save")
     public ResponseEntity<Boolean> userInfoSave(@RequestBody Map<String, String> userInfo) {
         String id = userInfo.get("id");
         String nickname = userInfo.get("nickname");
@@ -37,8 +42,29 @@ public class UserInfoController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+    //사용자 정보 불러오기
+    @PostMapping("/info_load")
+    public ResponseEntity<Map<String, Object>> userInfoLoad(@RequestBody Map<String, String> userId) {
+        String id = userId.get("id");
+        MemberDTO memberDTO1 = userInfoService.userInfo(id);
+        MemberDTO memberDTO2 = userInfoService.navInfo(id);
+        Map<String, Object> navList = new HashMap<>();
+        List<Object> userInfo = new ArrayList<>();
+        userInfo.add(memberDTO1.getId());
+        userInfo.add(memberDTO1.getUserCode());
+        userInfo.add(memberDTO1.getNickname());
+        userInfo.add(memberDTO1.getEmail());
+        userInfo.add(memberDTO1.getTel());
+        userInfo.add(memberDTO2.getPes());
+
+        navList.put("userInfo", userInfo);
+        navList.put("scalInfo", memberDTO2.getSCalList());
+
+        return new ResponseEntity(navList, HttpStatus.OK);
+    }
+
     // 사용자 프로필 이미지명 저장
-    @PostMapping("/user_imgSave")
+    @PostMapping("/img_save")
     public ResponseEntity<Boolean> userImgSave(@RequestBody Map<String, String> userImg) {
         String id = userImg.get("id");
         String imgName = userImg.get("imgName");
@@ -51,4 +77,24 @@ public class UserInfoController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/nav_info")
+    public ResponseEntity<Map<String, Object>> NavInfo(@RequestBody Map<String, String> userId) {
+        String id = userId.get("id");
+        MemberDTO memberDTO1 = userInfoService.userInfo(id);
+        MemberDTO memberDTO2 = userInfoService.navInfo(id);
+        Map<String, Object> navList = new HashMap<>();
+        List<Object> userInfo = new ArrayList<>();
+        userInfo.add(memberDTO1.getId());
+        userInfo.add(memberDTO1.getUserCode());
+        userInfo.add(memberDTO1.getNickname());
+        userInfo.add(memberDTO1.getEmail());
+        userInfo.add(memberDTO1.getTel());
+        userInfo.add(memberDTO2.getPes());
+
+        navList.put("userInfo", userInfo);
+        navList.put("scalInfo", memberDTO2.getSCalList());
+
+        return new ResponseEntity(navList, HttpStatus.OK);
+    }
+
 }
