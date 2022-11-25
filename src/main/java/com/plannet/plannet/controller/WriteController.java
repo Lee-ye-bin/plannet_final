@@ -22,10 +22,10 @@ import java.util.Map;
 @Slf4j
 public class WriteController {
     private WriteService writeService;
-
     public WriteController(WriteService writeService) {
         this.writeService = writeService;
     }
+
     // 일정 저장
     @PostMapping("/write_save")
     public ResponseEntity<Boolean> writeSave(@RequestBody Map<String, Object> wrSave) {

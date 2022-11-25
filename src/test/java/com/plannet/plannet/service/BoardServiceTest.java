@@ -4,6 +4,7 @@ import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.Board;
 import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
+import com.plannet.plannet.vo.BoardDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,13 +58,13 @@ class BoardServiceTest {
         }
     }
 
-    @Test
-    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
-    public void likeCntTest() {
-        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
-        long likeCnt = likeCntRepository.countByBoardNo(board);
-        System.out.println(likeCnt);
-    }
+//    @Test
+//    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
+//    public void likeCntTest() {
+//        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
+//        long likeCnt = likeCntRepository.countByBoardNo(board);
+//        System.out.println(likeCnt);
+//    }
 
     @Test
     @DisplayName("likeChecked 테스트, 내가 해당 게시물에 좋아요를 눌렀는지 누르지 않았는지")
@@ -80,4 +81,31 @@ class BoardServiceTest {
             likeCntRepository.save(likeCnt);
         }
     }
+
+    @Test
+    @DisplayName("postView 불러오기 테스트")
+    public void postViewTest() {
+        Board board = boardRepository.findById((long) 131).orElseThrow();
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setBoardNo((long) 131);
+        boardDTO.setTitle(board.getTitle());
+        boardDTO.setNickname(board.getUserId().getNickname());
+        boardDTO.setViews(board.getViews());
+        boardDTO.setWriteDate(board.getWriteDate());
+        boardDTO.setDetail(board.getDetail());
+        boardDTO.setIsChecked(board.getIsChecked());
+        boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
+    }
+
+    public boolean writeBoard(String id, String title, String detail, int isChecked){
+        Board board = new Board();
+        board.setUserId(memberRepository.findById(id).orElseThrow());
+        board.setTitle(title);
+        board.setDetail(detail);
+        board.setIsChecked(isChecked);
+        board.setWriteDate(LocalDateTime.now());
+        boardRepository.save(board);
+        return true;
+    }
+
 }
