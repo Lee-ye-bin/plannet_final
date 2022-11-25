@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter @Setter
 @ToString
@@ -21,7 +21,7 @@ public class Diary {
     private Member userId;
 
     @CreatedDate
-    private LocalDateTime diaryDate;
+    private LocalDate diaryDate;
 
     @Column(length = 2400, nullable = false)
     private String diary;
