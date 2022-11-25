@@ -11,6 +11,7 @@ import java.util.Map;
 public class WriteDTO {
     private String userId;
     private LocalDateTime date;
-    private List<Map<String, Object>> plan;
+    private List<Map<String, Object>> planList;
+    private Map<String, Object> plan;
     private String diary;
 }
