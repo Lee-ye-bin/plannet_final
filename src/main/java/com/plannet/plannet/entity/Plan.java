@@ -7,7 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter @Setter
 @ToString
@@ -25,7 +25,7 @@ public class Plan {
     private Member userId; // 회원 아이디
 
     @CreatedDate
-    private LocalDateTime planDate; // 일정 날짜
+    private LocalDate planDate; // 일정 날짜
 
     @Column(length = 1, nullable = false)
     @ColumnDefault("0")
