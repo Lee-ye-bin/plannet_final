@@ -1,7 +1,6 @@
 package com.plannet.plannet.controller;
 
 import com.plannet.plannet.service.HomeService;
-import com.plannet.plannet.service.MemberService;
 import com.plannet.plannet.vo.HomeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class HomeController {
     private final HomeService homeService;
+
     @PostMapping("/personal")
     public ResponseEntity<Map<String, Object>> personalHome(@RequestBody Map<String, String> userId) {
         String id = userId.get("id");

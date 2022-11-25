@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -47,7 +44,7 @@ public class BoardController {
         if (likeChecked) {
             return new ResponseEntity(likeChecked, HttpStatus.OK);
         } else {
-            return new ResponseEntity(likeChecked, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -58,12 +55,12 @@ public class BoardController {
         if (viewsChecked) {
             return new ResponseEntity(viewsChecked, HttpStatus.OK);
         } else {
-            return new ResponseEntity(viewsChecked, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     // 자유게시판 글 삭제하기
-    @GetMapping("/BoardDelete")
+    @GetMapping("/Board_delete")
     public ResponseEntity<Integer> boardDelete(@RequestParam Long boardNo) {
         boolean boardDelete = boardService.getboardDelete(boardNo);
         if (boardDelete) {

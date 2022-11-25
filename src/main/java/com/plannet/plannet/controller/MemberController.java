@@ -1,15 +1,11 @@
 package com.plannet.plannet.controller;
 
 import com.plannet.plannet.service.MemberService;
-import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,7 +32,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Boolean> registerMember(@RequestBody Map<String,String> regData) {
+    public ResponseEntity<Boolean> registerMember(@RequestBody Map<String, String> regData) {
         String id = regData.get("id");
         String pwd = regData.get("pwd");
         String name = regData.get("name");
@@ -44,7 +40,7 @@ public class MemberController {
         String nickname = regData.get("nickname");
         String tel =regData.get("tel");
 
-        boolean result = memberService.regMember(id,pwd,name,email,nickname,tel);
+        boolean result = memberService.regMember(id, pwd, name, email, nickname, tel);
         if(result){
             return new ResponseEntity(true, HttpStatus.OK);
         }
@@ -54,11 +50,11 @@ public class MemberController {
     }
 
     @PostMapping("/overlap_check")
-    public ResponseEntity<Boolean> overlapCheck (@RequestBody Map<String,String> checkData){
+    public ResponseEntity<Boolean> overlapCheck(@RequestBody Map<String, String> checkData){
         String uni = checkData.get("uni");
         String type = checkData.get("type");
 
-        boolean result = memberService.overlapCheck(uni,type);
+        boolean result = memberService.overlapCheck(uni, type);
         if(result){
             return new ResponseEntity(true, HttpStatus.OK);
         }

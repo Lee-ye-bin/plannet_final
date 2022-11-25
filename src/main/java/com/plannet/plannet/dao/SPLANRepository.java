@@ -9,6 +9,5 @@ import java.util.List;
 
 public interface SPLANRepository extends JpaRepository<SPLAN, Long> {
     List<SPLAN> findByCalNo(SCAL scal);
-
     List<SPLAN> findByCalNoAndPlanChecked(SCAL scal, int planChecked);
 }

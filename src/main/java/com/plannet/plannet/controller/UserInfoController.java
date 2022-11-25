@@ -1,6 +1,5 @@
 package com.plannet.plannet.controller;
 
-import com.plannet.plannet.service.MemberService;
 import com.plannet.plannet.service.UserInfoService;
 import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserInfoController {
     private UserInfoService userInfoService;
-
     public UserInfoController(UserInfoService userInfoService) {
         this.userInfoService = userInfoService;
     }
@@ -42,6 +40,7 @@ public class UserInfoController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
+
     //사용자 정보 불러오기
     @PostMapping("/info_load")
     public ResponseEntity<List<Object>> userInfoLoad(@RequestBody Map<String, String> userId) {
