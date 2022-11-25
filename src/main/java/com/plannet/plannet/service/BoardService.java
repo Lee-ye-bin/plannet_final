@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,24 +48,64 @@ public class BoardService {
         return boardDTOS;
     }
 
-    // LikeCnt 테이블에서 특정 'boardNo'을 기준으로 레코드 개수 세기
-    public long getLikeCnt(Board boardNo) {
-        Long likeCntList = likeCntRepository.countByBoardNo(boardNo);
-        return likeCntList;
+    // 보드 넘버에 해당하는 글의 상세페이지 불러오기
+    public BoardDTO getPostView(Long boardNo) {
+        Board board = boardRepository.findById(boardNo).orElseThrow();
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setBoardNo(boardNo);
+        boardDTO.setTitle(board.getTitle());
+        int isChecked = board.getIsChecked();
+        boardDTO.setIsChecked(isChecked);
+        if (isChecked == 0) boardDTO.setNickname(board.getUserId().getNickname());
+        else boardDTO.setNickname("익명");
+        boardDTO.setViews(board.getViews());
+        boardDTO.setWriteDate(board.getWriteDate());
+        boardDTO.setDetail(board.getDetail());
+        boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
+        return boardDTO;
     }
 
     // 내가 해당 게시물을 좋아요 눌렀는지 여부
     public boolean getLikeChecked(String id, Board boardNo) {
         Member member = memberRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         boolean CurrentLikeChecked = likeCntRepository.existsByUserIdAndBoardNo(member, boardNo);
-        if (CurrentLikeChecked) likeCntRepository.deleteByUserIdAndBoardNo(member, boardNo);
-        else {
-            LikeCnt likeCnt = new LikeCnt();
-            likeCnt.setUserId(member);
-            likeCnt.setBoardNo(boardNo);
-            likeCntRepository.save(likeCnt);
+        try {
+            if (CurrentLikeChecked) likeCntRepository.deleteByUserIdAndBoardNo(member, boardNo);
+            else {
+                LikeCnt likeCnt = new LikeCnt();
+                likeCnt.setUserId(member);
+                likeCnt.setBoardNo(boardNo);
+                likeCntRepository.save(likeCnt);
+            }
+            return CurrentLikeChecked;
+        } catch (Exception e) {
+            return false;
         }
-        return CurrentLikeChecked;
+    }
+
+    // 조회수 +1
+    public boolean getViews(Long boardNo) {
+        Board board = boardRepository.findById(boardNo).orElseThrow();
+        int CurrentViews = board.getViews() + 1;
+        try {
+            board.setViews(CurrentViews);
+            boardRepository.save(board);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // 자유게시판 글 작성하기
+    public boolean writeBoard(String id, String title, String detail, int isChecked){
+        Board board = new Board();
+        board.setUserId(memberRepository.findById(id).orElseThrow());
+        board.setTitle(title);
+        board.setDetail(detail);
+        board.setIsChecked(isChecked);
+        board.setWriteDate(LocalDateTime.now());
+        boardRepository.save(board);
+        return true;
     }
 
     // 자유게시판 글 삭제하기
@@ -84,15 +125,3 @@ public class BoardService {
 //        }
 //    }
 }
-
-////     얘는 테스트 중
-//   int likeCnt = (int)LikeCntRepository.countByBoardNo(e.getBoardNo());
-//    int likeCnt = (int)LikeCntRepository.countByBoardNo(e.getBoardNo());
-//            boardDTO.setLikeCnt(likeCnt);
-//                    int like
-//                    boardDTO.setIsLiked(e.getIsLiked());
-//
-//                    boardDTO.setCommentWriter(e.get);
-//                    boardDTO.setCommentDate();
-//                    boardDTO.setComment();
-//                    boardDTOS.add(boardDTO);
