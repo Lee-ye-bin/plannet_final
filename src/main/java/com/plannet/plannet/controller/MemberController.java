@@ -1,11 +1,15 @@
 package com.plannet.plannet.controller;
 
 import com.plannet.plannet.service.MemberService;
+import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -62,9 +66,8 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
-
     // 비밀번호 찾기 시 새 비밀번호 설정
-    @PutMapping("/new_pwd")
+    @PostMapping("/new_pwd")
     public ResponseEntity<Boolean> memberNewPwd(@RequestBody Map<String, String> newPwd) {
         String id = newPwd.get("id");
         String pwd = newPwd.get("pwd");
@@ -76,5 +79,17 @@ public class MemberController {
         else {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
+    }
+    // 아이디 비밀번호 찾기
+    @PostMapping("/find_check")
+    public ResponseEntity<List<MemberDTO>> memberFind(@RequestBody Map<String, String> memFind) {
+        String uni = memFind.get("uni");
+        String email = memFind.get("email");
+        String type = memFind.get("type");
+
+        MemberDTO memberDTO = memberService.memberFindCheck(uni, email, type);
+        if(memberDTO.isReg()) return new ResponseEntity(memberDTO.getId(), HttpStatus.OK);
+        else return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+
     }
 }

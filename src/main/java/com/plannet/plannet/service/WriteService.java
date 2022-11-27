@@ -31,7 +31,6 @@ public class WriteService {
     public boolean writeSave(String userId, LocalDate date, List<Map<String, Object>> plan, String diary) {
         // 회원 정보가 담긴 객체 가져옴
         Member member = memberRepository.findById(userId).orElseThrow(EmptyStackException::new);
-//        WriteDTO writeDTOs = new WriteDTO();
 
         // plan 저장
         for(Map<String, Object> p : plan) {
@@ -49,12 +48,12 @@ public class WriteService {
         }
         // diary 업데이트
         List<Diary> diaryList = diaryRepository.findByUserIdAndDiaryDate(member, date);
-                Diary diaries = new Diary();
-                diaries.setDiary(diary);
-                diaries.setUserId(member);
-                diaries.setDiaryDate(date);
-                Diary rst = diaryRepository.save(diaries);
-                log.warn(rst.toString());
+            Diary diaries = new Diary();
+            diaries.setDiary(diary);
+            diaries.setUserId(member);
+            diaries.setDiaryDate(date);
+            Diary rst = diaryRepository.save(diaries);
+            log.warn(rst.toString());
         return true;
     }
 }
