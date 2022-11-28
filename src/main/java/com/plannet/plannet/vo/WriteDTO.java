@@ -14,4 +14,5 @@ public class WriteDTO {
     private List<Map<String, Object>> planList;
     private Map<String, Object> plan;
     private String diary;
+    private boolean isOk;
 }

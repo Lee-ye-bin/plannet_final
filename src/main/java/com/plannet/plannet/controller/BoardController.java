@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -56,6 +59,22 @@ public class BoardController {
             return new ResponseEntity(viewsChecked, HttpStatus.OK);
         } else {
             return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/write_board")
+    public ResponseEntity<Boolean> writeBoard(@RequestBody Map<String, String> boardWriteDate) {
+        String id = boardWriteDate.get("id");
+        String title = boardWriteDate.get("title");
+        String detail = boardWriteDate.get("detail");
+        int isChecked = Integer.parseInt(boardWriteDate.get("isChecked"));
+
+        boolean result = boardService.writeBoard(id, title, detail, isChecked);
+        if(result) {
+            return new ResponseEntity(true, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
 
