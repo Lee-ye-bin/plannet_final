@@ -24,18 +24,15 @@ public class BoardService {
     private final BoardRepository boardRepository; // 의존성 주입을 받음
     private final LikeCntRepository likeCntRepository; // 의존성 주입을 받음
 
-
     // 보드 목록 불러오기
     public BoardDTO getBoardList() {
         BoardDTO boardDTO = new BoardDTO();
         List<Map<String, Object>> boardList = new ArrayList<>();
         try {
-            Member mem = memberRepository.findById("WriteInsert").orElseThrow(EmptyStackException::new);
-            List<Board> boardData = boardRepository.findByUserId(mem);
+            List<Board> boardData = boardRepository.findAllByOrderByBoardNoDesc();
             for (Board e : boardData) {
                 Map<String, Object> board = new HashMap<>();
                 board.put("boardNo", e.getBoardNo());
-                board.put("id", e.getUserId());
                 // 익명체크 여부 확인 후 닉네임 넣기
                 if(e.getIsChecked() == 0) {
                     board.put("nickname", e.getUserId().getNickname());
