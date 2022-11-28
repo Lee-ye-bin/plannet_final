@@ -53,10 +53,10 @@ class BoardServiceTest {
     @Test
     @DisplayName("comments 테이블")
     public void commentsListTest() {
-        for (int i = 1; i <= 15; i ++) {
+        for (int i = 1; i <= 10; i ++) {
             Comments comments = new Comments();
             // comments.setCommentNo(commentsRepository.findById().
-            comments.setBoardNo(boardRepository.findById((long)i).orElseThrow());
+            comments.setBoardNo(boardRepository.findById((long)(130 + i)).orElseThrow());
             comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
             comments.setWriteDate(LocalDateTime.now());
             comments.setDetail("댓글이다" + i);

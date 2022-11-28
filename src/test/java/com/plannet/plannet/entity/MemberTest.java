@@ -133,17 +133,17 @@ class MemberTest {
         memberDTO.setProImg(member.getProImg());
 
         //개인 일정 달성률 구하기
-//        List<WriteDTO> personalTotal = planRepository.findByUserId(userId);
-//        List<WriteDTO> personalEnd = planRepository.findByUserIdAndPlanChecked(userId, 1);
-//        int personalTotalCnt = 0; // 총 일정 갯수
-//        int personalEndCnt = 0; // 완료된 일정 갯수
-//        for(WriteDTO e : personalTotal) {
-//            personalTotalCnt++;
-//        }
-//        for(WriteDTO e : personalEnd) {
-//            personalEndCnt++;
-//        }
-//        memberDTO.setPes(personalTotalCnt * 100 / personalEndCnt);
+        List<WriteDTO> personalTotal = planRepository.findByUserId(userId);
+        List<WriteDTO> personalEnd = planRepository.findByUserIdAndPlanChecked(userId, 1);
+        int personalTotalCnt = 0; // 총 일정 갯수
+        int personalEndCnt = 0; // 완료된 일정 갯수
+        for(WriteDTO e : personalTotal) {
+            personalTotalCnt++;
+        }
+        for(WriteDTO e : personalEnd) {
+            personalEndCnt++;
+        }
+        memberDTO.setPes(personalTotalCnt * 100 / personalEndCnt);
 
 
     } // 테스트 끝 서비스로 옮겼음. 일부 테스트에 구현되어있지 않음

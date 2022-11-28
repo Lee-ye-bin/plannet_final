@@ -1,6 +1,7 @@
 package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.BoardRepository;
+
 import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.dao.MemberRepository;
@@ -11,31 +12,21 @@ import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
 @Service
 @RequiredArgsConstructor
 @Slf4j // log를 찍기 위한 어노테이션
 public class BoardService {
-    private MemberRepository memberRepository;
-    private BoardRepository boardRepository; // 의존성 주입을 받음
-    private LikeCntRepository likeCntRepository; // 의존성 주입을 받음
-    private CommentsRepository commentsRepository;
-    public BoardService(BoardRepository boardRepository, LikeCntRepository likeCntRepository, MemberRepository memberRepository, CommentsRepository commentsRepository) {
-        this.boardRepository = boardRepository;
-        this.likeCntRepository = likeCntRepository;
-        this.memberRepository = memberRepository;
-        this.commentsRepository = commentsRepository;
-    }
+    private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository; // 의존성 주입을 받음
+    private final LikeCntRepository likeCntRepository; // 의존성 주입을 받음
+    private final CommentsRepository commentsRepository;
 
     // 보드 목록 불러오기
     public BoardDTO getBoardList() {
@@ -133,6 +124,7 @@ public class BoardService {
             return false;
         }
     }
+
 //    // 자유게시판 글 수정하기
 //    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
 //        try {
