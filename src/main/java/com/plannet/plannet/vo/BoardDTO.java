@@ -23,9 +23,11 @@ public class BoardDTO {
 
     private String commentWriter;
     private LocalDateTime commentDate;
-    private String comment;
+    private String commentDetail;
     private boolean isOk;
 
    private List<Map<String, Object>> boardList;
+   private List<Map<String, Object>> commentList;
 }
+
 

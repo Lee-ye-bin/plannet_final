@@ -62,7 +62,7 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/write_board")
+    @PostMapping("/write")
     public ResponseEntity<Boolean> writeBoard(@RequestBody Map<String, String> boardWriteDate) {
         String id = boardWriteDate.get("id");
         String title = boardWriteDate.get("title");
@@ -99,21 +99,26 @@ public class BoardController {
 //            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
 //        }
 //    }
-
-    // 자유게시판 댓글 작성하기
-//    @GetMapping("/BoardCommentsCreate")
-//    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
-//        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
-//        if (boardCommentsCreate) {
-//            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
-//        }
-//    }
-
-//    // 자유게시판 댓글 불러오기
-//    @PostMapping("/BoardCommentLoad")
-//    public ResponseEntity<List<Object>> boardCommentLoad(@RequestBody Map<String, String> boardNo) {
 //
-//    }
+    // 자유게시판 댓글 작성하기
+    @GetMapping("/comment/write")
+    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
+        if (boardCommentsCreate) {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        }
+    }
+
+    // 자유게시판 댓글 불러오기
+    @PostMapping("/comment/load")
+    public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<Integer, Integer> boardNo) {
+        int num = boardNo.get("num");
+        BoardDTO boardDTO = boardService.commentsLoad(num);
+        if(boardDTO.isOk()) {
+            List<Map<String, Object>> commentList = boardDTO.getCommentList();
+            return new ResponseEntity(commentList, HttpStatus.OK);
+        } else return new ResponseEntity(null, HttpStatus.OK);
+    }
 }
