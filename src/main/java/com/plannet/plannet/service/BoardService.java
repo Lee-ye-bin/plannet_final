@@ -151,7 +151,7 @@ public boolean getcommentsCreate(Long boardNo, String id, String detail) {
     commentsRepository.save(comments);
     return true;
 }
-    // 자유게시판 댓글 불러오기
+    // 자유게시판 댓글 불러오기 //
     public BoardDTO commentsLoad (Integer boardNo) {
         BoardDTO boardDTO = new BoardDTO();
         try {
