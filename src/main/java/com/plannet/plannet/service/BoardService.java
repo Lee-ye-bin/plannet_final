@@ -134,6 +134,7 @@ public class BoardService {
             return false;
         }
     }
+
 //    // 자유게시판 글 수정하기
 //    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
 //        try {
@@ -141,17 +142,19 @@ public class BoardService {
 //
 //        }
 //    }
-// 자유게시판 댓글 작성하기
-public boolean getcommentsCreate(Long boardNo, String id, String detail) {
-    Comments comments = new Comments();
-    comments.setUserId(memberRepository.findById(id).orElseThrow());
-    comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
-    comments.setDetail(detail);
-    comments.setWriteDate(LocalDateTime.now());
-    commentsRepository.save(comments);
-    return true;
-}
-    // 자유게시판 댓글 불러오기 //
+
+    // 자유게시판 댓글 작성하기
+    public boolean getcommentsCreate(Long boardNo, String id, String detail) {
+        Comments comments = new Comments();
+        comments.setUserId(memberRepository.findById(id).orElseThrow());
+        comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+        comments.setDetail(detail);
+        comments.setWriteDate(LocalDateTime.now());
+        commentsRepository.save(comments);
+        return true;
+    }
+
+    // 자유게시판 댓글 불러오기
     public BoardDTO commentsLoad (Integer boardNo) {
         BoardDTO boardDTO = new BoardDTO();
         try {
