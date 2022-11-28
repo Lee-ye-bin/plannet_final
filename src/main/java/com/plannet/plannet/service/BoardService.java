@@ -10,46 +10,43 @@ import com.plannet.plannet.vo.BoardDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j // log를 찍기 위한 어노테이션
 public class BoardService {
-    private MemberRepository memberRepository;
-    private BoardRepository boardRepository; // 의존성 주입을 받음
-    private LikeCntRepository likeCntRepository; // 의존성 주입을 받음
-    public BoardService(BoardRepository boardRepository, LikeCntRepository likeCntRepository, MemberRepository memberRepository) {
-        this.boardRepository = boardRepository;
-        this.likeCntRepository = likeCntRepository;
-        this.memberRepository = memberRepository;
-    }
+    private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository; // 의존성 주입을 받음
+    private final LikeCntRepository likeCntRepository; // 의존성 주입을 받음
 
     // 보드 목록 불러오기
     public BoardDTO getBoardList() {
         BoardDTO boardDTO = new BoardDTO();
         List<Map<String, Object>> boardList = new ArrayList<>();
         try {
-            List<Board> boardData = boardRepository.findAll();
+            Member member = memberRepository.findById("WriteInsert").orElseThrow(EmptyStackException::new);
+            List<Board> boardData = boardRepository.findByUserId(member);
+
             for (Board e : boardData) {
                 Map<String, Object> board = new HashMap<>();
                 board.put("boardNo", e.getBoardNo());
                 board.put("id", e.getUserId());
+
                 // 익명체크 여부 확인 후 닉네임 넣기
                 if(e.getIsChecked() == 0) {
                     board.put("nickname", e.getUserId().getNickname());
                 } else board.put("nickname", "익명");
-                board.put("title", e.getTitle());
-                board.put("views", e.getViews());
-                board.put("writeDate", e.getWriteDate());
-                boardList.add(board);
+                    board.put("title", e.getTitle());
+                    board.put("views", e.getViews());
+                    board.put("writeDate", e.getWriteDate());
+                    boardList.add(board);
             }
             boardDTO.setBoardList(boardList);
             boardDTO.setOk(true);
@@ -109,13 +106,30 @@ public class BoardService {
 
     // 자유게시판 글 작성하기
     public boolean writeBoard(String id, String title, String detail, int isChecked){
+        System.out.print("1");
+        Member mem = memberRepository.findById(id).orElseThrow(EmptyStackException::new);
+        System.out.println(mem.getId());
+        System.out.print("2");
         Board board = new Board();
-        board.setUserId(memberRepository.findById(id).orElseThrow());
-        board.setTitle(title);
-        board.setDetail(detail);
-        board.setIsChecked(isChecked);
-        board.setWriteDate(LocalDateTime.now());
-        boardRepository.save(board);
+        System.out.print("3" + isChecked);
+        // 0이 공개
+        if(isChecked != 0) {
+            System.out.print("1");
+            board.setUserId(mem);
+            board.setTitle(title);
+            board.setDetail(detail);
+            board.setIsChecked(isChecked);
+            board.setWriteDate(LocalDateTime.now());
+            boardRepository.save(board);
+        } else {
+            board.setUserId(mem);
+            board.setTitle(title);
+            board.setDetail(detail);
+            board.setIsChecked(0);
+            board.setWriteDate(LocalDateTime.now());
+            boardRepository.save(board);
+        }
+
         return true;
     }
 
