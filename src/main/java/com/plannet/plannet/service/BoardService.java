@@ -1,6 +1,7 @@
 package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.BoardRepository;
+
 import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.dao.MemberRepository;
@@ -25,6 +26,7 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository; // 의존성 주입을 받음
     private final LikeCntRepository likeCntRepository; // 의존성 주입을 받음
+    private final CommentsRepository commentsRepository;
 
     // 보드 목록 불러오기
     public BoardDTO getBoardList() {
