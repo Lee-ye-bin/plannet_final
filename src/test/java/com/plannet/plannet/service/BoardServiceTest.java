@@ -55,7 +55,7 @@ class BoardServiceTest {
     public void commentsListTest() {
         for (int i = 1; i <= 15; i ++) {
             Comments comments = new Comments();
-            // comments.setCommentNo(commentsRepository.findById()
+            // comments.setCommentNo(commentsRepository.findById().
             comments.setBoardNo(boardRepository.findById((long)i).orElseThrow());
             comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
             comments.setWriteDate(LocalDateTime.now());
