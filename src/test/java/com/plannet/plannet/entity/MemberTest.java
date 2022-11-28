@@ -24,7 +24,7 @@ import java.util.*;
 @SpringBootTest
 @Transactional
 @Slf4j
-@TestPropertySource(locations = "classpath:application-test.properties")
+//@TestPropertySource(locations = "classpath:application-test.properties")
 class MemberTest {
     @Autowired
     MemberRepository memberRepository;
@@ -100,9 +100,9 @@ class MemberTest {
         for(int i = 1; i < 6; i++){
             SPLAN splan = new SPLAN();
             Member owner = memberRepository.findById("test_id_2").orElseThrow();
-            SCAL scal = scalRepository.findByUserId(owner);
-            splan.setCalNo(scal);
-            splan.setPlanDate(LocalDateTime.now());
+            List<SCAL> scal = scalRepository.findByUserId(owner);
+            splan.setCalNo(scal.get(0));
+            splan.setPlanDate(LocalDate.now());
             Member member = memberRepository.findById("test_id_" + i).orElseThrow();
             splan.setUserId(member);
             if(i % 2 == 0) splan.setPlanChecked(1);

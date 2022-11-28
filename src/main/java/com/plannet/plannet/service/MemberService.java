@@ -6,6 +6,7 @@ import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -19,10 +20,9 @@ public class MemberService {
     }
 
     public boolean loginCheck (String id, String pwd){
-        try{
-            memberRepository.findByIdAndPwd(id,pwd);
-            return true;
-        }catch (Exception e){
+        try {
+            return memberRepository.findById(id).orElseThrow(EntityNotFoundException::new).getPwd().equals(pwd);
+        } catch (Exception e) {
             return false;
         }
     }
