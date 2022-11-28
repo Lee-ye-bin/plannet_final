@@ -58,7 +58,7 @@ class MemberTest {
                 Plan plan = new Plan();
                 plan.setUserId(member);
                 plan.setPlan(i + "의 " + j + "번째 일정");
-                plan.setPlanDate(LocalDateTime.now());
+//                plan.setPlanDate(LocalDateTime.now());
                 if(j % 2 == 1) plan.setPlanChecked(1);
                 else plan.setPlanChecked(0);
                 planRepository.save(plan);
@@ -120,23 +120,23 @@ class MemberTest {
         memberDTO.setTel(member.getTel());
         memberDTO.setProImg(member.getProImg());
 
-        //개인 일정 달성률 구하기
-        List<WriteDTO> personalTotal = planRepository.findByUserId(userId);
-        List<WriteDTO> personalEnd = planRepository.findByUserIdAndPlanChecked(userId, 1);
-        int personalTotalCnt = 0; // 총 일정 갯수
-        int personalEndCnt = 0; // 완료된 일정 갯수
-        for(WriteDTO e : personalTotal) {
-            personalTotalCnt++;
-        }
-        for(WriteDTO e : personalEnd) {
-            personalEndCnt++;
-        }
-        memberDTO.setPes(personalTotalCnt * 100 / personalEndCnt);
-
-        // 공유캘린더정보 불러오기
-        List<SMEM> smemList = smemRepository.findByUserId(member);
-        List<ShareDTO> shareDTOS = new ArrayList<>();
-        ShareDTO shareDTO = new ShareDTO();
-        memberDTO.setSCalList(shareDTOS);
+//        //개인 일정 달성률 구하기
+//        List<WriteDTO> personalTotal = planRepository.findByUserId(userId);
+//        List<WriteDTO> personalEnd = planRepository.findByUserIdAndPlanChecked(userId, 1);
+//        int personalTotalCnt = 0; // 총 일정 갯수
+//        int personalEndCnt = 0; // 완료된 일정 갯수
+//        for(WriteDTO e : personalTotal) {
+//            personalTotalCnt++;
+//        }
+//        for(WriteDTO e : personalEnd) {
+//            personalEndCnt++;
+//        }
+//        memberDTO.setPes(personalTotalCnt * 100 / personalEndCnt);
+//
+//        // 공유캘린더정보 불러오기
+//        List<SMEM> smemList = smemRepository.findByUserId(member);
+//        List<ShareDTO> shareDTOS = new ArrayList<>();
+//        ShareDTO shareDTO = new ShareDTO();
+//        memberDTO.setSCalList(shareDTOS);
     }
 }

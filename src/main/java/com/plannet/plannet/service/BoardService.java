@@ -1,9 +1,11 @@
 package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.BoardRepository;
+import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.dao.MemberRepository;
 import com.plannet.plannet.entity.Board;
+import com.plannet.plannet.entity.Comments;
 import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
@@ -27,10 +29,12 @@ public class BoardService {
     private MemberRepository memberRepository;
     private BoardRepository boardRepository; // 의존성 주입을 받음
     private LikeCntRepository likeCntRepository; // 의존성 주입을 받음
-    public BoardService(BoardRepository boardRepository, LikeCntRepository likeCntRepository, MemberRepository memberRepository) {
+    private CommentsRepository commentsRepository;
+    public BoardService(BoardRepository boardRepository, LikeCntRepository likeCntRepository, MemberRepository memberRepository, CommentsRepository commentsRepository) {
         this.boardRepository = boardRepository;
         this.likeCntRepository = likeCntRepository;
         this.memberRepository = memberRepository;
+        this.commentsRepository = commentsRepository;
     }
 
     // 보드 목록 불러오기
@@ -136,4 +140,14 @@ public class BoardService {
 //
 //        }
 //    }
+    // 자유게시판 댓글 작성하기
+    public boolean getcommentsCreate(Long boardNo, String id, String detail) {
+        Comments comments = new Comments();
+        comments.setUserId(memberRepository.findById(id).orElseThrow());
+        comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+        comments.setDetail(detail);
+        comments.setWriteDate(LocalDateTime.now());
+        commentsRepository.save(comments);
+        return true;
+    }
 }

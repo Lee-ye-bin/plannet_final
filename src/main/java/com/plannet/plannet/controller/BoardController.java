@@ -66,31 +66,31 @@ public class BoardController {
         if (boardDelete) {
             return new ResponseEntity(boardDelete, HttpStatus.OK);
         } else {
-            return new ResponseEntity(boardDelete, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(boardDelete, HttpStatus.OK);
         }
     }
     
-    // 자유게시판 글 수정하기
-    @GetMapping("/BoardEdit")
-    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {
-        boolean boardEdit = boardService.getboardEdit(id, boardNo, title, detail);
-        if (boardEdit) {
-            return new ResponseEntity(boardEdit, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-//    // 자유게시판 댓글 작성하기
-//    @GetMapping("/BoardCommentCreate")
-//    public ResponseEntity<Integer> boardCommentCreate(@RequestParam int boardNo, String id, String detail) {
-//        boolean boardCommentCreate = boardService.getboardCommentCreate(boardNo, id, detail);
-//        if (boardCommentCreate) {
-//            return new ResponseEntity(boardCommentCreate, HttpStatus.OK);
+//    // 자유게시판 글 수정하기
+//    @GetMapping("/BoardEdit")
+//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {
+//        boolean boardEdit = boardService.getboardEdit(id, boardNo, title, detail);
+//        if (boardEdit) {
+//            return new ResponseEntity(boardEdit, HttpStatus.OK);
 //        } else {
-//            return new ResponseEntity(boardCommentCreate, HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
 //        }
 //    }
+
+    // 자유게시판 댓글 작성하기
+    @GetMapping("/BoardCommentsCreate")
+    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
+        if (boardCommentsCreate) {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        }
+    }
 
 //    // 자유게시판 댓글 불러오기
 //    @PostMapping("/BoardCommentLoad")
