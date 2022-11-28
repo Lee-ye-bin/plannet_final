@@ -7,7 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter @Setter
 @ToString
@@ -23,7 +23,7 @@ public class SPLAN {
     private SCAL calNo;
 
     @CreatedDate
-    private LocalDateTime planDate;
+    private LocalDate planDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")

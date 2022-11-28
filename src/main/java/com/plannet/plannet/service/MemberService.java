@@ -6,6 +6,7 @@ import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -19,10 +20,9 @@ public class MemberService {
     }
 
     public boolean loginCheck (String id, String pwd){
-        try{
-            memberRepository.findByIdAndPwd(id,pwd);
-            return true;
-        }catch (Exception e){
+        try {
+            return memberRepository.findById(id).orElseThrow(EntityNotFoundException::new).getPwd().equals(pwd);
+        } catch (Exception e) {
             return false;
         }
     }
@@ -41,24 +41,26 @@ public class MemberService {
         return true;
     }
     public boolean overlapCheck (String uni, String type){
-        boolean isNotReg = false;
-        String a = null;
+        Member member = new Member();
+        MemberDTO memberDTO = new MemberDTO();
         char t = type.charAt(5);
         switch (t){
             case 'I' :
-                a= String.valueOf(memberRepository.findById(uni));
+                member = memberRepository.findById(uni).orElseThrow();
+                memberDTO.setNotOverlap(false);
                 break;
             case 'E' :
-                a= String.valueOf(memberRepository.findByEmail(uni));
+                member = memberRepository.findByEmail(uni);
+                if(member != null) memberDTO.setNotOverlap(false);
+                else memberDTO.setNotOverlap(true);
                 break;
             case 'T' :
-                a= String.valueOf(memberRepository.findByTel(uni));
+                member = memberRepository.findByTel(uni);
+                if(member != null) memberDTO.setNotOverlap(false);
+                else memberDTO.setNotOverlap(true);
                 break;
         }
-
-        if(a != null ) isNotReg=false;
-        else isNotReg=true;
-        return isNotReg;
+        return memberDTO.isNotOverlap();
     }
     // 아이디 비밀번호 찾기
     public MemberDTO memberFindCheck(String uni, String email, String type) {

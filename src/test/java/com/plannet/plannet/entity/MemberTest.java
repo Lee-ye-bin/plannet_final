@@ -1,6 +1,7 @@
 package com.plannet.plannet.entity;
 
 import com.plannet.plannet.dao.*;
+import com.plannet.plannet.vo.HomeDTO;
 import com.plannet.plannet.vo.MemberDTO;
 import com.plannet.plannet.vo.ShareDTO;
 import com.plannet.plannet.vo.WriteDTO;
@@ -14,13 +15,16 @@ import org.springframework.test.context.TestPropertySource;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 @SpringBootTest
 @Transactional
 @Slf4j
-//@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 class MemberTest {
     @Autowired
     MemberRepository memberRepository;
@@ -58,7 +62,7 @@ class MemberTest {
                 Plan plan = new Plan();
                 plan.setUserId(member);
                 plan.setPlan(i + "의 " + j + "번째 일정");
-//                plan.setPlanDate(LocalDateTime.now());
+                plan.setPlanDate(LocalDate.now());
                 if(j % 2 == 1) plan.setPlanChecked(1);
                 else plan.setPlanChecked(0);
                 planRepository.save(plan);
@@ -120,7 +124,7 @@ class MemberTest {
         memberDTO.setTel(member.getTel());
         memberDTO.setProImg(member.getProImg());
 
-//        //개인 일정 달성률 구하기
+        //개인 일정 달성률 구하기
 //        List<WriteDTO> personalTotal = planRepository.findByUserId(userId);
 //        List<WriteDTO> personalEnd = planRepository.findByUserIdAndPlanChecked(userId, 1);
 //        int personalTotalCnt = 0; // 총 일정 갯수
@@ -132,11 +136,47 @@ class MemberTest {
 //            personalEndCnt++;
 //        }
 //        memberDTO.setPes(personalTotalCnt * 100 / personalEndCnt);
-//
-//        // 공유캘린더정보 불러오기
-//        List<SMEM> smemList = smemRepository.findByUserId(member);
-//        List<ShareDTO> shareDTOS = new ArrayList<>();
-//        ShareDTO shareDTO = new ShareDTO();
-//        memberDTO.setSCalList(shareDTOS);
+
+
+    } // 테스트 끝 서비스로 옮겼음. 일부 테스트에 구현되어있지 않음
+
+    @Test
+    @Rollback(value = false)
+    @DisplayName("일주일 일정")
+    public void weekList() {
+        String id = "test_id_1";
+        Member member = memberRepository.findById(id).orElseThrow();
+        HomeDTO homeDTO = new HomeDTO();
+
+        LocalDate[] weekDay = {
+            LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)),
+            LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)),
+            LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.TUESDAY)),
+            LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.WEDNESDAY)),
+            LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.THURSDAY)),
+            LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.FRIDAY)),
+            LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SATURDAY))
+        };
+        List<List<Map<String, Object>>> weekPlan = new ArrayList<>();
+        for(int i = 0; i < 7; i++) {
+            List<Map<String, Object>> dayPlan = new ArrayList<>();
+            List<Plan> dayPlanOrigin = planRepository.findByUserIdAndPlanDateOrderByPlanNoAsc(member, weekDay[i]);
+            for(Plan e : dayPlanOrigin) {
+                Map<String, Object> plan = new HashMap<>();
+                plan.put("no", e.getPlanNo());
+                plan.put("plan", e.getPlan());
+                plan.put("checked", e.getPlanChecked());
+                dayPlan.add(plan);
+            }
+            weekPlan.add(dayPlan);
+        }
+        homeDTO.setWeekPlan(weekPlan);
+        System.out.println(weekPlan);
+    }
+    @Test
+    @Rollback(value = false)
+    @DisplayName("달력 dot")
+    public void calDot() {
+
     }
 }
