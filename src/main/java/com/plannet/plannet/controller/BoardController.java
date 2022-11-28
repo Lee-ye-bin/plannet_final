@@ -62,7 +62,7 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/write_board")
+    @PostMapping("/write")
     public ResponseEntity<Boolean> writeBoard(@RequestBody Map<String, String> boardWriteDate) {
         String id = boardWriteDate.get("id");
         String title = boardWriteDate.get("title");
