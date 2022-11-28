@@ -39,7 +39,7 @@ public class WriteController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(false, HttpStatus.OK);
         }
     }
     //일정 불러오기
@@ -56,7 +56,7 @@ public class WriteController {
             return new ResponseEntity(writeData, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 

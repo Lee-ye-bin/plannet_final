@@ -49,7 +49,7 @@ public class MemberController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(false, HttpStatus.OK);
         }
     }
 
@@ -63,8 +63,19 @@ public class MemberController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(false, HttpStatus.OK);
         }
+    }
+    // 아이디 비밀번호 찾기
+    @PostMapping("/find_check")
+    public ResponseEntity<List<MemberDTO>> memberFind(@RequestBody Map<String, String> memFind) {
+        String uni = memFind.get("uni");
+        String email = memFind.get("email");
+        String type = memFind.get("type");
+
+        MemberDTO memberDTO = memberService.memberFindCheck(uni, email, type);
+        if(memberDTO.isReg()) return new ResponseEntity(memberDTO.getId(), HttpStatus.OK);
+        else return new ResponseEntity(false, HttpStatus.OK);
     }
     // 비밀번호 찾기 시 새 비밀번호 설정
     @PostMapping("/new_pwd")
@@ -77,19 +88,7 @@ public class MemberController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(false, HttpStatus.OK);
         }
-    }
-    // 아이디 비밀번호 찾기
-    @PostMapping("/find_check")
-    public ResponseEntity<List<MemberDTO>> memberFind(@RequestBody Map<String, String> memFind) {
-        String uni = memFind.get("uni");
-        String email = memFind.get("email");
-        String type = memFind.get("type");
-
-        MemberDTO memberDTO = memberService.memberFindCheck(uni, email, type);
-        if(memberDTO.isReg()) return new ResponseEntity(memberDTO.getId(), HttpStatus.OK);
-        else return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
-
     }
 }
