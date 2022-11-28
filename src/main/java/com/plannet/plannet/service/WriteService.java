@@ -59,8 +59,6 @@ public class WriteService {
     public WriteDTO writeLoad(String id, LocalDate date) {
         WriteDTO writeDTO = new WriteDTO();
         try{
-//            String[] dates = dateStr.split("-");
-//            LocalDate date = LocalDate.of(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
             Member member = memberRepository.findById(id).orElseThrow();
             List<Plan> plans = planRepository.findByUserIdAndPlanDateOrderByPlanNoAsc(member, date);
             List<Map<String, Object>> planList = new ArrayList<>();
@@ -73,8 +71,12 @@ public class WriteService {
                 planList.add(plan);
             }
             writeDTO.setPlanList(planList);
+            List<Diary> diaryList = diaryRepository.findByUserIdAndDiaryDate(member, date);
+            if(diaryList.size() != 0) {
+                String diary = diaryList.get(0).getDiary();
+                writeDTO.setDiary(diary);
+            } else writeDTO.setDiary("");
             //다이어리 담기
-            writeDTO.setDiary(diaryRepository.findByUserIdAndDiaryDate(member, date).get(0).getDiary());
             writeDTO.setOk(true);
         } catch (Exception e) {
             writeDTO.setOk(false);
