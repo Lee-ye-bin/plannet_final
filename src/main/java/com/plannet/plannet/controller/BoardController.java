@@ -101,15 +101,15 @@ public class BoardController {
 //    }
 
     // 자유게시판 댓글 작성하기
-    @GetMapping("/BoardCommentsCreate")
-    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
-        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
-        if (boardCommentsCreate) {
-            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
-        }
-    }
+//    @GetMapping("/BoardCommentsCreate")
+//    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+//        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
+//        if (boardCommentsCreate) {
+//            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+//        }
+//    }
 
 //    // 자유게시판 댓글 불러오기
 //    @PostMapping("/BoardCommentLoad")
