@@ -37,7 +37,7 @@ public class UserInfoController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(false, HttpStatus.OK);
         }
     }
 
