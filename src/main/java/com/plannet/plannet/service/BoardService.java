@@ -1,19 +1,26 @@
 package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.BoardRepository;
+import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.dao.MemberRepository;
 import com.plannet.plannet.entity.Board;
+import com.plannet.plannet.entity.Comments;
 import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.ExemptionMechanismException;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
 @Service
@@ -33,6 +40,7 @@ public class BoardService {
             for (Board e : boardData) {
                 Map<String, Object> board = new HashMap<>();
                 board.put("boardNo", e.getBoardNo());
+                board.put("id", e.getUserId());
                 // 익명체크 여부 확인 후 닉네임 넣기
                 if(e.getIsChecked() == 0) {
                     board.put("nickname", e.getUserId().getNickname());
@@ -127,14 +135,37 @@ public class BoardService {
 //
 //        }
 //    }
-// 자유게시판 댓글 작성하기
-//public boolean getcommentsCreate(Long boardNo, String id, String detail) {
-//    Comments comments = new Comments();
-//    comments.setUserId(memberRepository.findById(id).orElseThrow());
-//    comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
-//    comments.setDetail(detail);
-//    comments.setWriteDate(LocalDateTime.now());
-//    commentsRepository.save(comments);
-//    return true;
-//}
+
+    // 자유게시판 댓글 작성하기
+    public boolean getcommentsCreate(Long boardNo, String id, String detail) {
+        Comments comments = new Comments();
+        comments.setUserId(memberRepository.findById(id).orElseThrow());
+        comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+        comments.setDetail(detail);
+        comments.setWriteDate(LocalDateTime.now());
+        commentsRepository.save(comments);
+        return true;
+    }
+
+    // 자유게시판 댓글 불러오기
+    public BoardDTO commentsLoad (Integer boardNo) {
+        BoardDTO boardDTO = new BoardDTO();
+        try {
+            List<Map<String, Object>> commentList = new ArrayList<>();
+            Board board = boardRepository.findById((long)boardNo).orElseThrow(ExemptionMechanismException::new);
+            List<Comments> data = commentsRepository.findByBoardNo(board);
+            for (Comments e : data) {
+                Map<String, Object> comment = new HashMap<>();
+                comment.put("nickname", e.getUserId().getNickname());
+                comment.put("detail", e.getDetail());
+                comment.put("date", e.getWriteDate());
+                commentList.add(comment);
+            }
+            boardDTO.setCommentList(commentList);
+            boardDTO.setOk(true);
+        } catch (Exception e) {
+            boardDTO.setOk(false);
+        }
+        return boardDTO;
+    }
 }

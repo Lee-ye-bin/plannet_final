@@ -91,4 +91,15 @@ public class MemberController {
             return new ResponseEntity(false, HttpStatus.OK);
         }
     }
+    @PostMapping("/member_delete")
+    public ResponseEntity<Boolean> memberDelete(@RequestBody Map<String,String> delete){
+        String id = delete.get("id");
+        boolean member = memberService.deleteMember(id);
+        if(member){
+            return new ResponseEntity(true,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity(false,HttpStatus.OK);
+        }
+    }
 }
