@@ -41,23 +41,26 @@ public class MemberService {
         return true;
     }
     public boolean overlapCheck (String uni, String type){
-        boolean isNotReg = false;
         Member member = new Member();
+        MemberDTO memberDTO = new MemberDTO();
         char t = type.charAt(5);
         switch (t){
             case 'I' :
                 member = memberRepository.findById(uni).orElseThrow();
+                memberDTO.setNotOverlap(false);
                 break;
             case 'E' :
                 member = memberRepository.findByEmail(uni);
+                if(member != null) memberDTO.setNotOverlap(false);
+                else memberDTO.setNotOverlap(true);
                 break;
             case 'T' :
                 member = memberRepository.findByTel(uni);
+                if(member != null) memberDTO.setNotOverlap(false);
+                else memberDTO.setNotOverlap(true);
                 break;
         }
-        if(member != null ) isNotReg=false;
-        else isNotReg=true;
-        return isNotReg;
+        return memberDTO.isNotOverlap();
     }
     // 아이디 비밀번호 찾기
     public MemberDTO memberFindCheck(String uni, String email, String type) {
