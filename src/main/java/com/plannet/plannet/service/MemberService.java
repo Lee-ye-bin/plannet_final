@@ -46,8 +46,9 @@ public class MemberService {
         char t = type.charAt(5);
         switch (t){
             case 'I' :
-                member = memberRepository.findById(uni).orElseThrow();
-                memberDTO.setNotOverlap(false);
+                member = memberRepository.findById(uni).orElseThrow(null);
+                if(member != null) memberDTO.setNotOverlap(false);
+                else memberDTO.setNotOverlap(true);
                 break;
             case 'E' :
                 member = memberRepository.findByEmail(uni);
