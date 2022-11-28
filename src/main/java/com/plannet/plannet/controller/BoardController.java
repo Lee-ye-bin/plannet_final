@@ -30,7 +30,7 @@ public class BoardController {
         BoardDTO boardList = boardService.getBoardList();
         if(boardList.isOk()) {
             return new ResponseEntity(boardList.getBoardList(), HttpStatus.OK);
-        } else return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity(null, HttpStatus.OK);
     }
 
     // 특정 보드넘버의 게시물 내용 불러오기 + 좋아요 수
@@ -47,7 +47,7 @@ public class BoardController {
         if (likeChecked) {
             return new ResponseEntity(likeChecked, HttpStatus.OK);
         } else {
-            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 
@@ -58,7 +58,7 @@ public class BoardController {
         if (viewsChecked) {
             return new ResponseEntity(viewsChecked, HttpStatus.OK);
         } else {
-            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 
@@ -74,7 +74,7 @@ public class BoardController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 
