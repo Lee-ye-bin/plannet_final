@@ -11,9 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.EmptyStackException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -55,5 +53,32 @@ public class WriteService {
             Diary rst = diaryRepository.save(diaries);
             log.warn(rst.toString());
         return true;
+    }
+
+    // 일정 불러오기
+    public WriteDTO writeLoad(String id, LocalDate date) {
+        WriteDTO writeDTO = new WriteDTO();
+        try{
+//            String[] dates = dateStr.split("-");
+//            LocalDate date = LocalDate.of(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
+            Member member = memberRepository.findById(id).orElseThrow();
+            List<Plan> plans = planRepository.findByUserIdAndPlanDateOrderByPlanNoAsc(member, date);
+            List<Map<String, Object>> planList = new ArrayList<>();
+            for (Plan e : plans) {
+                Map<String, Object> plan = new HashMap<>();
+                plan.put("key", e.getPlanNo());
+                plan.put("checked", e.getPlanChecked());
+                plan.put("text", e.getPlan());
+                plan.put("deleted", false);
+                planList.add(plan);
+            }
+            writeDTO.setPlanList(planList);
+            //다이어리 담기
+            writeDTO.setDiary(diaryRepository.findByUserIdAndDiaryDate(member, date).get(0).getDiary());
+            writeDTO.setOk(true);
+        } catch (Exception e) {
+            writeDTO.setOk(false);
+        }
+        return writeDTO;
     }
 }
