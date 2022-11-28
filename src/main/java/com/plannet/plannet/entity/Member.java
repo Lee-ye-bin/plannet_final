@@ -3,6 +3,7 @@ package com.plannet.plannet.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -48,5 +49,6 @@ public class Member {
     private String memo;
 
     @Column(length = 200)
+    @ColumnDefault("userdefault.png")
     private String proImg;
 }

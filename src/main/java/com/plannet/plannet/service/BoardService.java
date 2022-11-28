@@ -9,7 +9,6 @@ import com.plannet.plannet.entity.Comments;
 import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
-import com.plannet.plannet.vo.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,16 +141,16 @@ public class BoardService {
 //
 //        }
 //    }
-    // 자유게시판 댓글 작성하기
-    public boolean getcommentsCreate(Long boardNo, String id, String detail) {
-        Comments comments = new Comments();
-        comments.setUserId(memberRepository.findById(id).orElseThrow());
-        comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
-        comments.setDetail(detail);
-        comments.setWriteDate(LocalDateTime.now());
-        commentsRepository.save(comments);
-        return true;
-    }
+// 자유게시판 댓글 작성하기
+public boolean getcommentsCreate(Long boardNo, String id, String detail) {
+    Comments comments = new Comments();
+    comments.setUserId(memberRepository.findById(id).orElseThrow());
+    comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+    comments.setDetail(detail);
+    comments.setWriteDate(LocalDateTime.now());
+    commentsRepository.save(comments);
+    return true;
+}
     // 자유게시판 댓글 불러오기
     public BoardDTO commentsLoad (Integer boardNo) {
         BoardDTO boardDTO = new BoardDTO();
