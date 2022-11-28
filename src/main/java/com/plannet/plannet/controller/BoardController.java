@@ -100,25 +100,25 @@ public class BoardController {
 //        }
 //    }
 //
-//    // 자유게시판 댓글 작성하기
-//    @GetMapping("/comment/write")
-//    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
-//        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
-//        if (boardCommentsCreate) {
-//            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
-//        }
-//    }
-//
-//    // 자유게시판 댓글 불러오기
-//    @PostMapping("/comment/load")
-//    public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<Integer, Integer> boardNo) {
-//        int num = boardNo.get("num");
-//        BoardDTO boardDTO = boardService.commentsLoad(num);
-//        if(boardDTO.isOk()) {
-//            List<Map<String, Object>> commentList = boardDTO.getCommentList();
-//            return new ResponseEntity(commentList, HttpStatus.OK);
-//        } else return new ResponseEntity(null, HttpStatus.OK);
-//    }
+    // 자유게시판 댓글 작성하기
+    @GetMapping("/comment/write")
+    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
+        if (boardCommentsCreate) {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        }
+    }
+
+    // 자유게시판 댓글 불러오기
+    @PostMapping("/comment/load")
+    public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<Integer, Integer> boardNo) {
+        int num = boardNo.get("num");
+        BoardDTO boardDTO = boardService.commentsLoad(num);
+        if(boardDTO.isOk()) {
+            List<Map<String, Object>> commentList = boardDTO.getCommentList();
+            return new ResponseEntity(commentList, HttpStatus.OK);
+        } else return new ResponseEntity(null, HttpStatus.OK);
+    }
 }
