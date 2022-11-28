@@ -30,7 +30,7 @@ public class BoardController {
         BoardDTO boardList = boardService.getBoardList();
         if(boardList.isOk()) {
             return new ResponseEntity(boardList.getBoardList(), HttpStatus.OK);
-        } else return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity(null, HttpStatus.OK);
     }
 
     // 특정 보드넘버의 게시물 내용 불러오기 + 좋아요 수
@@ -47,7 +47,7 @@ public class BoardController {
         if (likeChecked) {
             return new ResponseEntity(likeChecked, HttpStatus.OK);
         } else {
-            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 
@@ -58,7 +58,7 @@ public class BoardController {
         if (viewsChecked) {
             return new ResponseEntity(viewsChecked, HttpStatus.OK);
         } else {
-            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 
@@ -74,7 +74,7 @@ public class BoardController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 
@@ -85,7 +85,7 @@ public class BoardController {
         if (boardDelete) {
             return new ResponseEntity(boardDelete, HttpStatus.OK);
         } else {
-            return new ResponseEntity(boardDelete, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(boardDelete, HttpStatus.OK);
         }
     }
     
@@ -98,5 +98,22 @@ public class BoardController {
 //        } else {
 //            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
 //        }
+//    }
+
+    // 자유게시판 댓글 작성하기
+    @GetMapping("/BoardCommentsCreate")
+    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+        boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
+        if (boardCommentsCreate) {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
+        }
+    }
+
+//    // 자유게시판 댓글 불러오기
+//    @PostMapping("/BoardCommentLoad")
+//    public ResponseEntity<List<Object>> boardCommentLoad(@RequestBody Map<String, String> boardNo) {
+//
 //    }
 }

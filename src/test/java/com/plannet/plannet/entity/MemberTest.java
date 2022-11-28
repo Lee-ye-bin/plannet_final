@@ -24,7 +24,7 @@ import java.util.*;
 @SpringBootTest
 @Transactional
 @Slf4j
-//@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 class MemberTest {
     @Autowired
     MemberRepository memberRepository;
@@ -36,8 +36,6 @@ class MemberTest {
     SMEMRepository smemRepository;
     @Autowired
     SPLANRepository splanRepository;
-    @Autowired
-    QuoteRepository quoteRepository;
 
     @Test
     @Rollback(value = false)
@@ -100,21 +98,15 @@ class MemberTest {
         for(int i = 1; i < 6; i++){
             SPLAN splan = new SPLAN();
             Member owner = memberRepository.findById("test_id_2").orElseThrow();
-            List<SCAL> scal = scalRepository.findByUserId(owner);
-            splan.setCalNo(scal.get(0));
-            splan.setPlanDate(LocalDate.now());
+            SCAL scal = scalRepository.findByUserId(owner);
+            splan.setCalNo(scal);
+            splan.setPlanDate(LocalDateTime.now());
             Member member = memberRepository.findById("test_id_" + i).orElseThrow();
             splan.setUserId(member);
             if(i % 2 == 0) splan.setPlanChecked(1);
             else splan.setPlanChecked(0);
             splan.setPlan("101번 캘린더의" + i + "번째 일정입니다");
             splanRepository.save(splan);
-        }
-        //quote
-        for(int i = 0; i < 30; i++){
-            Quote quote = new Quote();
-            quote.setQuote("명언" + i);
-            quoteRepository.save(quote);
         }
     }
 
@@ -179,61 +171,12 @@ class MemberTest {
             weekPlan.add(dayPlan);
         }
         homeDTO.setWeekPlan(weekPlan);
-    } // 테스트 끝 서비스로 옮겼음.
+        System.out.println(weekPlan);
+    }
     @Test
     @Rollback(value = false)
     @DisplayName("달력 dot")
-    public void planMark() {
-        String id = "test_id_1";
-        Member member = memberRepository.findById(id).orElseThrow();
-        HomeDTO homeDTO = new HomeDTO();
-        List<Set<LocalDate>> planMark = new ArrayList<>();
-        for(int i = 0; i < 2; i++) {
-            Set<LocalDate> planDot = new HashSet<>();
-            List<Plan> plan = planRepository.findByUserIdAndPlanChecked(member, i);
-            for(Plan e : plan) {
-                planDot.add(e.getPlanDate());
-            }
-            planMark.add(planDot);
-        }
-        homeDTO.setPlanMark(planMark);
-    } // 테스트 끝 서비스로 옮겼음.
-    @Test
-    @Rollback(value = false)
-    @DisplayName("메모 불러오기")
-    public void memoLoad() {
-        String id = "test_id_1";
-        Member member = memberRepository.findById(id).orElseThrow();
-        HomeDTO homeDTO = new HomeDTO();
-        homeDTO.setMemo(member.getMemo());
-    } // 테스트 끝 서비스로 옮겼음.
-    @Test
-    @Rollback(value = false)
-    @DisplayName("명언 불러오기")
-    public void quoteLoad() {
-        HomeDTO homeDTO = new HomeDTO();
-        int randomNum = (int) (Math.random() * ((int) quoteRepository.count() + 1));
-        homeDTO.setQuote(quoteRepository.findById(randomNum).orElseThrow().getQuote());
-    } // 테스트 끝 서비스로 옮겼음.
+    public void calDot() {
 
-    @Test
-    @Rollback(value = false)
-    @DisplayName("일정 불러오기")
-    public void planLoad() {
-        String id = "test_id_1";
-        LocalDate date = LocalDate.of(2022, 11, 25);
-
-        Member member = memberRepository.findById(id).orElseThrow();
-        List<Plan> plans = planRepository.findByUserIdAndPlanDateOrderByPlanNoAsc(member, date);
-        List<Map<String, Object>> planList = new ArrayList<>();
-        for(Plan e : plans) {
-            Map<String, Object> plan = new HashMap<>();
-            plan.put("key", e.getPlanNo());
-            plan.put("checked", e.getPlanChecked());
-            plan.put("text", e.getPlan());
-            plan.put("deleted", false);
-            planList.add(plan);
-        }
-        System.out.println(planList);
     }
 }
