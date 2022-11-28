@@ -3,12 +3,15 @@ package com.plannet.plannet.controller;
 import com.plannet.plannet.entity.Board;
 import com.plannet.plannet.service.BoardService;
 import com.plannet.plannet.vo.BoardDTO;
+import com.plannet.plannet.vo.MemberDTO;
+import com.plannet.plannet.vo.WriteDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +104,7 @@ public class BoardController {
 //    }
 
     // 자유게시판 댓글 작성하기
-    @GetMapping("/BoardCommentsCreate")
+    @GetMapping("/comment/write")
     public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
         boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
         if (boardCommentsCreate) {
@@ -111,9 +114,14 @@ public class BoardController {
         }
     }
 
-//    // 자유게시판 댓글 불러오기
-//    @PostMapping("/BoardCommentLoad")
-//    public ResponseEntity<List<Object>> boardCommentLoad(@RequestBody Map<String, String> boardNo) {
-//
-//    }
+    // 자유게시판 댓글 불러오기
+    @PostMapping("/comment/load")
+    public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<Integer, Integer> boardNo) {
+        int num = boardNo.get("num");
+        BoardDTO boardDTO = boardService.commentsLoad(num);
+        if(boardDTO.isOk()) {
+            List<Map<String, Object>> commentList = boardDTO.getCommentList();
+            return new ResponseEntity(commentList, HttpStatus.OK);
+        } else return new ResponseEntity(null, HttpStatus.OK);
+    }
 }
