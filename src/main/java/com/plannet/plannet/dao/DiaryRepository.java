@@ -9,5 +9,4 @@ import java.util.List;
 
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findByUserIdAndDiaryDate(Member userID, LocalDate date);
-    Member deleteById(String id);
 }

@@ -106,11 +106,7 @@ public class MemberService {
     }
     public boolean deleteMember(String id){
         try {
-            memberRepository.deleteById(id);
-            boardRepository.deleteByUserId(id);
-            commentsRepository.deleteById(id);
-            diaryRepository.deleteById(id);
-            likeCntRepository.deleteById(id);
+
             return true;
         }catch (Exception e){
             return false;
