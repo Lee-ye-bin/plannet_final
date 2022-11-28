@@ -42,21 +42,20 @@ public class MemberService {
     }
     public boolean overlapCheck (String uni, String type){
         boolean isNotReg = false;
-        String a = null;
+        Member member = new Member();
         char t = type.charAt(5);
         switch (t){
             case 'I' :
-                a= String.valueOf(memberRepository.findById(uni));
+                member = memberRepository.findById(uni).orElseThrow();
                 break;
             case 'E' :
-                a= String.valueOf(memberRepository.findByEmail(uni));
+                member = memberRepository.findByEmail(uni);
                 break;
             case 'T' :
-                a= String.valueOf(memberRepository.findByTel(uni));
+                member = memberRepository.findByTel(uni);
                 break;
         }
-
-        if(a != null ) isNotReg=false;
+        if(member != null ) isNotReg=false;
         else isNotReg=true;
         return isNotReg;
     }
