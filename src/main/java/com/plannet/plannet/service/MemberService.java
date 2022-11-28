@@ -4,7 +4,9 @@ import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.*;
 import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -15,6 +17,10 @@ import java.util.*;
 @Slf4j
 public class MemberService {
     private MemberRepository memberRepository;
+    private BoardRepository boardRepository;
+    private CommentsRepository commentsRepository;
+    private DiaryRepository diaryRepository;
+    private LikeCntRepository likeCntRepository;
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
@@ -97,5 +103,17 @@ public class MemberService {
         Member rst = memberRepository.save(mem);
         log.warn(rst.toString());
         return true;
+    }
+    public boolean deleteMember(String id){
+        try {
+            memberRepository.deleteById(id);
+            boardRepository.deleteByUserId(id);
+            commentsRepository.deleteById(id);
+            diaryRepository.deleteById(id);
+            likeCntRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
