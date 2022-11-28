@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.ExemptionMechanismException;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
 @Service
@@ -118,7 +115,7 @@ public class BoardService {
     }
 
     // 자유게시판 글 삭제하기
-    public boolean getboardDelete(Long boardNo) {
+    public boolean boardDelete(Long boardNo) {
         try {
             boardRepository.deleteById(boardNo);
             return true;
@@ -127,14 +124,15 @@ public class BoardService {
         }
     }
 
-//    // 자유게시판 글 수정하기
-//    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
-//        try {
-//            boardRepository.findById(boardNo);
-//
-//        }
-//    }
-//
+    // 자유게시판 글 수정하기
+    public boolean boardEdit(String userId, Long boardNo, String title, String detail) {
+        Board board = boardRepository.findById(boardNo).orElseThrow(EmptyStackException::new);
+        board.setTitle(title);
+        board.setDetail(detail);
+        Board rst = boardRepository.save(board);
+        log.warn(rst.toString());
+        return true;
+    }
     // 자유게시판 댓글 작성하기
     public boolean getcommentsCreate(Long boardNo, String id, String detail) {
         Comments comments = new Comments();
