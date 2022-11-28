@@ -57,7 +57,7 @@ public class UserInfoController {
             userInfo.add(memberDTO.getProImg());
 
             return new ResponseEntity(userInfo, HttpStatus.OK);
-        } else return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity(null, HttpStatus.OK);
     }
 
     // 사용자 프로필 이미지명 저장
@@ -71,7 +71,7 @@ public class UserInfoController {
             return new ResponseEntity(true, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(false, HttpStatus.OK);
         }
     }
 
@@ -97,6 +97,6 @@ public class UserInfoController {
             navList.put("scalInfo", memberDTO2.getSCalList());
 
             return new ResponseEntity(navList, HttpStatus.OK);
-        } else return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity(null, HttpStatus.OK);
     }
 }

@@ -56,7 +56,7 @@ public class WriteController {
             return new ResponseEntity(writeData, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 
