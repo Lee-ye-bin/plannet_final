@@ -1,9 +1,11 @@
 package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.BoardRepository;
+import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.dao.MemberRepository;
 import com.plannet.plannet.entity.Board;
+import com.plannet.plannet.entity.Comments;
 import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
@@ -23,7 +25,7 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository; // 의존성 주입을 받음
     private final LikeCntRepository likeCntRepository; // 의존성 주입을 받음
-
+    private final CommentsRepository commentsRepository;
 
     // 보드 목록 불러오기
     public BoardDTO getBoardList() {
@@ -103,8 +105,9 @@ public class BoardService {
 
     // 자유게시판 글 작성하기
     public boolean writeBoard(String id, String title, String detail, int isChecked){
+        Member mem = memberRepository.findById(id).orElseThrow(EmptyStackException::new);
         Board board = new Board();
-        board.setUserId(memberRepository.findById(id).orElseThrow());
+        board.setUserId(mem);
         board.setTitle(title);
         board.setDetail(detail);
         board.setIsChecked(isChecked);
@@ -131,13 +134,13 @@ public class BoardService {
 //        }
 //    }
 // 자유게시판 댓글 작성하기
-//public boolean getcommentsCreate(Long boardNo, String id, String detail) {
-//    Comments comments = new Comments();
-//    comments.setUserId(memberRepository.findById(id).orElseThrow());
-//    comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
-//    comments.setDetail(detail);
-//    comments.setWriteDate(LocalDateTime.now());
-//    commentsRepository.save(comments);
-//    return true;
-//}
+public boolean getcommentsCreate(Long boardNo, String id, String detail) {
+    Comments comments = new Comments();
+    comments.setUserId(memberRepository.findById(id).orElseThrow());
+    comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+    comments.setDetail(detail);
+    comments.setWriteDate(LocalDateTime.now());
+    commentsRepository.save(comments);
+    return true;
+}
 }
