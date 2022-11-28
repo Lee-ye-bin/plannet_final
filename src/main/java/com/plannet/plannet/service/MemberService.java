@@ -16,11 +16,7 @@ import java.util.*;
 @Service
 @Slf4j
 public class MemberService {
-    private MemberRepository memberRepository;
-    private BoardRepository boardRepository;
-    private CommentsRepository commentsRepository;
-    private DiaryRepository diaryRepository;
-    private LikeCntRepository likeCntRepository;
+    private final MemberRepository memberRepository;
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }

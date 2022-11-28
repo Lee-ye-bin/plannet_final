@@ -54,7 +54,6 @@ class MemberTest {
             member.setTel("010-0000-" + i);
             member.setJoinDate(LocalDateTime.now());
             member.setUserCode((int) (Math.floor(Math.random() * 9999) + 1));
-
             memberRepository.save(member);
         }
         //plan
