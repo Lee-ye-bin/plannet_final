@@ -32,7 +32,7 @@ public class HomeController {
 
             return new ResponseEntity(personalHome, HttpStatus.OK);
         } else {
-            return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(null, HttpStatus.OK);
         }
     }
 }

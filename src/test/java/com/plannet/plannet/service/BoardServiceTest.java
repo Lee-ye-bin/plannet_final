@@ -2,6 +2,7 @@ package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.Board;
+import com.plannet.plannet.entity.Comments;
 import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
@@ -30,6 +31,8 @@ class BoardServiceTest {
     BoardRepository boardRepository;
     @Autowired
     LikeCntRepository likeCntRepository;
+    @Autowired
+    CommentsRepository commentsRepository;
     @PersistenceContext
     EntityManager em;
     @Test
@@ -48,6 +51,20 @@ class BoardServiceTest {
     }
 
     @Test
+    @DisplayName("comments 테이블")
+    public void commentsListTest() {
+        for (int i = 1; i <= 10; i ++) {
+            Comments comments = new Comments();
+            // comments.setCommentNo(commentsRepository.findById().
+            comments.setBoardNo(boardRepository.findById((long)(130 + i)).orElseThrow());
+            comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
+            comments.setWriteDate(LocalDateTime.now());
+            comments.setDetail("댓글이다" + i);
+            commentsRepository.save(comments);
+        }
+    }
+
+    @Test
     @DisplayName("likeCnt 테이블 생성")
     public void likeListTest() {
         for (int i = 131; i <= 136; i++) {
@@ -58,13 +75,13 @@ class BoardServiceTest {
         }
     }
 
-//    @Test
-//    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
-//    public void likeCntTest() {
-//        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
-//        long likeCnt = likeCntRepository.countByBoardNo(board);
-//        System.out.println(likeCnt);
-//    }
+    @Test
+    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
+    public void likeCntTest() {
+        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
+        long likeCnt = likeCntRepository.countByBoardNo(board);
+        System.out.println(likeCnt);
+    }
 
     @Test
     @DisplayName("likeChecked 테스트, 내가 해당 게시물에 좋아요를 눌렀는지 누르지 않았는지")
@@ -107,5 +124,4 @@ class BoardServiceTest {
         boardRepository.save(board);
         return true;
     }
-
 }

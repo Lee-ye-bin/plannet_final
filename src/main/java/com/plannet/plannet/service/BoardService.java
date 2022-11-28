@@ -1,16 +1,17 @@
 package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.BoardRepository;
+import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.dao.MemberRepository;
 import com.plannet.plannet.entity.Board;
+import com.plannet.plannet.entity.Comments;
 import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -19,7 +20,6 @@ import java.util.*;
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j // log를 찍기 위한 어노테이션
 public class BoardService {
     private final MemberRepository memberRepository;
@@ -31,22 +31,19 @@ public class BoardService {
         BoardDTO boardDTO = new BoardDTO();
         List<Map<String, Object>> boardList = new ArrayList<>();
         try {
-            Member member = memberRepository.findById("WriteInsert").orElseThrow(EmptyStackException::new);
-            List<Board> boardData = boardRepository.findByUserId(member);
-
+            List<Board> boardData = boardRepository.findAll();
             for (Board e : boardData) {
                 Map<String, Object> board = new HashMap<>();
                 board.put("boardNo", e.getBoardNo());
                 board.put("id", e.getUserId());
-
                 // 익명체크 여부 확인 후 닉네임 넣기
                 if(e.getIsChecked() == 0) {
                     board.put("nickname", e.getUserId().getNickname());
                 } else board.put("nickname", "익명");
-                    board.put("title", e.getTitle());
-                    board.put("views", e.getViews());
-                    board.put("writeDate", e.getWriteDate());
-                    boardList.add(board);
+                board.put("title", e.getTitle());
+                board.put("views", e.getViews());
+                board.put("writeDate", e.getWriteDate());
+                boardList.add(board);
             }
             boardDTO.setBoardList(boardList);
             boardDTO.setOk(true);
@@ -106,30 +103,13 @@ public class BoardService {
 
     // 자유게시판 글 작성하기
     public boolean writeBoard(String id, String title, String detail, int isChecked){
-        System.out.print("1");
-        Member mem = memberRepository.findById(id).orElseThrow(EmptyStackException::new);
-        System.out.println(mem.getId());
-        System.out.print("2");
         Board board = new Board();
-        System.out.print("3" + isChecked);
-        // 0이 공개
-        if(isChecked != 0) {
-            System.out.print("1");
-            board.setUserId(mem);
-            board.setTitle(title);
-            board.setDetail(detail);
-            board.setIsChecked(isChecked);
-            board.setWriteDate(LocalDateTime.now());
-            boardRepository.save(board);
-        } else {
-            board.setUserId(mem);
-            board.setTitle(title);
-            board.setDetail(detail);
-            board.setIsChecked(0);
-            board.setWriteDate(LocalDateTime.now());
-            boardRepository.save(board);
-        }
-
+        board.setUserId(memberRepository.findById(id).orElseThrow());
+        board.setTitle(title);
+        board.setDetail(detail);
+        board.setIsChecked(isChecked);
+        board.setWriteDate(LocalDateTime.now());
+        boardRepository.save(board);
         return true;
     }
 
@@ -150,4 +130,14 @@ public class BoardService {
 //
 //        }
 //    }
+    // 자유게시판 댓글 작성하기
+    public boolean getcommentsCreate(Long boardNo, String id, String detail) {
+        Comments comments = new Comments();
+        comments.setUserId(memberRepository.findById(id).orElseThrow());
+        comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+        comments.setDetail(detail);
+        comments.setWriteDate(LocalDateTime.now());
+        commentsRepository.save(comments);
+        return true;
+    }
 }
