@@ -24,7 +24,7 @@ import java.util.*;
 @SpringBootTest
 @Transactional
 @Slf4j
-//@TestPropertySource(locations = "classpath:application-test.properties")
+//@TestPropertySource(locations = "classpath:application-test.properties")//
 class MemberTest {
     @Autowired
     MemberRepository memberRepository;
