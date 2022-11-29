@@ -48,7 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Header , Parameter, Cookie, URI, URL 등의 정보를 읽어들이는 메소드를 가진 클래스
                 .authorizeRequests()
                 //permitAll(): 모든 권한을 허용하는 URL
-                .antMatchers("/google/**").permitAll()
+                .antMatchers("/**").permitAll()
+//                .antMatchers("/member/**").permitAll()
+//                .antMatchers("/home/**").permitAll()
 //                .antMatchers("/index/**").permitAll()
 //                .antMatchers("/api/v1/users/**").permitAll()
 //                .antMatchers("/error").permitAll()
