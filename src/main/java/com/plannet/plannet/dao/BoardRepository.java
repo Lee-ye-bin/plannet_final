@@ -10,6 +10,6 @@ import java.util.List;
 // 요청과 응답만 처리
 // JpaRepository<테이블명, 프라이머리키에 대한 데이터 형>
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    List<Board> findByUserId(Member id);
+    List<Board> findAllByOrderByBoardNoDesc();
 }
 

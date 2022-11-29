@@ -4,7 +4,9 @@ import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.*;
 import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -14,7 +16,7 @@ import java.util.*;
 @Service
 @Slf4j
 public class MemberService {
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
@@ -66,36 +68,54 @@ public class MemberService {
     // 아이디 비밀번호 찾기
     public MemberDTO memberFindCheck(String uni, String email, String type) {
         MemberDTO memDTO = new MemberDTO();
-        char t = type.charAt(5);
-        Member mem = new Member();
+        try{
+            char t = type.charAt(5);
+            Member mem = new Member();
 
-        switch (t) {
-            case 'I' :
-                mem = memberRepository.findByNameAndEmail(uni, email);
-                if(mem != null) {
-                    memDTO.setReg(true);
-                    memDTO.setId(mem.getId());
-                } else {
-                    memDTO.setReg(false);
-                }
-                break;
-            case 'P' :
-                mem = memberRepository.findByIdAndEmail(uni, email);
-                if(mem != null) {
-                    memDTO.setReg(true);
-                } else {
-                    memDTO.setReg(false);
-                }
-                break;
+            switch (t) {
+                case 'I' :
+                    mem = memberRepository.findByNameAndEmail(uni, email);
+                    if(mem != null) {
+                        memDTO.setReg(true);
+                        memDTO.setId(mem.getId());
+                    } else {
+                        memDTO.setReg(false);
+                    }
+                    memDTO.setOk(true);
+                    break;
+                case 'P' :
+                    mem = memberRepository.findByIdAndEmail(uni, email);
+                    if(mem != null) {
+                        memDTO.setReg(true);
+                    } else {
+                        memDTO.setReg(false);
+                    }
+                    memDTO.setOk(true);
+                    break;
+            }
+        } catch (Exception e) {
+            memDTO.setOk(false);
         }
         return memDTO;
     }
     // 비밀번호 찾기 시 새 비밀번호 설정
     public boolean regNewPwd(String id, String pwd) {
-        Member mem = memberRepository.findById(id).orElseThrow(EmptyStackException::new);
-        mem.setPwd(pwd);
-        Member rst = memberRepository.save(mem);
-        log.warn(rst.toString());
+        try{
+            Member mem = memberRepository.findById(id).orElseThrow(EmptyStackException::new);
+            mem.setPwd(pwd);
+            Member rst = memberRepository.save(mem);
+            log.warn(rst.toString());
+        } catch(Exception e) {
+            return false;
+        }
         return true;
+    }
+    public boolean deleteMember(String id){
+        try {
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.plannet.plannet.entity.LikeCnt;
 import com.plannet.plannet.entity.Member;
 import com.plannet.plannet.vo.BoardDTO;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,6 @@ class BoardServiceTest {
     public void commentsListTest() {
         for (int i = 1; i <= 10; i ++) {
             Comments comments = new Comments();
-            // comments.setCommentNo(commentsRepository.findById().
             comments.setBoardNo(boardRepository.findById((long)(130 + i)).orElseThrow());
             comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
             comments.setWriteDate(LocalDateTime.now());
@@ -122,6 +122,26 @@ class BoardServiceTest {
         board.setIsChecked(isChecked);
         board.setWriteDate(LocalDateTime.now());
         boardRepository.save(board);
+        return true;
+    }
+
+    @Test
+    @DisplayName("comments 불러오기 테스트")
+    public void commentsLoadTest() {
+        Board board = boardRepository.findById((long) 131).orElseThrow();
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setBoardNo((long) 131);
+        boardDTO.setCommentWriter(board.getUserId().getNickname());
+        boardDTO.setCommentDate(LocalDateTime.now());
+        boardDTO.setCommentDetail(board.getDetail());
+    }
+    public boolean writeComments(int boardNo, String id, String detail) {
+        Comments comments = new Comments();
+        comments.setBoardNo(boardRepository.findById((long)(130)).orElseThrow());
+        comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
+        comments.setDetail(detail);
+        comments.setWriteDate(LocalDateTime.now());
+        commentsRepository.save(comments);
         return true;
     }
 }

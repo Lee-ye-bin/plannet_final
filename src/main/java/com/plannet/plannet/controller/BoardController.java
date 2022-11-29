@@ -62,7 +62,7 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/write_board")
+    @PostMapping("/write")
     public ResponseEntity<Boolean> writeBoard(@RequestBody Map<String, String> boardWriteDate) {
         String id = boardWriteDate.get("id");
         String title = boardWriteDate.get("title");
@@ -77,31 +77,31 @@ public class BoardController {
             return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
-
     // 자유게시판 글 삭제하기
-    @GetMapping("/Board_delete")
-    public ResponseEntity<Integer> boardDelete(@RequestParam Long boardNo) {
-        boolean boardDelete = boardService.getboardDelete(boardNo);
-        if (boardDelete) {
-            return new ResponseEntity(boardDelete, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(boardDelete, HttpStatus.OK);
+    @PostMapping("/delete")
+    public ResponseEntity<Boolean> boardDelete(@RequestParam Long boardNo) {
+        boolean result = boardService.boardDelete(boardNo);
+        if(result) return new ResponseEntity(true, HttpStatus.OK);
+        else return new ResponseEntity(false, HttpStatus.OK);
+    }
+    // 자유게시판 글 수정
+    @PostMapping("edit")
+    public ResponseEntity<Boolean> boardEdit(@RequestBody Map<String, String> boardEdit) {
+        String userId = boardEdit.get("id");
+        Long boardNo = Long.parseLong(boardEdit.get("num"));
+        String title = boardEdit.get("title");
+        String detail = boardEdit.get("detail");
+
+        boolean result = boardService.boardEdit(userId, boardNo, title, detail);
+        if(result) {
+            return new ResponseEntity(true, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity(false, HttpStatus.OK);
         }
     }
-    
-//    // 자유게시판 글 수정하기
-//    @GetMapping("/BoardEdit")
-//    public ResponseEntity<Integer> boardEdit(@RequestParam String id, int boardNo, String title, String detail) {
-//        boolean boardEdit = boardService.getboardEdit(id, boardNo, title, detail);
-//        if (boardEdit) {
-//            return new ResponseEntity(boardEdit, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity(boardEdit, HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
     // 자유게시판 댓글 작성하기
-    @GetMapping("/BoardCommentsCreate")
+    @GetMapping("/comment/write")
     public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
         boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
         if (boardCommentsCreate) {
@@ -111,9 +111,14 @@ public class BoardController {
         }
     }
 
-//    // 자유게시판 댓글 불러오기
-//    @PostMapping("/BoardCommentLoad")
-//    public ResponseEntity<List<Object>> boardCommentLoad(@RequestBody Map<String, String> boardNo) {
-//
-//    }
+    // 자유게시판 댓글 불러오기
+    @PostMapping("/comment/load")
+    public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<Integer, Integer> boardNo) {
+        int num = boardNo.get("num");
+        BoardDTO boardDTO = boardService.commentsLoad(num);
+        if(boardDTO.isOk()) {
+            List<Map<String, Object>> commentList = boardDTO.getCommentList();
+            return new ResponseEntity(commentList, HttpStatus.OK);
+        } else return new ResponseEntity(null, HttpStatus.OK);
+    }
 }

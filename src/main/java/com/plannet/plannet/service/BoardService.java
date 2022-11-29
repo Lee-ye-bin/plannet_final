@@ -1,10 +1,9 @@
 package com.plannet.plannet.service;
 
 import com.plannet.plannet.dao.BoardRepository;
-
-import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.dao.LikeCntRepository;
 import com.plannet.plannet.dao.MemberRepository;
+import com.plannet.plannet.dao.CommentsRepository;
 import com.plannet.plannet.entity.Board;
 import com.plannet.plannet.entity.Comments;
 import com.plannet.plannet.entity.LikeCnt;
@@ -14,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.ExemptionMechanismException;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -33,11 +33,10 @@ public class BoardService {
         BoardDTO boardDTO = new BoardDTO();
         List<Map<String, Object>> boardList = new ArrayList<>();
         try {
-            List<Board> boardData = boardRepository.findAll();
+            List<Board> boardData = boardRepository.findAllByOrderByBoardNoDesc();
             for (Board e : boardData) {
                 Map<String, Object> board = new HashMap<>();
                 board.put("boardNo", e.getBoardNo());
-                board.put("id", e.getUserId());
                 // 익명체크 여부 확인 후 닉네임 넣기
                 if(e.getIsChecked() == 0) {
                     board.put("nickname", e.getUserId().getNickname());
@@ -59,16 +58,19 @@ public class BoardService {
     public BoardDTO getPostView(Long boardNo) {
         Board board = boardRepository.findById(boardNo).orElseThrow();
         BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setBoardNo(boardNo);
-        boardDTO.setTitle(board.getTitle());
-        int isChecked = board.getIsChecked();
-        boardDTO.setIsChecked(isChecked);
-        if (isChecked == 0) boardDTO.setNickname(board.getUserId().getNickname());
-        else boardDTO.setNickname("익명");
-        boardDTO.setViews(board.getViews());
-        boardDTO.setWriteDate(board.getWriteDate());
-        boardDTO.setDetail(board.getDetail());
-        boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
+        try {
+            boardDTO.setBoardNo(boardNo);
+            boardDTO.setTitle(board.getTitle());
+            int isChecked = board.getIsChecked();
+            boardDTO.setIsChecked(isChecked);
+            if (isChecked == 0) boardDTO.setNickname(board.getUserId().getNickname());
+            else boardDTO.setNickname("익명");
+            boardDTO.setViews(board.getViews());
+            boardDTO.setWriteDate(board.getWriteDate());
+            boardDTO.setDetail(board.getDetail());
+            boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
+            boardDTO.setOk(true);
+        } catch (Exception e) {boardDTO.setOk(false);}
         return boardDTO;
     }
 
@@ -116,7 +118,7 @@ public class BoardService {
     }
 
     // 자유게시판 글 삭제하기
-    public boolean getboardDelete(Long boardNo) {
+    public boolean boardDelete(Long boardNo) {
         try {
             boardRepository.deleteById(boardNo);
             return true;
@@ -125,13 +127,19 @@ public class BoardService {
         }
     }
 
-//    // 자유게시판 글 수정하기
-//    public boolean getboardEdit(String id, int boardNo, String title, String detail) {
-//        try {
-//            boardRepository.findById(boardNo);
-//
-//        }
-//    }
+    // 자유게시판 글 수정하기
+    public boolean boardEdit(String userId, Long boardNo, String title, String detail) {
+        try{
+            Board board = boardRepository.findById(boardNo).orElseThrow(EmptyStackException::new);
+            board.setTitle(title);
+            board.setDetail(detail);
+            Board rst = boardRepository.save(board);
+            log.warn(rst.toString());
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
     // 자유게시판 댓글 작성하기
     public boolean getcommentsCreate(Long boardNo, String id, String detail) {
         Comments comments = new Comments();
@@ -141,5 +149,27 @@ public class BoardService {
         comments.setWriteDate(LocalDateTime.now());
         commentsRepository.save(comments);
         return true;
+    }
+
+    // 자유게시판 댓글 불러오기
+    public BoardDTO commentsLoad (Integer boardNo) {
+        BoardDTO boardDTO = new BoardDTO();
+        try {
+            List<Map<String, Object>> commentList = new ArrayList<>();
+            Board board = boardRepository.findById((long)boardNo).orElseThrow(ExemptionMechanismException::new);
+            List<Comments> data = commentsRepository.findByBoardNo(board);
+            for (Comments e : data) {
+                Map<String, Object> comment = new HashMap<>();
+                comment.put("nickname", e.getUserId().getNickname());
+                comment.put("detail", e.getDetail());
+                comment.put("date", e.getWriteDate());
+                commentList.add(comment);
+            }
+            boardDTO.setCommentList(commentList);
+            boardDTO.setOk(true);
+        } catch (Exception e) {
+            boardDTO.setOk(false);
+        }
+        return boardDTO;
     }
 }

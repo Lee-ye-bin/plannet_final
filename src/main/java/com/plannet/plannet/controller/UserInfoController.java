@@ -23,7 +23,7 @@ public class UserInfoController {
     }
 
     // 사용자 정보 수정
-    @PutMapping("/info_save")
+    @PostMapping("/info_save")
     public ResponseEntity<Boolean> userInfoSave(@RequestBody Map<String, String> userInfo) {
         String id = userInfo.get("id");
         String nickname = userInfo.get("nickname");
