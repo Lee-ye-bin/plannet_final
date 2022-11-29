@@ -81,6 +81,7 @@ public class MemberService {
                     } else {
                         memDTO.setReg(false);
                     }
+                    memDTO.setOk(true);
                     break;
                 case 'P' :
                     mem = memberRepository.findByIdAndEmail(uni, email);
@@ -89,6 +90,7 @@ public class MemberService {
                     } else {
                         memDTO.setReg(false);
                     }
+                    memDTO.setOk(true);
                     break;
             }
         } catch (Exception e) {
