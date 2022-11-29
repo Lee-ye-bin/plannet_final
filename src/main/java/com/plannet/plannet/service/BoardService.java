@@ -58,16 +58,19 @@ public class BoardService {
     public BoardDTO getPostView(Long boardNo) {
         Board board = boardRepository.findById(boardNo).orElseThrow();
         BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setBoardNo(boardNo);
-        boardDTO.setTitle(board.getTitle());
-        int isChecked = board.getIsChecked();
-        boardDTO.setIsChecked(isChecked);
-        if (isChecked == 0) boardDTO.setNickname(board.getUserId().getNickname());
-        else boardDTO.setNickname("익명");
-        boardDTO.setViews(board.getViews());
-        boardDTO.setWriteDate(board.getWriteDate());
-        boardDTO.setDetail(board.getDetail());
-        boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
+        try {
+            boardDTO.setBoardNo(boardNo);
+            boardDTO.setTitle(board.getTitle());
+            int isChecked = board.getIsChecked();
+            boardDTO.setIsChecked(isChecked);
+            if (isChecked == 0) boardDTO.setNickname(board.getUserId().getNickname());
+            else boardDTO.setNickname("익명");
+            boardDTO.setViews(board.getViews());
+            boardDTO.setWriteDate(board.getWriteDate());
+            boardDTO.setDetail(board.getDetail());
+            boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
+            boardDTO.setOk(true);
+        } catch (Exception e) {boardDTO.setOk(false);}
         return boardDTO;
     }
 
