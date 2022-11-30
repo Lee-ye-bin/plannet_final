@@ -11,5 +11,4 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     List<Plan> findByUserId(Member userId);
     List<Plan> findByUserIdAndPlanChecked(Member userId, int planChecked);
     List<Plan> findByUserIdAndPlanDateOrderByPlanNoAsc(Member member, LocalDate localDate);
-//    void deletebyUserId(Member id);
 }
