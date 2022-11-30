@@ -17,6 +17,12 @@ import java.util.*;
 @Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
+    private BoardRepository boardRepository;
+    private CommentsRepository commentsRepository;
+    private DiaryRepository diaryRepository;
+    private LikeCntRepository likeCntRepository;
+    private PlanRepository planRepository;
+
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
@@ -110,12 +116,25 @@ public class MemberService {
         }
         return true;
     }
-    public boolean deleteMember(String id){
-        try {
-
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
+//    public boolean deleteMember(String id){
+//        try {
+//            Member member = memberRepository.findById(id).orElseThrow();
+//            commentsRepository.deleteByUserId(member);
+//            List<Board> boardList = boardRepository.findByUserId(member);
+//            for(Board e : boardList) {
+//                commentsRepository.deleteByBoardNO(e);
+//            }
+//            likeCntRepository.deleteByUserId(member);
+//            for(Board e : boardList){
+//                likeCntRepository.deleteByBoardNO(e);
+//            }
+//            boardRepository.deleteByUserId(member);
+//            diaryRepository.deleteByUserId(member);
+//            planRepository.deletebyUserId(member);
+//            memberRepository.deleteByUserId(id);
+//            return true;
+//        }catch (Exception e){
+//            return false;
+//        }
+//    }
 }
