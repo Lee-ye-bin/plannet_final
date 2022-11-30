@@ -4,17 +4,17 @@ import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.*;
 import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
 
 @Service
 @Slf4j
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
     private BoardRepository boardRepository;
@@ -116,25 +116,13 @@ public class MemberService {
         }
         return true;
     }
-//    public boolean deleteMember(String id){
-//        try {
-//            Member member = memberRepository.findById(id).orElseThrow();
-//            commentsRepository.deleteByUserId(member);
-//            List<Board> boardList = boardRepository.findByUserId(member);
-//            for(Board e : boardList) {
-//                commentsRepository.deleteByBoardNO(e);
-//            }
-//            likeCntRepository.deleteByUserId(member);
-//            for(Board e : boardList){
-//                likeCntRepository.deleteByBoardNO(e);
-//            }
-//            boardRepository.deleteByUserId(member);
-//            diaryRepository.deleteByUserId(member);
-//            planRepository.deletebyUserId(member);
-//            memberRepository.deleteByUserId(id);
-//            return true;
-//        }catch (Exception e){
-//            return false;
-//        }
-//    }
+    public boolean deleteMember(String id){
+
+        try {
+            return true;
+        }catch (Exception e){
+            log.warn("실패구역");
+            return false;
+        }
+    }
 }

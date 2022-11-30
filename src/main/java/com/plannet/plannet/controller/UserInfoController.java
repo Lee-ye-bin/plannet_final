@@ -17,7 +17,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/user")
 public class UserInfoController {
-    private UserInfoService userInfoService;
+    private final UserInfoService userInfoService;
     public UserInfoController(UserInfoService userInfoService) {
         this.userInfoService = userInfoService;
     }
