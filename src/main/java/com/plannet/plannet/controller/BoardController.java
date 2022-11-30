@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,7 @@ public class BoardController {
         postViewData.put("title", postView.getTitle());
         postViewData.put("nickname", postView.getNickname());
         postViewData.put("views", postView.getViews());
-        postViewData.put("writeDate", postView.getWriteDate());
+        postViewData.put("writeDate", postView.getWriteDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         postViewData.put("detail", postView.getDetail());
         postViewData.put("isChecked", postView.getIsChecked());
         postViewList.add(postViewData);
@@ -67,7 +68,8 @@ public class BoardController {
 
     // boardNo의 게시물을 내가 작성하지 않았으면 조회수 +1
     @GetMapping("/views_up")
-    public ResponseEntity<Integer> viewsUp(@RequestParam Long boardNo, int views) {
+    public ResponseEntity<Integer> viewsUp(@RequestParam Long boardNo) {
+        System.out.println("ddddddddddddddddddddddddddd" + boardNo);
         boolean viewsChecked = boardService.getViews(boardNo);
         if (viewsChecked) {
             return new ResponseEntity(viewsChecked, HttpStatus.OK);

@@ -37,6 +37,7 @@ public class BoardService {
             for (Board e : boardData) {
                 Map<String, Object> board = new HashMap<>();
                 board.put("boardNo", e.getBoardNo());
+                board.put("writerId", e.getUserId().getId());
                 // 익명체크 여부 확인 후 닉네임 넣기
                 if(e.getIsChecked() == 0) {
                     board.put("nickname", e.getUserId().getNickname());
@@ -97,6 +98,7 @@ public class BoardService {
     public boolean getViews(Long boardNo) {
         Board board = boardRepository.findById(boardNo).orElseThrow();
         int CurrentViews = board.getViews() + 1;
+        System.out.println("현재조회수:" + CurrentViews);
         try {
             board.setViews(CurrentViews);
             boardRepository.save(board);
