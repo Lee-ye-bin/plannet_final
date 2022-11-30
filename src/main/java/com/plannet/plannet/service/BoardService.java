@@ -60,6 +60,7 @@ public class BoardService {
         BoardDTO boardDTO = new BoardDTO();
         try {
             boardDTO.setBoardNo(boardNo);
+            boardDTO.setId(boardRepository.findById(boardNo).orElseThrow().getUserId().getId());
             boardDTO.setTitle(board.getTitle());
             int isChecked = board.getIsChecked();
             boardDTO.setIsChecked(isChecked);
