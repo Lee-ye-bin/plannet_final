@@ -94,7 +94,8 @@ public class BoardController {
     }
     // 자유게시판 글 삭제하기
     @PostMapping("/delete")
-    public ResponseEntity<Boolean> boardDelete(@RequestParam Long boardNo) {
+    public ResponseEntity<Boolean> boardDelete(@RequestBody Map<String, String> boardDelete) {
+        Long boardNo = Long.parseLong(boardDelete.get("num"));
         boolean result = boardService.boardDelete(boardNo);
         if(result) return new ResponseEntity(true, HttpStatus.OK);
         else return new ResponseEntity(false, HttpStatus.OK);

@@ -35,41 +35,49 @@ public class MemberService {
         }
     }
     public boolean regMember(String id,String pwd,String name,
-                             String nickname,String mail,String tel){
-        Member member = new Member();
-        member.setId(id);
-        member.setPwd(pwd);
-        member.setName(name);
-        member.setNickname(nickname);
-        member.setEmail(mail);
-        member.setTel(tel);
-        member.setJoinDate(LocalDateTime.now());
-        Member rst = memberRepository.save(member);
-        log.warn(rst.toString());
-        return true;
+                             String nickname,String email,String tel){
+        try {
+            Member member = new Member();
+            member.setId(id);
+            member.setPwd(pwd);
+            member.setName(name);
+            member.setNickname(nickname);
+            member.setEmail(email);
+            member.setTel(tel);
+            String userCode = String.format("%04d", (int)(Math.random() * 9999) + 1);
+            member.setUserCode(userCode);
+            member.setJoinDate(LocalDateTime.now());
+            log.warn("정보입력 완료");
+            memberRepository.save(member);
+            log.warn("저장 완료");
+            return true;
+        }catch (Exception e){
+            log.warn("Service 오류");
+            return false;
+        }
     }
     public boolean overlapCheck (String uni, String type){
-        boolean isOverLap = false;
+        boolean isNotOverLap = true;
         try{
             Member member;
             char t = type.charAt(5);
             switch (t){
                 case 'I' :
                     member = memberRepository.findById(uni).orElseThrow(null);
-                    if(member != null) isOverLap = true;
+                    if(member != null) isNotOverLap = false;
                     else break;
                 case 'E' :
                     member = memberRepository.findByEmail(uni);
-                    if(member != null) isOverLap = true;
+                    if(member != null) isNotOverLap = false;
                     else break;
                 case 'T' :
                     member = memberRepository.findByTel(uni);
-                    if(member != null) isOverLap = true;
+                    if(member != null) isNotOverLap = false;
                     else break;
             }
-            return isOverLap;
+            return isNotOverLap;
         } catch (Exception e){
-            return isOverLap;
+            return isNotOverLap;
         }
 
     }
