@@ -47,12 +47,9 @@ public class MemberService {
             String userCode = String.format("%04d", (int)(Math.random() * 9999) + 1);
             member.setUserCode(userCode);
             member.setJoinDate(LocalDateTime.now());
-            log.warn("정보입력 완료");
             memberRepository.save(member);
-            log.warn("저장 완료");
             return true;
         }catch (Exception e){
-            log.warn("Service 오류");
             return false;
         }
     }
@@ -127,7 +124,11 @@ public class MemberService {
         return true;
     }
     public boolean deleteMember(String id){
+        Comments comments =commentsRepository.findByUserId(id);
         try {
+            log.warn("시작");
+            commentsRepository.deleteByUserId(comments);
+            log.warn("delete JPA 거침");
             return true;
         }catch (Exception e){
             log.warn("실패구역");
