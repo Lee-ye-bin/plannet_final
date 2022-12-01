@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.ExemptionMechanismException;
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -22,6 +23,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j // log를 찍기 위한 어노테이션
+@Transactional
 public class BoardService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository; // 의존성 주입을 받음
@@ -122,7 +124,9 @@ public class BoardService {
 
     // 자유게시판 글 삭제하기
     public boolean boardDelete(Long boardNo) {
+        Board board = boardRepository.findById(boardNo).orElseThrow();
         try {
+            commentsRepository.deleteByBoardNo(board);
             boardRepository.deleteById(boardNo);
             return true;
         } catch (Exception e){
