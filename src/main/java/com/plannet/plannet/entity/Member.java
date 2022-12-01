@@ -17,8 +17,8 @@ public class Member {
     @Column(length = 15)
     private String id;
 
-    @Column(nullable = false, length = 4)
-    private int userCode;
+    @Column(nullable = false, length = 5)
+    private String userCode;
 
     @Column(nullable = false, length = 20)
     private String pwd;
