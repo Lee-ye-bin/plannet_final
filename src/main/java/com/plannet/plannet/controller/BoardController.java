@@ -117,7 +117,7 @@ public class BoardController {
         }
     }
     // 자유게시판 댓글 작성하기
-    @GetMapping("/comment/write")
+    @GetMapping("/comment_write")
     public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
         boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
         if (boardCommentsCreate) {
@@ -128,7 +128,7 @@ public class BoardController {
     }
 
     // 자유게시판 댓글 불러오기
-    @PostMapping("/comment/load")
+    @PostMapping("/comment_load")
     public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<Integer, Integer> boardNo) {
         int num = boardNo.get("num");
         BoardDTO boardDTO = boardService.commentsLoad(num);
