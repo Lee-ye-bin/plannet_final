@@ -7,7 +7,7 @@ import java.util.List;
 @Getter @Setter
 public class MemberDTO {
     private String id;
-    private int userCode;
+    private String userCode;
     private String pwd;
     private String name;
     private String nickname;

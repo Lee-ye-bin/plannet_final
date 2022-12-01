@@ -87,9 +87,6 @@ public class UserInfoController {
             userInfo.add(memberDTO1.getNickname());
             userInfo.add(memberDTO1.getUserCode());
             userInfo.add(memberDTO1.getProfile());
-            userInfo.add(memberDTO1.getEmail());
-            userInfo.add(memberDTO1.getSns());
-            userInfo.add(memberDTO1.getTel());
             userInfo.add(memberDTO1.getProImg());
             userInfo.add(memberDTO2.getPes());
 

@@ -53,7 +53,8 @@ class MemberTest {
             member.setEmail("test_" + i + "@gmail.com");
             member.setTel("010-0000-" + i);
             member.setJoinDate(LocalDateTime.now());
-            member.setUserCode((int) (Math.floor(Math.random() * 9999) + 1));
+            String userCode = String.format("%04d", (int)(Math.random() * 9999) + 1);
+            member.setUserCode(userCode);
             memberRepository.save(member);
         }
         //plan
