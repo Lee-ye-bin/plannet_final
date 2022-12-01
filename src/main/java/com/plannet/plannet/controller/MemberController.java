@@ -6,9 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -37,33 +39,42 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<Boolean> registerMember(@RequestBody Map<String, String> regData) {
-        String id = regData.get("id");
-        String pwd = regData.get("pwd");
-        String name = regData.get("name");
-        String email = regData.get("mail");
-        String nickname = regData.get("nickname");
-        String tel =regData.get("tel");
+        try{
+            String id = regData.get("id");
+            String pwd = regData.get("pwd");
+            String name = regData.get("name");
+            String email = regData.get("mail");
+            String nickname = regData.get("nickname");
+            String tel =regData.get("tel");
 
-        boolean result = memberService.regMember(id, pwd, name, email, nickname, tel);
-        if(result){
-            return new ResponseEntity(true, HttpStatus.OK);
-        }
-        else {
+            boolean result = memberService.regMember(id, pwd, name, email, nickname, tel);
+            if(result){
+                return new ResponseEntity(true, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity(false, HttpStatus.OK);
+            }
+        }catch (Exception e){
             return new ResponseEntity(false, HttpStatus.OK);
         }
+
     }
 
     @PostMapping("/overlap_check")
     public ResponseEntity<Boolean> overlapCheck(@RequestBody Map<String, String> checkData){
-        String uni = checkData.get("uni");
-        String type = checkData.get("type");
+        try{
+            String uni = checkData.get("uni");
+            String type = checkData.get("type");
 
-        boolean result = memberService.overlapCheck(uni, type);
-        if(result){
-            return new ResponseEntity(true, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity(false, HttpStatus.OK);
+            boolean result = memberService.overlapCheck(uni, type);
+            if(result){
+                return new ResponseEntity(true, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return  new ResponseEntity(false, HttpStatus.BAD_REQUEST);
         }
     }
     // 아이디 비밀번호 찾기

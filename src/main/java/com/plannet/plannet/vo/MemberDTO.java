@@ -20,6 +20,6 @@ public class MemberDTO {
     private int pes; // 개인 일정의 달성률
     private List<List<Object>> sCalList; // 공유 캘린더의 정보가 넘어옴, 번호, 이름, 달성률
     private boolean isOk;
-    private boolean isNotOverlap;
+    private boolean isOverlap;
     private boolean isReg; // 아이디 비밀번호 찾을 때 true/false 응답
 }
