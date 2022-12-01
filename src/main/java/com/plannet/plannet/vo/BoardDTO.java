@@ -27,6 +27,7 @@ public class BoardDTO {
     private boolean isOk;
 
    private List<Map<String, Object>> boardList;
+   private Map<String, Object> postView;
    private List<Map<String, Object>> commentList;
 }
 

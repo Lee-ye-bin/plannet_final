@@ -8,18 +8,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/board")
 @Slf4j
 public class BoardController {
     // Service 로직 연결
-    private BoardService boardService;
+    private final BoardService boardService;
     public BoardController(BoardService boardService) { this.boardService = boardService; }
 
     // 전체 보드 리스트 불러오기
@@ -35,9 +37,21 @@ public class BoardController {
 
     // 특정 보드넘버의 게시물 내용 불러오기 + 좋아요 수
     @GetMapping("/post_view")
-    public ResponseEntity<List<BoardDTO>> postView(Long boardNo) {
+    public ResponseEntity<List<Map<String, Object>>> postView(@RequestParam Long boardNo) {
+        Map<String, Object> postViewData = new HashMap<>();
+        List<Object> postViewList = new ArrayList<>();
         BoardDTO postView = boardService.getPostView(boardNo);
-        return new ResponseEntity(postView, HttpStatus.OK);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        postViewData.put("boardNo", boardNo);
+        postViewData.put("writerId", postView.getId());
+        postViewData.put("title", postView.getTitle());
+        postViewData.put("nickname", postView.getNickname());
+        postViewData.put("views", postView.getViews());
+        postViewData.put("writeDate", postView.getWriteDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        postViewData.put("detail", postView.getDetail());
+        postViewData.put("isChecked", postView.getIsChecked());
+        postViewList.add(postViewData);
+        return new ResponseEntity(postViewList, HttpStatus.OK);
     }
 
     // boardNo로 내가 해당 게시물에 좋아요를 눌렀는지 조회하기
@@ -53,7 +67,8 @@ public class BoardController {
 
     // boardNo의 게시물을 내가 작성하지 않았으면 조회수 +1
     @GetMapping("/views_up")
-    public ResponseEntity<Integer> viewsUp(@RequestParam Long boardNo, int views) {
+    public ResponseEntity<Integer> viewsUp(@RequestParam Long boardNo) {
+        System.out.println("ddddddddddddddddddddddddddd" + boardNo);
         boolean viewsChecked = boardService.getViews(boardNo);
         if (viewsChecked) {
             return new ResponseEntity(viewsChecked, HttpStatus.OK);

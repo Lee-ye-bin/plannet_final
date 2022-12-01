@@ -56,7 +56,7 @@ class BoardServiceTest {
     public void commentsListTest() {
         for (int i = 1; i <= 10; i ++) {
             Comments comments = new Comments();
-            comments.setBoardNo(boardRepository.findById((long)(130 + i)).orElseThrow());
+            comments.setBoardNo(boardRepository.findById((long) i).orElseThrow());
             comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
             comments.setWriteDate(LocalDateTime.now());
             comments.setDetail("댓글이다" + i);
@@ -69,79 +69,79 @@ class BoardServiceTest {
     public void likeListTest() {
         for (int i = 131; i <= 136; i++) {
             LikeCnt likeCnt = new LikeCnt();
-            likeCnt.setUserId(memberRepository.findById("test_id_" + 4).orElseThrow());
+            likeCnt.setUserId(memberRepository.findById("test_id_1" + 4).orElseThrow());
             likeCnt.setBoardNo(boardRepository.findById((long)i).orElseThrow());
             likeCntRepository.save(likeCnt);
         }
     }
 
-    @Test
-    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
-    public void likeCntTest() {
-        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
-        long likeCnt = likeCntRepository.countByBoardNo(board);
-        System.out.println(likeCnt);
-    }
-
-    @Test
-    @DisplayName("likeChecked 테스트, 내가 해당 게시물에 좋아요를 눌렀는지 누르지 않았는지")
-    public void likeCheckedTest() {
-        Member member = memberRepository.findById("test_id_3").orElseThrow(EntityNotFoundException::new);
-        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
-        boolean CurrentLikeChecked = likeCntRepository.existsByUserIdAndBoardNo(member, board);
-        if (CurrentLikeChecked) {
-            likeCntRepository.deleteByUserIdAndBoardNo(member, board);
-        } else {
-            LikeCnt likeCnt = new LikeCnt();
-            likeCnt.setUserId(member);
-            likeCnt.setBoardNo(board);
-            likeCntRepository.save(likeCnt);
-        }
-    }
-
-    @Test
-    @DisplayName("postView 불러오기 테스트")
-    public void postViewTest() {
-        Board board = boardRepository.findById((long) 131).orElseThrow();
-        BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setBoardNo((long) 131);
-        boardDTO.setTitle(board.getTitle());
-        boardDTO.setNickname(board.getUserId().getNickname());
-        boardDTO.setViews(board.getViews());
-        boardDTO.setWriteDate(board.getWriteDate());
-        boardDTO.setDetail(board.getDetail());
-        boardDTO.setIsChecked(board.getIsChecked());
-        boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
-    }
-
-    public boolean writeBoard(String id, String title, String detail, int isChecked){
-        Board board = new Board();
-        board.setUserId(memberRepository.findById(id).orElseThrow());
-        board.setTitle(title);
-        board.setDetail(detail);
-        board.setIsChecked(isChecked);
-        board.setWriteDate(LocalDateTime.now());
-        boardRepository.save(board);
-        return true;
-    }
-
-    @Test
-    @DisplayName("comments 불러오기 테스트")
-    public void commentsLoadTest() {
-        Board board = boardRepository.findById((long) 131).orElseThrow();
-        BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setBoardNo((long) 131);
-        boardDTO.setCommentWriter(board.getUserId().getNickname());
-        boardDTO.setCommentDate(LocalDateTime.now());
-        boardDTO.setCommentDetail(board.getDetail());
-    }
-    public boolean writeComments(int boardNo, String id, String detail) {
-        Comments comments = new Comments();
-        comments.setBoardNo(boardRepository.findById((long)(130)).orElseThrow());
-        comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
-        comments.setDetail(detail);
-        comments.setWriteDate(LocalDateTime.now());
-        commentsRepository.save(comments);
-        return true;
-    }
+//    @Test
+//    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
+//    public void likeCntTest() {
+//        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
+//        long likeCnt = likeCntRepository.countByBoardNo(board);
+//        System.out.println(likeCnt);
+//    }
+//
+//    @Test
+//    @DisplayName("likeChecked 테스트, 내가 해당 게시물에 좋아요를 눌렀는지 누르지 않았는지")
+//    public void likeCheckedTest() {
+//        Member member = memberRepository.findById("test_id_3").orElseThrow(EntityNotFoundException::new);
+//        Board board = boardRepository.findById((long)131).orElseThrow(EntityNotFoundException::new);
+//        boolean CurrentLikeChecked = likeCntRepository.existsByUserIdAndBoardNo(member, board);
+//        if (CurrentLikeChecked) {
+//            likeCntRepository.deleteByUserIdAndBoardNo(member, board);
+//        } else {
+//            LikeCnt likeCnt = new LikeCnt();
+//            likeCnt.setUserId(member);
+//            likeCnt.setBoardNo(board);
+//            likeCntRepository.save(likeCnt);
+//        }
+//    }
+//
+//    @Test
+//    @DisplayName("postView 불러오기 테스트")
+//    public void postViewTest() {
+//        Board board = boardRepository.findById((long) 131).orElseThrow();
+//        BoardDTO boardDTO = new BoardDTO();
+//        boardDTO.setBoardNo((long) 131);
+//        boardDTO.setTitle(board.getTitle());
+//        boardDTO.setNickname(board.getUserId().getNickname());
+//        boardDTO.setViews(board.getViews());
+//        boardDTO.setWriteDate(board.getWriteDate());
+//        boardDTO.setDetail(board.getDetail());
+//        boardDTO.setIsChecked(board.getIsChecked());
+//        boardDTO.setLikeCnt(likeCntRepository.countByBoardNo(board).intValue());
+//    }
+//
+//    public boolean writeBoard(String id, String title, String detail, int isChecked){
+//        Board board = new Board();
+//        board.setUserId(memberRepository.findById(id).orElseThrow());
+//        board.setTitle(title);
+//        board.setDetail(detail);
+//        board.setIsChecked(isChecked);
+//        board.setWriteDate(LocalDateTime.now());
+//        boardRepository.save(board);
+//        return true;
+//    }
+//
+//    @Test
+//    @DisplayName("comments 불러오기 테스트")
+//    public void commentsLoadTest() {
+//        Board board = boardRepository.findById((long) 131).orElseThrow();
+//        BoardDTO boardDTO = new BoardDTO();
+//        boardDTO.setBoardNo((long) 131);
+//        boardDTO.setCommentWriter(board.getUserId().getNickname());
+//        boardDTO.setCommentDate(LocalDateTime.now());
+//        boardDTO.setCommentDetail(board.getDetail());
+//    }
+//    public boolean writeComments(int boardNo, String id, String detail) {
+//        Comments comments = new Comments();
+//        comments.setBoardNo(boardRepository.findById((long)(130)).orElseThrow());
+//        comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
+//        comments.setDetail(detail);
+//        comments.setWriteDate(LocalDateTime.now());
+//        commentsRepository.save(comments);
+//        return true;
+//    }
 }

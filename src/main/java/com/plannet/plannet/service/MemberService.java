@@ -4,19 +4,25 @@ import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.*;
 import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
 
 @Service
 @Slf4j
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+    private BoardRepository boardRepository;
+    private CommentsRepository commentsRepository;
+    private DiaryRepository diaryRepository;
+    private LikeCntRepository likeCntRepository;
+    private PlanRepository planRepository;
+
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
@@ -111,10 +117,11 @@ public class MemberService {
         return true;
     }
     public boolean deleteMember(String id){
-        try {
 
+        try {
             return true;
         }catch (Exception e){
+            log.warn("실패구역");
             return false;
         }
     }

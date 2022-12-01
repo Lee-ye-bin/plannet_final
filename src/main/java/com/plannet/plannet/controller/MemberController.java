@@ -17,7 +17,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/member")
 public class MemberController {
-    private MemberService memberService;
+    private final MemberService memberService;
     public MemberController(MemberService memberService){
         this.memberService = memberService;
     }

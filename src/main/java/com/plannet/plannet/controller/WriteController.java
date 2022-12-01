@@ -21,7 +21,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/write")
 public class WriteController {
-    private WriteService writeService;
+    private final WriteService writeService;
     public WriteController(WriteService writeService) {
         this.writeService = writeService;
     }
