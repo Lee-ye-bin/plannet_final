@@ -3,6 +3,7 @@ package com.plannet.plannet.service;
 import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.*;
 import com.plannet.plannet.vo.MemberDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,21 @@ import java.util.*;
 @Service
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private BoardRepository boardRepository;
-    private CommentsRepository commentsRepository;
-    private DiaryRepository diaryRepository;
-    private LikeCntRepository likeCntRepository;
-    private PlanRepository planRepository;
+    private final BoardRepository boardRepository;
+    private final CommentsRepository commentsRepository;
+    private final DiaryRepository diaryRepository;
+    private final LikeCntRepository likeCntRepository;
+    private final FriendRepository friendRepository;
+    private final MessageRepository messageRepository;
+    private final PlanRepository planRepository;
+    private final SCOMRepository scomRepository;
+    private final SMEMRepository smemRepository;
+    private final SPLANRepository splanRepository;
+    private final SCALRepository scalRepository;
 
-    public MemberService(MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
-    }
 
     public boolean loginCheck (String id, String pwd){
         try {
@@ -123,18 +128,25 @@ public class MemberService {
         }
         return true;
     }
+    @Transactional
     public boolean deleteMember(String id){
         try {
             Member member = memberRepository.findById(id).orElseThrow();
-            log.warn("member까지 완료");
-            List<Comments> comments =commentsRepository.findByUserId(member);
-            log.warn("comments 안댐");
-            log.warn("시작");
-            //commentsRepository.deleteByUserId(comments);
-            log.warn("delete JPA 거침");
+            likeCntRepository.deleteByUserId(member);
+            commentsRepository.deleteByUserId(member);
+            boardRepository.deleteByUserId(member);
+            diaryRepository.deleteByUserId(member);
+            friendRepository.deleteByUserId(member);
+            messageRepository.deleteByUserId(member);
+            planRepository.deleteByUserId(member);
+            // 공유안한 사람은 삭제 가능
+            scalRepository.deleteByUserId(member);
+//            scomRepository.deleteByUserId(member);
+//            splanRepository.deleteByUserId(member);
+//            smemRepository.deleteByUserId(member);
+//            memberRepository.deleteById(id);
             return true;
         }catch (Exception e){
-            log.warn("실패구역");
             return false;
         }
     }
