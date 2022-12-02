@@ -124,10 +124,13 @@ public class MemberService {
         return true;
     }
     public boolean deleteMember(String id){
-        Comments comments =commentsRepository.findByUserId(id);
         try {
+            Member member = memberRepository.findById(id).orElseThrow();
+            log.warn("member까지 완료");
+            List<Comments> comments =commentsRepository.findByUserId(member);
+            log.warn("comments 안댐");
             log.warn("시작");
-            commentsRepository.deleteByUserId(comments);
+            //commentsRepository.deleteByUserId(comments);
             log.warn("delete JPA 거침");
             return true;
         }catch (Exception e){
