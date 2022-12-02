@@ -24,7 +24,6 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j // log를 찍기 위한 어노테이션
-@Transactional
 public class BoardService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository; // 의존성 주입을 받음
