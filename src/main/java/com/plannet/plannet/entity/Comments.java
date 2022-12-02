@@ -24,6 +24,9 @@ public class Comments {
     @JoinColumn(name = "id")
     private Member userId;
 
+    @Column(nullable = false, unique = true, length = 30)
+    private String nickname;
+
     @CreatedDate
     private LocalDateTime writeDate;
 

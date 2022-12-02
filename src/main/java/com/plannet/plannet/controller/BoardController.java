@@ -104,7 +104,8 @@ public class BoardController {
     }
     // 자유게시판 글 삭제하기
     @PostMapping("/delete")
-    public ResponseEntity<Boolean> boardDelete(@RequestParam Long boardNo) {
+    public ResponseEntity<Boolean> boardDelete(@RequestBody Map<String, String> boardDelete) {
+        Long boardNo = Long.parseLong(boardDelete.get("num"));
         boolean result = boardService.boardDelete(boardNo);
         if(result) return new ResponseEntity(true, HttpStatus.OK);
         else return new ResponseEntity(false, HttpStatus.OK);
@@ -126,8 +127,11 @@ public class BoardController {
         }
     }
     // 자유게시판 댓글 작성하기
-    @GetMapping("/comment/write")
-    public ResponseEntity<Integer> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+    @GetMapping("/comment_write")
+    public ResponseEntity<Boolean> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+//        long boardNo = (long) commentData.get("boardNo");
+//        String id = (String) commentData.get("id");
+//        String detail = (String) commentData.get("detail");
         boolean boardCommentsCreate = boardService.getcommentsCreate(boardNo, id, detail);
         if (boardCommentsCreate) {
             return new ResponseEntity(boardCommentsCreate, HttpStatus.OK);
@@ -137,10 +141,11 @@ public class BoardController {
     }
 
     // 자유게시판 댓글 불러오기
-    @PostMapping("/comment/load")
-    public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<Integer, Integer> boardNo) {
-        int num = boardNo.get("num");
+    @PostMapping("/comment_load")
+    public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<String, Long> boardNo) {
+        long num = boardNo.get("boardNo");
         BoardDTO boardDTO = boardService.commentsLoad(num);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         if(boardDTO.isOk()) {
             List<Map<String, Object>> commentList = boardDTO.getCommentList();
             return new ResponseEntity(commentList, HttpStatus.OK);

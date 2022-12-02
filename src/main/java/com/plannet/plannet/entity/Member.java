@@ -17,8 +17,8 @@ public class Member {
     @Column(length = 15)
     private String id;
 
-    @Column(nullable = false, length = 4)
-    private int userCode;
+    @Column(nullable = false, length = 5)
+    private String userCode;
 
     @Column(nullable = false, length = 20)
     private String pwd;
@@ -26,7 +26,7 @@ public class Member {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(nullable = false, unique = true, length = 20)
     private String nickname;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -49,6 +49,6 @@ public class Member {
     private String memo;
 
     @Column(length = 200)
-    //@ColumnDefault("userdefault.png")
+    @ColumnDefault("userdefault.png")
     private String proImg;
 }

@@ -24,6 +24,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j // log를 찍기 위한 어노테이션
+@Transactional
 public class BoardService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository; // 의존성 주입을 받음
@@ -143,7 +144,9 @@ public class BoardService {
 
     // 자유게시판 글 삭제하기
     public boolean boardDelete(Long boardNo) {
+        Board board = boardRepository.findById(boardNo).orElseThrow();
         try {
+            commentsRepository.deleteByBoardNo(board); // 댓글 엔티티네서 게시판번호가 외래키이므로 게시글을 삭제하려면 댓글들도 삭제해야지만 게시글이 삭제됨
             boardRepository.deleteById(boardNo);
             return true;
         } catch (Exception e){
@@ -166,21 +169,25 @@ public class BoardService {
     }
     // 자유게시판 댓글 작성하기
     public boolean getcommentsCreate(Long boardNo, String id, String detail) {
-        Comments comments = new Comments();
-        comments.setUserId(memberRepository.findById(id).orElseThrow());
-        comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
-        comments.setDetail(detail);
-        comments.setWriteDate(LocalDateTime.now());
-        commentsRepository.save(comments);
-        return true;
+        try {
+            Comments comments = new Comments();
+            comments.setUserId(memberRepository.findById(id).orElseThrow());
+            comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+            comments.setDetail(detail);
+            comments.setWriteDate(LocalDateTime.now());
+            commentsRepository.save(comments);
+            return true;
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     // 자유게시판 댓글 불러오기
-    public BoardDTO commentsLoad (Integer boardNo) {
+    public BoardDTO commentsLoad (Long boardNo) {
         BoardDTO boardDTO = new BoardDTO();
         try {
             List<Map<String, Object>> commentList = new ArrayList<>();
-            Board board = boardRepository.findById((long)boardNo).orElseThrow(ExemptionMechanismException::new);
+            Board board = boardRepository.findById(boardNo).orElseThrow(ExemptionMechanismException::new);
             List<Comments> data = commentsRepository.findByBoardNo(board);
             for (Comments e : data) {
                 Map<String, Object> comment = new HashMap<>();

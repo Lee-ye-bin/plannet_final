@@ -35,41 +35,48 @@ public class MemberService {
         }
     }
     public boolean regMember(String id,String pwd,String name,
-                             String nickname,String mail,String tel){
-        Member member = new Member();
-        member.setId(id);
-        member.setPwd(pwd);
-        member.setName(name);
-        member.setNickname(nickname);
-        member.setEmail(mail);
-        member.setTel(tel);
-        member.setJoinDate(LocalDateTime.now());
-        Member rst = memberRepository.save(member);
-        log.warn(rst.toString());
-        return true;
+                             String nickname,String email,String tel){
+        try {
+            Member member = new Member();
+            member.setId(id);
+            member.setPwd(pwd);
+            member.setName(name);
+            member.setNickname(nickname);
+            member.setEmail(email);
+            member.setTel(tel);
+            String userCode = String.format("%04d", (int)(Math.random() * 9999) + 1);
+            member.setUserCode(userCode);
+            member.setJoinDate(LocalDateTime.now());
+            memberRepository.save(member);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
     public boolean overlapCheck (String uni, String type){
-        Member member = new Member();
-        MemberDTO memberDTO = new MemberDTO();
-        char t = type.charAt(5);
-        switch (t){
-            case 'I' :
-                member = memberRepository.findById(uni).orElseThrow(null);
-                if(member != null) memberDTO.setNotOverlap(false);
-                else memberDTO.setNotOverlap(true);
-                break;
-            case 'E' :
-                member = memberRepository.findByEmail(uni);
-                if(member != null) memberDTO.setNotOverlap(false);
-                else memberDTO.setNotOverlap(true);
-                break;
-            case 'T' :
-                member = memberRepository.findByTel(uni);
-                if(member != null) memberDTO.setNotOverlap(false);
-                else memberDTO.setNotOverlap(true);
-                break;
+        boolean isNotOverLap = true;
+        try{
+            Member member;
+            char t = type.charAt(5);
+            switch (t){
+                case 'I' :
+                    member = memberRepository.findById(uni).orElseThrow(null);
+                    if(member != null) isNotOverLap = false;
+                    else break;
+                case 'E' :
+                    member = memberRepository.findByEmail(uni);
+                    if(member != null) isNotOverLap = false;
+                    else break;
+                case 'T' :
+                    member = memberRepository.findByTel(uni);
+                    if(member != null) isNotOverLap = false;
+                    else break;
+            }
+            return isNotOverLap;
+        } catch (Exception e){
+            return isNotOverLap;
         }
-        return memberDTO.isNotOverlap();
+
     }
     // 아이디 비밀번호 찾기
     public MemberDTO memberFindCheck(String uni, String email, String type) {
@@ -117,8 +124,14 @@ public class MemberService {
         return true;
     }
     public boolean deleteMember(String id){
-
         try {
+            Member member = memberRepository.findById(id).orElseThrow();
+            log.warn("member까지 완료");
+            List<Comments> comments =commentsRepository.findByUserId(member);
+            log.warn("comments 안댐");
+            log.warn("시작");
+            //commentsRepository.deleteByUserId(comments);
+            log.warn("delete JPA 거침");
             return true;
         }catch (Exception e){
             log.warn("실패구역");

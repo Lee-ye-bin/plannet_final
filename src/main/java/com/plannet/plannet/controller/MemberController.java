@@ -3,12 +3,9 @@ package com.plannet.plannet.controller;
 import com.plannet.plannet.service.MemberService;
 import com.plannet.plannet.vo.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +14,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/member")
 public class MemberController {
-    private final MemberService memberService;
+    private MemberService memberService;
     public MemberController(MemberService memberService){
         this.memberService = memberService;
     }
@@ -36,34 +33,45 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Boolean> registerMember(@RequestBody Map<String, String> regData) {
-        String id = regData.get("id");
-        String pwd = regData.get("pwd");
-        String name = regData.get("name");
-        String email = regData.get("mail");
-        String nickname = regData.get("nickname");
-        String tel =regData.get("tel");
-
-        boolean result = memberService.regMember(id, pwd, name, email, nickname, tel);
-        if(result){
-            return new ResponseEntity(true, HttpStatus.OK);
-        }
-        else {
+    public ResponseEntity<Map<String,String>> registerMember(@RequestBody Map<String, String> regData) {
+        try{
+            String id = regData.get("id");
+            String pwd = regData.get("pwd");
+            String name = regData.get("name");
+            String nickname = regData.get("nickname");
+            String email = regData.get("email");
+            String tel =regData.get("tel");
+            boolean result = memberService.regMember(id, pwd, name, nickname, email, tel);
+            log.warn(String.valueOf(result));
+            if(result){
+                return new ResponseEntity(true, HttpStatus.OK);
+            }
+            else {
+                log.warn("값이 false");
+                return new ResponseEntity(false, HttpStatus.OK);
+            }
+        }catch (Exception e){
+            log.warn("Controll오류");
             return new ResponseEntity(false, HttpStatus.OK);
         }
+
     }
 
     @PostMapping("/overlap_check")
     public ResponseEntity<Boolean> overlapCheck(@RequestBody Map<String, String> checkData){
-        String uni = checkData.get("uni");
-        String type = checkData.get("type");
+        try{
+            String uni = checkData.get("uni");
+            String type = checkData.get("type");
 
-        boolean result = memberService.overlapCheck(uni, type);
-        if(result){
-            return new ResponseEntity(true, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity(false, HttpStatus.OK);
+            boolean result = memberService.overlapCheck(uni, type);
+            if(result){
+                return new ResponseEntity(true, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity(false, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return  new ResponseEntity(false, HttpStatus.OK);
         }
     }
     // 아이디 비밀번호 찾기
@@ -94,12 +102,17 @@ public class MemberController {
     @PostMapping("/member_delete")
     public ResponseEntity<Boolean> memberDelete(@RequestBody Map<String,String> delete){
         String id = delete.get("id");
-        boolean member = memberService.deleteMember(id);
-        if(member){
-            return new ResponseEntity(true,HttpStatus.OK);
-        }
-        else{
+        try {
+            boolean member = memberService.deleteMember(id);
+            if(member){
+                return new ResponseEntity(true,HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity(false,HttpStatus.OK);
+            }
+        }catch (Exception e){
             return new ResponseEntity(false,HttpStatus.OK);
         }
+
     }
 }
