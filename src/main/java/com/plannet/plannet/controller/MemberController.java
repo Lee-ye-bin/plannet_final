@@ -104,13 +104,17 @@ public class MemberController {
         String id = delete.get("id");
         try {
             boolean member = memberService.deleteMember(id);
+            log.warn("try 안으로 들어는 옴");
             if(member){
+                log.warn("try 안 true로 들어는 옴");
                 return new ResponseEntity(true,HttpStatus.OK);
             }
             else{
+                log.warn("try 안 false로 들어는 옴");
                 return new ResponseEntity(false,HttpStatus.OK);
             }
         }catch (Exception e){
+            log.warn("catch 안으로 들어는 옴");
             return new ResponseEntity(false,HttpStatus.OK);
         }
 

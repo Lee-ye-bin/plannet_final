@@ -70,7 +70,7 @@ class BoardServiceTest {
     public void likeListTest() {
         for (int i = 131; i <= 136; i++) {
             LikeCnt likeCnt = new LikeCnt();
-            likeCnt.setUserId(memberRepository.findById("test_id_1" + 4).orElseThrow());
+            likeCnt.setUserId(memberRepository.findById("test_id_1"+4).orElseThrow());
             likeCnt.setBoardNo(boardRepository.findById((long)i).orElseThrow());
             likeCntRepository.save(likeCnt);
         }

@@ -123,12 +123,25 @@ public class MemberService {
         }
         return true;
     }
+    @Transactional
     public boolean deleteMember(String id){
         try {
             Member member = memberRepository.findById(id).orElseThrow();
-            log.warn("member까지 완료");
+            log.warn(String.valueOf(member));
+            log.warn("member 완료");
             List<Comments> comments =commentsRepository.findByUserId(member);
-            log.warn("comments 안댐");
+//            List<Comments> commentsList = new ArrayList<>();
+//            Map<String,Object> comment = new HashMap<>();
+//            comment.put("commentNo",comments.getCommentNo());
+//            log.warn(String.valueOf(comments.getCommentNo()));
+//            comment.put("userId",comments.getUserId());
+//            log.warn(String.valueOf(comments.getUserId()));
+//            comment.put("detail",comments.getDetail());
+//            log.warn(String.valueOf(comments.getDetail()));
+//            comment.put("boardNo",comments.getBoardNo());
+//            log.warn(String.valueOf(comments.getBoardNo()));
+            System.out.println(comments);
+
             log.warn("시작");
             //commentsRepository.deleteByUserId(comments);
             log.warn("delete JPA 거침");
