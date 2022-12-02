@@ -22,7 +22,6 @@ import java.util.*;
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j // log를 찍기 위한 어노테이션
 @Transactional
 public class BoardService {
