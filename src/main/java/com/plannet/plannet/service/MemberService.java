@@ -140,11 +140,12 @@ public class MemberService {
             messageRepository.deleteByUserId(member);
             planRepository.deleteByUserId(member);
             // 공유안한 사람은 삭제 가능
+            scomRepository.deleteByUserId(member);
+            smemRepository.deleteByUserId(member);
+            splanRepository.deleteByUserId(member);
+            log.warn("scal 전 완료");
             scalRepository.deleteByUserId(member);
-//            scomRepository.deleteByUserId(member);
-//            splanRepository.deleteByUserId(member);
-//            smemRepository.deleteByUserId(member);
-//            memberRepository.deleteById(id);
+            memberRepository.deleteById(id);
             return true;
         }catch (Exception e){
             return false;
