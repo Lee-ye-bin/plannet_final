@@ -65,16 +65,16 @@ class BoardServiceTest {
         }
     }
 
-    @Test
-    @DisplayName("likeCnt 테이블 생성")
-    public void likeListTest() {
-        for (int i = 131; i <= 136; i++) {
-            LikeCnt likeCnt = new LikeCnt();
-            likeCnt.setUserId(memberRepository.findById("test_id_1"+4).orElseThrow());
-            likeCnt.setBoardNo(boardRepository.findById((long)i).orElseThrow());
-            likeCntRepository.save(likeCnt);
-        }
-    }
+//    @Test
+//    @DisplayName("likeCnt 테이블 생성")
+//    public void likeListTest() {
+//        for (int i = 131; i <= 136; i++) {
+//            LikeCnt likeCnt = new LikeCnt();
+//            likeCnt.setUserId(memberRepository.findById("test_id_1").orElseThrow().getId());
+//            likeCnt.setBoardNo(boardRepository.findById((long)i).orElseThrow());
+//            likeCntRepository.save(likeCnt);
+//        }
+//    }
 
 //    @Test
 //    @DisplayName("likeCnt 테스트, 해당 게시물에 좋아요 수가 몇인지")
