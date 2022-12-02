@@ -9,9 +9,13 @@ import javax.persistence.*;
 @Getter @Setter
 @ToString
 @Entity
+@SequenceGenerator(
+        name = "LIKE_GENERATOR",
+        sequenceName = "LIKE_SEQUENCES",
+        initialValue = 1, allocationSize = 1)
 public class LikeCnt {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LIKE_GENERATOR")
     private Long likeCntNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
