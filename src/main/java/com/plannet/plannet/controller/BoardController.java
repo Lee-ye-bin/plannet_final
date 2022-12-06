@@ -129,6 +129,7 @@ public class BoardController {
     // 자유게시판 댓글 작성하기
     @GetMapping("/comment_write")
     public ResponseEntity<Boolean> boardCommentsCreate(@RequestParam Long boardNo, String id, String detail) {
+        log.warn(id);
 //        long boardNo = (long) commentData.get("boardNo");
 //        String id = (String) commentData.get("id");
 //        String detail = (String) commentData.get("detail");
@@ -145,7 +146,6 @@ public class BoardController {
     public ResponseEntity<List<Map<String, Object>>> boardCommentsLoad(@RequestBody Map<String, Long> boardNo) {
         long num = boardNo.get("boardNo");
         BoardDTO boardDTO = boardService.commentsLoad(num);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         if(boardDTO.isOk()) {
             List<Map<String, Object>> commentList = boardDTO.getCommentList();
             return new ResponseEntity(commentList, HttpStatus.OK);

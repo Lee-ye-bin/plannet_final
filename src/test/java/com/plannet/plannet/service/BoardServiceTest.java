@@ -58,7 +58,6 @@ class BoardServiceTest {
             Comments comments = new Comments();
             comments.setBoardNo(boardRepository.findById((long) i).orElseThrow());
             comments.setUserId(memberRepository.findById("test_id_1").orElseThrow());
-            comments.setNickname("nickname" +i);
             comments.setWriteDate(LocalDateTime.now());
             comments.setDetail("댓글이다" + i);
             commentsRepository.save(comments);

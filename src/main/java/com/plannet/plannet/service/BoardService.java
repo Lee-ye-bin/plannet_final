@@ -17,6 +17,7 @@ import javax.crypto.ExemptionMechanismException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 // 의존성 주입을 받는다: 객체 생성 없이 사용할 수 있게 한다
@@ -171,10 +172,15 @@ public class BoardService {
         try {
             Comments comments = new Comments();
             comments.setUserId(memberRepository.findById(id).orElseThrow());
+            System.out.println("sdsdss" + comments.getUserId());
             comments.setBoardNo(boardRepository.findById(boardNo).orElseThrow());
+            System.out.println("sdsdss" + comments.getBoardNo());
             comments.setDetail(detail);
+            System.out.println("sdsdss" + comments.getDetail());
             comments.setWriteDate(LocalDateTime.now());
+            System.out.println("sdsdss" + comments.getWriteDate());
             commentsRepository.save(comments);
+            System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
             return true;
         } catch (Exception e) {
             return true;
@@ -192,7 +198,7 @@ public class BoardService {
                 Map<String, Object> comment = new HashMap<>();
                 comment.put("nickname", e.getUserId().getNickname());
                 comment.put("detail", e.getDetail());
-                comment.put("date", e.getWriteDate());
+                comment.put("date", e.getWriteDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
                 commentList.add(comment);
             }
             boardDTO.setCommentList(commentList);
