@@ -3,6 +3,7 @@ package com.plannet.plannet.service;
 import com.plannet.plannet.dao.*;
 import com.plannet.plannet.entity.*;
 import com.plannet.plannet.vo.MemberDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,21 @@ import java.util.*;
 @Service
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private BoardRepository boardRepository;
-    private CommentsRepository commentsRepository;
-    private DiaryRepository diaryRepository;
-    private LikeCntRepository likeCntRepository;
-    private PlanRepository planRepository;
+    private final BoardRepository boardRepository;
+    private final CommentsRepository commentsRepository;
+    private final DiaryRepository diaryRepository;
+    private final LikeCntRepository likeCntRepository;
+    private final FriendRepository friendRepository;
+    private final MessageRepository messageRepository;
+    private final PlanRepository planRepository;
+    private final SCOMRepository scomRepository;
+    private final SMEMRepository smemRepository;
+    private final SPLANRepository splanRepository;
+    private final SCALRepository scalRepository;
 
-    public MemberService(MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
-    }
 
     public boolean loginCheck (String id, String pwd){
         try {
@@ -127,27 +132,22 @@ public class MemberService {
     public boolean deleteMember(String id){
         try {
             Member member = memberRepository.findById(id).orElseThrow();
-            log.warn(String.valueOf(member));
-            log.warn("member 완료");
-            List<Comments> comments =commentsRepository.findByUserId(member);
-//            List<Comments> commentsList = new ArrayList<>();
-//            Map<String,Object> comment = new HashMap<>();
-//            comment.put("commentNo",comments.getCommentNo());
-//            log.warn(String.valueOf(comments.getCommentNo()));
-//            comment.put("userId",comments.getUserId());
-//            log.warn(String.valueOf(comments.getUserId()));
-//            comment.put("detail",comments.getDetail());
-//            log.warn(String.valueOf(comments.getDetail()));
-//            comment.put("boardNo",comments.getBoardNo());
-//            log.warn(String.valueOf(comments.getBoardNo()));
-            System.out.println(comments);
-
-            log.warn("시작");
-            //commentsRepository.deleteByUserId(comments);
-            log.warn("delete JPA 거침");
+            likeCntRepository.deleteByUserId(member);
+            commentsRepository.deleteByUserId(member);
+            boardRepository.deleteByUserId(member);
+            diaryRepository.deleteByUserId(member);
+            friendRepository.deleteByUserId(member);
+            messageRepository.deleteByUserId(member);
+            planRepository.deleteByUserId(member);
+            // 공유안한 사람은 삭제 가능
+            scomRepository.deleteByUserId(member);
+            smemRepository.deleteByUserId(member);
+            splanRepository.deleteByUserId(member);
+            log.warn("scal 전 완료");
+            scalRepository.deleteByUserId(member);
+            memberRepository.deleteById(id);
             return true;
         }catch (Exception e){
-            log.warn("실패구역");
             return false;
         }
     }

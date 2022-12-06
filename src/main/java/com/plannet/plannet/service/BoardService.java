@@ -24,7 +24,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j // log를 찍기 위한 어노테이션
-@Transactional
 public class BoardService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository; // 의존성 주입을 받음
@@ -146,6 +145,7 @@ public class BoardService {
     public boolean boardDelete(Long boardNo) {
         Board board = boardRepository.findById(boardNo).orElseThrow();
         try {
+            likeCntRepository.deleteByBoardNo(board);
             commentsRepository.deleteByBoardNo(board); // 댓글 엔티티네서 게시판번호가 외래키이므로 게시글을 삭제하려면 댓글들도 삭제해야지만 게시글이 삭제됨
             boardRepository.deleteById(boardNo);
             return true;
