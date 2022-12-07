@@ -49,6 +49,6 @@ public class Member {
     private String memo;
 
     @Column(length = 200)
-    //@ColumnDefault("userdefault.png")
+    @ColumnDefault("userdefault.png")
     private String proImg;
 }
